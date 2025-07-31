@@ -29,6 +29,32 @@
     </script>
     <style>
         /* Custom styles for animations and creative look */
+        * --- Skills Section --- */
+        .skills-section {
+            padding: 4rem 0;
+            overflow: hidden;
+        }
+        
+        .skills-container {
+            width: 100%;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask-image: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+        }
+        
+        .skills-track {
+            display: flex;
+            gap: 1rem;
+            animation: scroll 40s linear infinite;
+        }
+        
+        .skills-track span {
+            background-color: var(--card-bg);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            white-space: nowrap;
+            border: 1px solid #444;
+        }
         .gradient-text {
             background: linear-gradient(90deg, #D92323, #FF6B6B);
             -webkit-background-clip: text;
