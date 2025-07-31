@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M. N. Jaber - AI Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide-react@0.292.0/dist/lucide-react.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-red': '#D92323',
+                        'brand-dark': '#1A1A1A',
+                        'brand-gray': '#333333',
+                        'brand-light-gray': '#F3F4F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for a bit of flair */
+        .gradient-text {
+            background: linear-gradient(90deg, #D92323, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-brand-light-gray text-brand-dark font-sans">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-brand-dark">
+                M. N. <span class="text-brand-red">Jaber</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#summary" class="text-gray-600 hover:text-brand-red transition-colors">Summary</a>
+                <a href="#skills" class="text-gray-600 hover:text-brand-red transition-colors">Skills</a>
+                <a href="#publications" class="text-gray-600 hover:text-brand-red transition-colors">Publications</a>
+                <a href="#education" class="text-gray-600 hover:text-brand-red transition-colors">Education</a>
+                <a href="#contact" class="bg-brand-red text-white px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-brand-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#summary" class="block py-2 text-gray-600 hover:text-brand-red">Summary</a>
+            <a href="#skills" class="block py-2 text-gray-600 hover:text-brand-red">Skills</a>
+            <a href="#publications" class="block py-2 text-gray-600 hover:text-brand-red">Publications</a>
+            <a href="#education" class="block py-2 text-gray-600 hover:text-brand-red">Education</a>
+            <a href="#contact" class="block mt-2 bg-brand-red text-white px-4 py-2 rounded-lg text-center">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section id="hero" class="flex flex-col md:flex-row items-center justify-between gap-12 my-12">
+            <div class="md:w-2/3">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-brand-dark leading-tight">
+                    AI Engineer & <span class="gradient-text">LLM Specialist</span>
+                </h1>
+                <p class="mt-4 text-lg text-brand-gray max-w-2xl">
+                    PhD-level AI Engineer with deep expertise in AI and ML, specializing in scalable, real-world solutions across supervised, unsupervised, and reinforcement learning. Proven track record in fine-tuning LLMs, building RAG pipelines, and developing agentic AI systems.
+                </p>
+                <div class="mt-8 flex gap-4">
+                    <a href="#contact" class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">Get In Touch</a>
+                    <a href="#publications" class="bg-white text-brand-dark border border-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors">View Work</a>
+                </div>
+            </div>
+            <div class="md:w-1/3 flex justify-center md:justify-end">
+                <div class="relative w-64 h-64 md:w-80 md:h-80">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-red to-yellow-400 rounded-full blur-xl opacity-50"></div>
+                    <img src="http://googleusercontent.com/file_content/0" alt="M. N. Jaber" class="relative w-full h-full object-cover rounded-full shadow-lg border-4 border-white"
+                    onerror="this.onerror=null;this.src='https://placehold.co/320x320/EFEFEF/333333?text=M.N.J'">
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Summary Section -->
+        <section id="summary" class="my-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Professional Summary</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm card-hover-effect">
+                    <h3 class="text-xl font-bold text-brand-red mb-2">End-to-End Machine Learning</h3>
+                    <p class="text-brand-gray">Expertise in the complete machine learning lifecycle, from advanced data preprocessing and feature engineering to statistical analysis and the implementation of high-performance ensemble models.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm card-hover-effect">
+                    <h3 class="text-xl font-bold text-brand-red mb-2">Generative AI & LLM Systems</h3>
+                    <p class="text-brand-gray">Skilled in building and optimizing LLMs using prompt engineering, RLHF, and efficient LoRA/QLoRA fine-tuning, with a focus on developing culturally-aware Arabic NLP solutions.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm card-hover-effect">
+                    <h3 class="text-xl font-bold text-brand-red mb-2">Advanced Retrieval & Vector Search</h3>
+                    <p class="text-brand-gray">Proficient in designing and deploying sophisticated retrieval systems using dense/hybrid search, contextual embeddings, and highly scalable vector databases like ChromaDB and Weaviate.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Libraries & Skills Section -->
+        <section id="skills" class="my-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Core Libraries & Technologies</h2>
+            <div class="bg-white p-8 rounded-lg shadow-sm">
+                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <!-- This is a list of skills from the resume -->
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Python</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">SQL</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Git</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Jupyter</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">VS Code</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Docker</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Apache Spark</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">MySQL</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">MongoDB</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Pandas</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">NumPy</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Scikit-learn</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">PyTorch</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">TensorFlow</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Statsmodels</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">SciPy</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Matplotlib</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Seaborn</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Plotly</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">SHAP</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">LIME</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Imbalanced-learn</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">Feature-engine</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">MLflow</span>
+                    <span class="bg-gray-200 text-brand-gray text-sm font-medium px-4 py-2 rounded-full">DVC</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications" class="my-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Late Guides & Reports</h2>
+            <div class="space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm flex flex-col md:flex-row gap-6 card-hover-effect">
+                    <img src="https://placehold.co/300x200/D92323/FFFFFF?text=Report" alt="Report Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500">Published: January, 2025</p>
+                        <h3 class="text-xl font-bold text-brand-dark mt-1">2024 AI Recap: A Comprehensive Year-in-Review (Annual Report)</h3>
+                        <p class="mt-2 text-brand-gray">Authored an in-depth annual report analyzing the key breakthroughs, emerging trends, and significant milestones in the field of Artificial Intelligence throughout 2024.</p>
+                        <a href="#" class="text-brand-red font-semibold mt-4 inline-block">Read More &rarr;</a>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm flex flex-col md:flex-row gap-6 card-hover-effect">
+                    <img src="https://placehold.co/300x200/333333/FFFFFF?text=Guide" alt="Guide Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500">Published: July, 2025</p>
+                        <h3 class="text-xl font-bold text-brand-dark mt-1">Choosing the Right IT Major: A Student's Guide (Educational Guide)</h3>
+                        <p class="mt-2 text-brand-gray">A practical guide designed to help students make informed decisions about their IT education by outlining career paths, required skills, and specialization options.</p>
+                        <a href="#" class="text-brand-red font-semibold mt-4 inline-block">Read More &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="my-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Education</h2>
+            <div class="bg-white p-8 rounded-lg shadow-sm">
+                <div class="relative border-l-2 border-gray-200 pl-8">
+                    <!-- PhD -->
+                    <div class="mb-8">
+                        <div class="absolute w-4 h-4 bg-brand-red rounded-full -left-2 mt-1.5 border-2 border-white"></div>
+                        <p class="text-sm text-gray-500">2021 - Present</p>
+                        <h3 class="text-lg font-bold text-brand-dark">PhD in Computer Science and Engineering</h3>
+                        <p class="text-brand-gray">VGU, Rajasthan, India</p>
+                    </div>
+                    <!-- Master -->
+                    <div class="mb-8">
+                        <div class="absolute w-4 h-4 bg-brand-red rounded-full -left-2 mt-1.5 border-2 border-white"></div>
+                        <p class="text-sm text-gray-500">2016 - 2019</p>
+                        <h3 class="text-lg font-bold text-brand-dark">Master of Information Systems, MSc (IS/Blockchain)</h3>
+                        <p class="text-brand-gray">Osmania University, Hyderabad, Telangana, India</p>
+                    </div>
+                    <!-- Bachelor -->
+                    <div>
+                        <div class="absolute w-4 h-4 bg-brand-red rounded-full -left-2 mt-1.5 border-2 border-white"></div>
+                        <p class="text-sm text-gray-500">2010 - 2014</p>
+                        <h3 class="text-lg font-bold text-brand-dark">Bachelor of Computer Science and Engineering</h3>
+                        <p class="text-brand-gray">Al-Ahgaff University, Mukalla, Hadhramaut, Yemen</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Training & Outreach Section -->
+        <section id="outreach" class="my-24">
+            <h2 class="text-3xl font-bold text-center mb-12">Training, Conferencing & Outreach</h2>
+            <div class="bg-white p-8 rounded-lg shadow-sm">
+                <ul class="space-y-4 list-inside">
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 text-brand-red w-5 h-5 mr-3 mt-1 flex-shrink-0"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span class="text-brand-gray">Delivered hands-on AI technical camps on building models and applications.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 text-brand-red w-5 h-5 mr-3 mt-1 flex-shrink-0"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span class="text-brand-gray">Conducted private training for government, academia, and companies on applied AI.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 text-brand-red w-5 h-5 mr-3 mt-1 flex-shrink-0"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span class="text-brand-gray">Organized AI bootcamps for students and university staff.</span>
+                    </li>
+                     <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 text-brand-red w-5 h-5 mr-3 mt-1 flex-shrink-0"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span class="text-brand-gray">Led public AI conferences and cultural camps to promote AI literacy.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 text-brand-red w-5 h-5 mr-3 mt-1 flex-shrink-0"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span class="text-brand-gray">Specialized in making AI accessible across technical and non-technical audiences.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer & Contact -->
+    <footer id="contact" class="bg-brand-dark text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold">M. N. Jaber</h3>
+                    <p class="mt-2 text-gray-400">AI Engineer (PhD)</p>
+                    <p class="mt-2 text-gray-400">Asif Nagar, Hyderabad, T.S., India</p>
+                    <p class="text-gray-400">Siyoun, Hadhramout, Yemen</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold">Contact Me</h3>
+                    <div class="mt-4 space-y-2">
+                        <p class="flex items-center text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-5 h-5 mr-3"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            mohnasgr@ainarabic.io
+                        </p>
+                        <p class="flex items-center text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone w-5 h-5 mr-3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            +967782072917
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold">Find Me Online</h3>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="https://github.com/mohammedNasserAhmed" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg>
+                        </a>
+                        <a href="https://linkedin.com/in/m-n-g" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                        <a href="https://www.ainarabic.io" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        </a>
+                         <a href="https://facebook.com/mohammed.nasser" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                         <a href="https://whatsapp.com/channel/ainarabic" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-gray-400 hover:text-white transition-colors"><path d="M16.75 13.96c.25.42.42.58.42.92 0 .33-.25.58-.5.58h-1.5c-.33 0-.58-.17-.92-.58-.58-.58-1.17-1.17-1.75-1.67-.5-.5-.83-.75-1.17-.75-.25 0-.5.17-.75.58l-.5.58c-.58.67-1.17 1.33-1.83 1.83-.5.42-.83.58-1.25.58-.42 0-.67-.17-.92-.58-.25-.42-.25-.83-.25-1.25 0-.5.17-.92.5-1.42.33-.5.67-.92 1-1.33.5-.5.92-.92 1.33-1.33.25-.25.42-.5.58-.75.17-.25.17-.5 0-.75-.17-.25-.33-.5-.58-.75l-1.17-1.17c-.5-.5-.92-1-1.25-1.58-.33-.58-.5-.92-.5-1.25 0-.42.17-.75.5-1 .33-.25.58-.42.83-.42h1.5c.33 0 .58.17.83.5.42.5.83.92 1.25 1.42.42.5.75.92 1.08 1.33.17.25.33.42.5.5.25.08.42.08.58 0 .25-.17.5-.42.75-.75.25-.33.5-.67.75-.92.5-.58 1-1.17 1.5-1.75.42-.5.75-.75 1.17-.75.33 0 .58.17.83.42.25.25.42.58.42.92 0 .33-.08.67-.25 1-.17.33-.42.67-.75.92-.33.33-.67.58-1.08.92-.42.33-.75.67-1.08.92-.08.17-.17.33-.17.5 0 .25.08.42.25.58z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-6 text-center text-gray-500">
+                <p>&copy; 2025 M. N. Jaber. All Rights Reserved. Coded with ❤️.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
+        for (let link of mobileMenuLinks) {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
