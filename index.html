@@ -138,6 +138,34 @@
         .magic-gallery-item:hover img {
             transform: scale(1.1);
         }
+        /* --- Enhanced Outreach Gallery Section --- */
+        .outreach-scroller {
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+        }
+        .outreach-track {
+            display: flex;
+            width: max-content;
+            animation: outreach-scroll 60s linear infinite;
+        }
+        @keyframes outreach-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .outreach-image {
+            width: 300px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 1rem;
+            margin: 0 1rem;
+            border: 2px solid #333;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .outreach-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(217, 35, 35, 0.5);
+        }
 
     </style>
 </head>
@@ -274,14 +302,27 @@
             </div>
         </section>
 
-        <!-- Training, Conferencing & Outreach Section -->
-        <section id="outreach" class="my-24 fade-in-section">
+         <!-- Training, Conferencing & Outreach Section -->
+        <section id="outreach" class="my-24 fade-in-section overflow-hidden">
             <h2 class="text-3xl font-bold text-center mb-12 text-white">Training, Conferencing & Outreach</h2>
-            <div class="magic-gallery">
-                <div class="magic-gallery-item"><img src="src/cf1.png" alt="Outreach Event 1"></div>
-                <div class="magic-gallery-item"><img src="src/cf2.png" alt="Outreach Event 2"></div>
-                <div class="magic-gallery-item"><img src="src/cf3.png" alt="Outreach Event 3"></div>
-                <div class="magic-gallery-item"><img src="src/cf4.png" alt="Outreach Event 4"></div>
+            <div class="outreach-scroller">
+                <div class="outreach-track">
+                    <img src="src/cf1.png" alt="Outreach Event 1" class="outreach-image">
+                    <img src="src/cf3.png" alt="Outreach Event 2" class="outreach-image">
+                    <img src="src/cf4.png" alt="Outreach Event 3" class="outreach-image">
+                    <img src="src/cf5.png" alt="Outreach Event 4" class="outreach-image">
+                    <img src="src/cf6.png" alt="Outreach Event 5" class="outreach-image">
+                    <img src="src/cf7.png" alt="Outreach Event 6" class="outreach-image">
+                    <img src="src/cf8.png" alt="Outreach Event 7" class="outreach-image">
+                    <!-- Duplicate images for seamless scroll -->
+                    <img src="src/cf1.png" alt="Outreach Event 1" class="outreach-image">
+                    <img src="src/cf3.png" alt="Outreach Event 2" class="outreach-image">
+                    <img src="src/cf4.png" alt="Outreach Event 3" class="outreach-image">
+                    <img src="src/cf5.png" alt="Outreach Event 4" class="outreach-image">
+                    <img src="src/cf6.png" alt="Outreach Event 5" class="outreach-image">
+                    <img src="src/cf7.png" alt="Outreach Event 6" class="outreach-image">
+                    <img src="src/cf8.png" alt="Outreach Event 7" class="outreach-image">
+                </div>
             </div>
         </section>
 
