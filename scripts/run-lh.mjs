@@ -1,5 +1,4 @@
 import { execFile } from 'node:child_process';
-import { writeFile } from 'node:fs/promises';
 
 const url = process.env.LH_URL || 'http://localhost:5500/';
 

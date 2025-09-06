@@ -26,7 +26,7 @@ console.log('Portfolio site loaded');
     function getStoredTheme() {
         try {
             return localStorage.getItem(STORAGE_KEY);
-        } catch (e) {
+        } catch (_e) {
             return null;
         }
     }
@@ -34,7 +34,7 @@ console.log('Portfolio site loaded');
     function storeTheme(mode) {
         try {
             localStorage.setItem(STORAGE_KEY, mode);
-        } catch (e) {
+        } catch (_e) {
             /* ignore */
         }
     }

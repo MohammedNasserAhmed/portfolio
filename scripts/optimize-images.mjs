@@ -13,7 +13,11 @@ const SRC_DIR = './images';
 const OUT_DIR = './images/optimized';
 
 async function ensureDir(p) {
-  try { await mkdir(p, { recursive: true }); } catch {}
+  try {
+    await mkdir(p, { recursive: true });
+  } catch (_e) {
+    // already exists or cannot create – ignore
+  }
 }
 
 async function* walk(dir) {
@@ -39,7 +43,7 @@ async function processFile(file) {
   const ext = extname(file).toLowerCase();
   if (!['.png', '.jpg', '.jpeg'].includes(ext)) return null;
   const img = sharp(file, { limitInputPixels: false });
-  const meta = await img.metadata();
+  const _meta = await img.metadata();
   let pipeline = img.clone();
   if (ext === '.png') {
     pipeline = pipeline.png({ compressionLevel: 9, palette: true, quality: 80 });
