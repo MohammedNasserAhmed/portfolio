@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
             renderPublications(data.publications || []);
             window.__PORTFOLIO_DATA__ = data; // expose for simple admin edits
         })
-        .catch(() => {
-            // fail silently; original sections remain empty if network error
+        .catch((err) => {
+            console.warn('Content fetch failed:', err);
         });
 
     function renderSummary(items) {
@@ -341,9 +341,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function type() {
         if (!typingElement) return;
         const currentWord = words[wordIndex];
+        // Respect reduced motion: render one static word if user prefers reduced motion.
+        if (prefersReducedMotion) {
+            if (!typingElement.textContent) typingElement.textContent = currentWord;
+            return;
+        }
         const displayText = currentWord.substring(0, charIndex);
         typingElement.innerHTML = `${displayText}<span class="typewriter-cursor" aria-hidden="true"></span>`;
-        if (prefersReducedMotion) return; // Skip animation for reduced motion users
         if (!isDeleting && charIndex < currentWord.length) {
             charIndex++;
             setTimeout(type, 120);
