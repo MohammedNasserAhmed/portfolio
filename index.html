@@ -4,12 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M. N. Jaber - AI Engineer Portfolio</title>
+    <meta name="description" content="Portfolio of M. N. Jaber, PhD-level AI Engineer specializing in LLMs, Retrieval-Augmented Generation, and end-to-end machine learning solutions." />
+    <meta name="author" content="M. N. Jaber" />
+    <meta name="keywords" content="AI Engineer, Machine Learning, LLM, RAG, Generative AI, Portfolio" />
+    <meta name="theme-color" content="#121212" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="M. N. Jaber - AI Engineer Portfolio" />
+    <meta property="og:description" content="PhD-level AI Engineer focused on LLM systems, retrieval architectures, and production ML pipelines." />
+    <meta property="og:image" content="images/website-photo.png" />
+    <meta property="og:image:alt" content="Portrait of M.N. Jaber" />
+    <meta property="og:url" content="https://mohammednasserahmed.github.io/portfolio/" />
+    <meta property="og:site_name" content="M. N. Jaber Portfolio" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="alternate" hreflang="en" href="https://mohammednasserahmed.github.io/portfolio/" />
+    <link rel="alternate" hreflang="ar" href="https://mohammednasserahmed.github.io/portfolio/ar/" />
+    <link rel="alternate" hreflang="x-default" href="https://mohammednasserahmed.github.io/portfolio/" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="M. N. Jaber - AI Engineer Portfolio" />
+    <meta name="twitter:description" content="AI Engineer (PhD) building impactful LLM & ML solutions." />
+    <meta name="twitter:image" content="images/website-photo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
+    <link rel="preload" as="image" href="images/website-photo.png" imagesrcset="images/website-photo.png 1x" />
+    <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/" />
+    <link rel="stylesheet" href="dist/style.css">
+    <script src="js/main.js" defer></script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "M. N. Jaber",
+            "url": "https://mohammednasserahmed.github.io/portfolio/",
+            "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
+            "jobTitle": "AI Engineer",
+            "description": "PhD-level AI Engineer specializing in LLM systems, Retrieval-Augmented Generation and production ML.",
+            "sameAs": [
+                "https://github.com/mohammedNasserAhmed",
+                "https://linkedin.com/in/m-n-g"
+            ]
+        }
+        </script>
+        <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -27,147 +67,6 @@
             }
         }
     </script>
-    <style>
-        /* Custom styles for animations and creative look */
-        .gradient-text {
-            background: linear-gradient(90deg, #D92323, #FF6B6B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .card-hover-effect {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-hover-effect:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(217, 35, 35, 0.1), 0 10px 10px -5px rgba(217, 35, 35, 0.08);
-        }
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        #hero-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-        .typewriter-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1em;
-            background-color: #D92323;
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* Magical Skills Section */
-        .skills-container {
-            position: relative;
-            -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-            mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-        }
-        .skills-track {
-            display: flex;
-            gap: 1.5rem;
-            animation: scroll 40s linear infinite;
-        }
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-        .skill-tag {
-            transition: all 0.3s ease;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-        }
-        .skill-tag:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--brand-red);
-            color: white;
-        }
-        
-        /* Magical Gallery Section */
-        .magic-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        .magic-gallery-item {
-            background-color: var(--brand-card);
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 1px solid #2a2a2a;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            animation: gallery-fade-in 0.6s ease-out forwards;
-        }
-        .magic-gallery-item:nth-child(1) { animation-delay: 0.1s; }
-        .magic-gallery-item:nth-child(2) { animation-delay: 0.2s; }
-        .magic-gallery-item:nth-child(3) { animation-delay: 0.3s; }
-        .magic-gallery-item:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes gallery-fade-in {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        .magic-gallery-item:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 0 40px rgba(217, 35, 35, 0.4);
-        }
-        .magic-gallery-item img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-        .magic-gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        /* --- Enhanced Outreach Gallery Section --- */
-        .outreach-scroller {
-            overflow: hidden;
-            -webkit-mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
-            mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
-        }
-        .outreach-track {
-            display: flex;
-            width: max-content;
-            animation: outreach-scroll 60s linear infinite;
-        }
-        @keyframes outreach-scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-        .outreach-image {
-            width: 300px;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 1rem;
-            margin: 0 1rem;
-            border: 2px solid #333;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-        .outreach-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(217, 35, 35, 0.5);
-        }
-
-    </style>
 </head>
 <body class="bg-brand-dark text-brand-light-gray font-sans">
 
@@ -183,6 +82,9 @@
                 <a href="#skills" class="text-gray-300 hover:text-brand-red transition-colors">Skills</a>
                 <a href="#publications" class="text-gray-300 hover:text-brand-red transition-colors">Publications</a>
                 <a href="#contact" class="bg-brand-red text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold">Contact</a>
+                <button id="theme-toggle" class="ml-4 text-gray-300 hover:text-brand-red transition-colors flex items-center" aria-label="Toggle theme">
+                    <span id="theme-toggle-icon" class="inline-block">🌙</span>
+                </button>
             </div>
             <button id="mobile-menu-button" class="md:hidden text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
@@ -195,6 +97,7 @@
             <a href="#skills" class="block py-2 text-gray-300 hover:text-brand-red">Skills</a>
             <a href="#publications" class="block py-2 text-gray-300 hover:text-brand-red">Publications</a>
             <a href="#contact" class="block mt-2 bg-brand-red text-white px-4 py-2 rounded-lg text-center">Contact</a>
+            <button id="theme-toggle-mobile" class="mt-4 w-full bg-brand-card border border-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors" aria-label="Toggle theme (mobile)">Toggle Theme</button>
         </div>
     </header>
 
@@ -218,7 +121,7 @@
             <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
                 <div class="relative w-64 h-64 md:w-80 md:h-80">
                     <div class="absolute inset-0 bg-gradient-to-br from-brand-red to-yellow-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                    <img src="src/website-photo.png" alt="M. N. Jaber" class="relative w-full h-full object-cover rounded-full shadow-2xl shadow-brand-red/20 border-4 border-gray-800"
+                    <img src="images/website-photo.png" alt="M. N. Jaber" class="relative w-full h-full object-cover rounded-full shadow-2xl shadow-brand-red/20 border-4 border-gray-800"
                     onerror="this.onerror=null;this.src='https://placehold.co/320x320/1E1E1E/FFFFFF?text=M.N.J'">
                 </div>
             </div>
@@ -307,21 +210,21 @@
             <h2 class="text-3xl font-bold text-center mb-12 text-white">Training, Conferencing & Outreach</h2>
             <div class="outreach-scroller">
                 <div class="outreach-track">
-                    <img src="src/cf1.png" alt="Outreach Event 1" class="outreach-image">
-                    <img src="src/cf3.png" alt="Outreach Event 2" class="outreach-image">
-                    <img src="src/cf4.png" alt="Outreach Event 3" class="outreach-image">
-                    <img src="src/cf5.png" alt="Outreach Event 4" class="outreach-image">
-                    <img src="src/cf6.png" alt="Outreach Event 5" class="outreach-image">
-                    <img src="src/cf7.png" alt="Outreach Event 6" class="outreach-image">
-                    <img src="src/cf8.png" alt="Outreach Event 7" class="outreach-image">
+                    <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image">
+                    <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image">
+                    <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image">
+                    <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image">
+                    <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image">
+                    <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image">
+                    <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image">
                     <!-- Duplicate images for seamless scroll -->
-                    <img src="src/cf1.png" alt="Outreach Event 1" class="outreach-image">
-                    <img src="src/cf3.png" alt="Outreach Event 2" class="outreach-image">
-                    <img src="src/cf4.png" alt="Outreach Event 3" class="outreach-image">
-                    <img src="src/cf5.png" alt="Outreach Event 4" class="outreach-image">
-                    <img src="src/cf6.png" alt="Outreach Event 5" class="outreach-image">
-                    <img src="src/cf7.png" alt="Outreach Event 6" class="outreach-image">
-                    <img src="src/cf8.png" alt="Outreach Event 7" class="outreach-image">
+                    <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image">
+                    <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image">
+                    <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image">
+                    <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image">
+                    <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image">
+                    <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image">
+                    <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image">
                 </div>
             </div>
         </section>
@@ -331,7 +234,7 @@
             <h2 class="text-3xl font-bold text-center mb-12 text-white">Guides & Reports</h2>
             <div class="space-y-8">
                 <div class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800">
-                    <img src="src/report.png" alt="Report Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
+                    <img src="docs/report.png" alt="Report Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
                     <div class="flex-1">
                         <p class="text-sm text-gray-500">Published: January, 2025</p>
                         <h3 class="text-xl font-bold text-white mt-1">2024 AI Recap: A Comprehensive Year-in-Review</h3>
@@ -340,7 +243,7 @@
                     </div>
                 </div>
                  <div class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800">
-                    <img src="src/guide.png" alt="Guide Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
+                    <img src="docs/guide.png" alt="Guide Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
                     <div class="flex-1">
                         <p class="text-sm text-gray-500">Published: July, 2025</p>
                         <h3 class="text-xl font-bold text-white mt-1">Choosing the Right IT Major: A Student's Guide</h3>
@@ -414,126 +317,6 @@
         </div>
     </footer>
 
-    <script>
-        // --- Mobile Menu Toggle ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
-        for (let link of mobileMenuLinks) {
-            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-        }
-
-        // --- Typing Animation ---
-        const typingElement = document.querySelector("#hero-title .gradient-text");
-        const words = ["LLM Specialist", "AI Researcher", "Problem Solver"];
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-
-        function type() {
-            const currentWord = words[wordIndex];
-            let displayText = currentWord.substring(0, charIndex);
-            
-            typingElement.innerHTML = `${displayText}<span class="typewriter-cursor"></span>`;
-
-            if (!isDeleting && charIndex < currentWord.length) {
-                charIndex++;
-                setTimeout(type, 120);
-            } else if (isDeleting && charIndex > 0) {
-                charIndex--;
-                setTimeout(type, 80);
-            } else {
-                isDeleting = !isDeleting;
-                if (!isDeleting) {
-                    wordIndex = (wordIndex + 1) % words.length;
-                }
-                setTimeout(type, 1200);
-            }
-        }
-        
-        // --- Fade-in on Scroll Animation ---
-        const faders = document.querySelectorAll('.fade-in-section');
-        const appearOptions = {
-            threshold: 0.2,
-            rootMargin: "0px 0px -50px 0px"
-        };
-        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            });
-        }, appearOptions);
-        faders.forEach(fader => appearOnScroll.observe(fader));
-
-        // --- Three.js Hero Background Animation ---
-        let scene, camera, renderer, stars;
-
-        function initThreeJS() {
-            const canvas = document.getElementById('hero-canvas');
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-            camera.position.z = 1;
-            camera.rotation.x = Math.PI / 2;
-
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            const starGeo = new THREE.BufferGeometry();
-            const starCount = 6000;
-            const posArray = new Float32Array(starCount * 3);
-            for(let i=0; i < starCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 5;
-            }
-            starGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            
-            const starMaterial = new THREE.PointsMaterial({
-                color: 0xaaaaaa,
-                size: 0.005,
-                transparent: true
-            });
-            stars = new THREE.Points(starGeo, starMaterial);
-            scene.add(stars);
-
-            window.addEventListener('resize', onWindowResize, false);
-            document.addEventListener('mousemove', onMouseMove, false);
-            animate();
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        let mouseX = 0;
-        let mouseY = 0;
-        function onMouseMove(event) {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            stars.position.y -= 0.0002;
-            stars.rotation.y += 0.0001;
-
-            if (mouseX > 0) {
-                stars.rotation.x = -mouseY * 0.00005;
-                stars.rotation.y = -mouseX * 0.00005;
-            }
-            
-            renderer.render(scene, camera);
-        }
-
-        // --- Initialize all scripts on window load ---
-        window.onload = () => {
-            type();
-            initThreeJS();
-        };
-
-    </script>
+    <!-- Scripts handled via external js/main.js -->
 </body>
 </html>
