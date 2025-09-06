@@ -10,18 +10,18 @@ Modern, multilingual (EN + AR), performance‑tuned, accessibility‑aware portf
 
 ## ✨ Key Highlights
 
--   🌓 Persisted dark/light theme (system + user preference)
--   🌐 Bilingual (English / Arabic) with full RTL + dedicated Arabic font stack
--   🧠 Three.js starfield + typing effect, both motion-aware (respect `prefers-reduced-motion`)
--   ♿ Accessibility: skip link, focus outlining on Tab, semantic regions, reduced-motion fallbacks
--   ⚡ Tailwind JIT build → purged & minified CSS (`dist/style.css`)
--   🔍 SEO: canonical, hreflang, Open Graph, Twitter Card, robots.txt, sitemap (EN & AR)
--   🧾 Structured Data: single JSON-LD `@graph` (Person + WebSite + SearchAction) per locale
--   📱 PWA: manifest + service worker (network‑first HTML, stale‑while‑revalidate CSS/JS, cache‑first images, offline fallback)
--   🛠️ CI: Prettier, ESLint, Tailwind build, Lighthouse perf/accessibility/SEO audit
--   🧪 Quality Gates: Husky pre-commit (lint-staged + formatting) & commitlint (Conventional Commits)
--   🧩 Modular JS architecture (theme, interactions, deferred heavy tasks)
--   🌀 GPU-friendly marquees & galleries (no layout thrashing)
+- 🌓 Persisted dark/light theme (system + user preference)
+- 🌐 Bilingual (English / Arabic) with full RTL + dedicated Arabic font stack
+- 🧠 Three.js starfield + typing effect, both motion-aware (respect `prefers-reduced-motion`)
+- ♿ Accessibility: skip link, focus outlining on Tab, semantic regions, reduced-motion fallbacks
+- ⚡ Tailwind JIT build → purged & minified CSS (`dist/style.css`)
+- 🔍 SEO: canonical, hreflang, Open Graph, Twitter Card, robots.txt, sitemap (EN & AR)
+- 🧾 Structured Data: single JSON-LD `@graph` (Person + WebSite + SearchAction) per locale
+- 📱 PWA: manifest + service worker (network‑first HTML, stale‑while‑revalidate CSS/JS, cache‑first images, offline fallback)
+- 🛠️ CI: Prettier, ESLint, Tailwind build, Lighthouse perf/accessibility/SEO audit
+- 🧪 Quality Gates: Husky pre-commit (lint-staged + formatting) & commitlint (Conventional Commits)
+- 🧩 Modular JS architecture (theme, interactions, deferred heavy tasks)
+- 🌀 GPU-friendly marquees & galleries (no layout thrashing)
 
 ---
 
@@ -95,17 +95,17 @@ npm run format
 
 Dev script runs two concurrent processes:
 
--   Tailwind watch → regenerates `dist/style.css`
--   Static server (`serve`) → serves root for local testing
+- Tailwind watch → regenerates `dist/style.css`
+- Static server (`serve`) → serves root for local testing
 
 ---
 
 ## 🌗 Theming Strategy
 
--   CSS variables define color tokens (`:root` + `.light` modifier)
--   `localStorage` key: `portfolio-theme`
--   System preference respected on first visit (`prefers-color-scheme`)
--   Toggle updates a single root class (no reflow-heavy re-render cycles)
+- CSS variables define color tokens (`:root` + `.light` modifier)
+- `localStorage` key: `portfolio-theme`
+- System preference respected on first visit (`prefers-color-scheme`)
+- Toggle updates a single root class (no reflow-heavy re-render cycles)
 
 ---
 
@@ -127,33 +127,33 @@ Dev script runs two concurrent processes:
 
 Implemented:
 
--   `meta` description & author
--   Open Graph + Twitter card (large image)
--   Canonical + hreflang (`en`, `ar`, `x-default`)
--   `robots.txt` + simplified `sitemap.xml` (canonical roots only)
--   JSON-LD: localized `@graph` (Person + WebSite + SearchAction) single tag per page.
+- `meta` description & author
+- Open Graph + Twitter card (large image)
+- Canonical + hreflang (`en`, `ar`, `x-default`)
+- `robots.txt` + simplified `sitemap.xml` (canonical roots only)
+- JSON-LD: localized `@graph` (Person + WebSite + SearchAction) single tag per page.
 
 Planned (optional):
 
--   `BreadcrumbList` (if multi-page expansion)
--   `Article` schema for reports/guides
--   Social preview custom composite image
+- `BreadcrumbList` (if multi-page expansion)
+- `Article` schema for reports/guides
+- Social preview custom composite image
 
 ---
 
 ## ♿ Accessibility & Inclusivity
 
--   Respects `prefers-reduced-motion`
--   Skip link (`#hero`) for keyboard users
--   High contrast accent palette & focus states
--   Focus visibility opt-in (`user-tabbing` class)
--   Semantic sections + alt text (ongoing curation)
+- Respects `prefers-reduced-motion`
+- Skip link (`#hero`) for keyboard users
+- High contrast accent palette & focus states
+- Focus visibility opt-in (`user-tabbing` class)
+- Semantic sections + alt text (ongoing curation)
 
 Roadmap:
 
--   Add ARIA landmark roles where redundant semantics help assistive tech
--   Automate color contrast regression via axe-core
--   Add accessible motion toggle (override animations explicitly)
+- Add ARIA landmark roles where redundant semantics help assistive tech
+- Automate color contrast regression via axe-core
+- Add accessible motion toggle (override animations explicitly)
 
 ---
 
@@ -174,10 +174,10 @@ Workflow (`.github/workflows/ci.yml`):
 
 Extendable targets:
 
--   GitHub Pages deploy after merge
--   Performance budgets (fail below set thresholds)
--   Axe accessibility regression stage
--   Visual diff (Playwright / Chromatic snapshot) optional
+- GitHub Pages deploy after merge
+- Performance budgets (fail below set thresholds)
+- Axe accessibility regression stage
+- Visual diff (Playwright / Chromatic snapshot) optional
 
 ---
 
@@ -195,7 +195,7 @@ Pipeline summary:
 
 Prerequisites (one‑time in repository settings):
 
--   Enable GitHub Pages → Source: GitHub Actions
+- Enable GitHub Pages → Source: GitHub Actions
 
 Resulting site URL: `https://<user>.github.io/portfolio/` (already reflected in canonical + manifest `start_url`).
 
@@ -230,15 +230,15 @@ Service worker + manifest are included, so the site is installable and works off
 
 ## 🛣 Roadmap (Curated)
 
--   [x] Replace CDN Three.js with local vendored module (tree-shaken later)
--   [x] Migrate imagemin toolchain → **sharp** (fewer transitive binaries / vulns)
--   [ ] Add performance budgets (Lighthouse score floors)
--   [ ] Generate social preview composite image (1200×630)
--   [ ] Add HTTP security headers (Pages / Netlify config)
--   [ ] Analytics (privacy-friendly: Plausible / Fathom)
--   [ ] Visual regression (Playwright capture)
--   [ ] Expand content (articles → BreadcrumbList / Article schema)
--   [ ] Add motion toggle & axe CI checks
+- [x] Replace CDN Three.js with local vendored module (tree-shaken later)
+- [x] Migrate imagemin toolchain → **sharp** (fewer transitive binaries / vulns)
+- [ ] Add performance budgets (Lighthouse score floors)
+- [ ] Generate social preview composite image (1200×630)
+- [ ] Add HTTP security headers (Pages / Netlify config)
+- [ ] Analytics (privacy-friendly: Plausible / Fathom)
+- [ ] Visual regression (Playwright capture)
+- [ ] Expand content (articles → BreadcrumbList / Article schema)
+- [ ] Add motion toggle & axe CI checks
 
 ---
 
@@ -272,9 +272,9 @@ Distributed under the MIT License. See `LICENSE` for details.
 
 ## 🙌 Acknowledgements
 
--   TailwindCSS team for an elegant utility-first framework
--   Three.js for lightweight WebGL abstractions
--   IBM Plex & Inter type designers
+- TailwindCSS team for an elegant utility-first framework
+- Three.js for lightweight WebGL abstractions
+- IBM Plex & Inter type designers
 
 ---
 
@@ -290,23 +290,23 @@ http://localhost:5500/#admin=dev
 
 Features:
 
--   Live JSON view of merged content
--   Format, copy, or apply edits immediately (no persistence — for draft preview only)
--   Schema validation before applying ensures structural integrity
--   Prominent red banner indicates “DEV MODE ACTIVE”
+- Live JSON view of merged content
+- Format, copy, or apply edits immediately (no persistence — for draft preview only)
+- Schema validation before applying ensures structural integrity
+- Prominent red banner indicates “DEV MODE ACTIVE”
 
 Security / Safety:
 
--   Overlay code is wrapped between sentinel comments `/* DEV-OVERLAY-START */ ... /* DEV-OVERLAY-END */`
--   The production JS build (`NODE_ENV=production npm run build`) strips this block; `dist/main.js` contains only a placeholder comment
--   Service worker caches the stripped production script
--   No secrets or network mutations are performed; this is purely a local convenience tool
+- Overlay code is wrapped between sentinel comments `/* DEV-OVERLAY-START */ ... /* DEV-OVERLAY-END */`
+- The production JS build (`NODE_ENV=production npm run build`) strips this block; `dist/main.js` contains only a placeholder comment
+- Service worker caches the stripped production script
+- No secrets or network mutations are performed; this is purely a local convenience tool
 
 Content Model Enforcement:
 
--   `data/content.schema.json` defines a JSON Schema (draft-07)
--   CI runs `npm run validate:content` to ensure English & Arabic JSON comply
--   Local manual check: `npm run validate:content`
+- `data/content.schema.json` defines a JSON Schema (draft-07)
+- CI runs `npm run validate:content` to ensure English & Arabic JSON comply
+- Local manual check: `npm run validate:content`
 
 ### 🔒 Security Note
 
