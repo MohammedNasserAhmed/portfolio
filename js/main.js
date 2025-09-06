@@ -69,7 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
             renderSummary(data.summary || []);
             renderProjects(data.projects || []);
-            renderSkills(data.skills || []);
+            // Prefer rich skillsData if available; fallback to basic skills array
+            const skillsSource = Array.isArray(data.skillsData)
+                ? data.skillsData
+                : data.skills || [];
+            renderSkills(skillsSource);
             renderPublications(data.publications || []);
             window.__PORTFOLIO_DATA__ = data; // expose for simple admin edits
         })

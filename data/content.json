@@ -30,6 +30,17 @@
         }
     ],
     "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn",
+        "Pandas",
+        "Docker",
+        "SQL",
+        "Apache Spark",
+        "MLflow"
+    ],
+    "skillsData": [
         { "name": "Python", "percent": 92, "category": "ML/AI", "level": "Expert", "xp": "6y" },
         { "name": "PyTorch", "percent": 88, "category": "ML/AI", "level": "Advanced", "xp": "4y" },
         {
