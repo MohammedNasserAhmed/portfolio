@@ -128,9 +128,53 @@ document.addEventListener('DOMContentLoaded', () => {
             .join('');
     }
 
+    // Progressive Arc Matrix Renderer (elevated version of prior timeline)
     function renderSkills(items) {
         const track = document.getElementById('skills-track');
         if (!track) return;
+        track.className = 'skills-matrix progressive-arcs';
+
+        // Allow future structured objects; normalize to { name, percent?, category? }
+        const normalized = items.map((it) => {
+            if (typeof it === 'string') return { name: it };
+            return {
+                name: it.name || String(it),
+                percent: it.percent,
+                category: it.category,
+                level: it.level,
+                xp: it.xp
+            };
+        });
+
+        // Deterministic simulated percentages for missing values (stable across loads)
+        const base = 58;
+        normalized.forEach((s, i) => {
+            if (typeof s.percent !== 'number') {
+                s.percent = Math.min(97, base + ((i * 7) % 42)); // widen spread slightly
+            }
+        });
+
+        // Heuristic categories if none supplied
+        const catMap = {
+            python: 'ML/AI',
+            pytorch: 'ML/AI',
+            tensorflow: 'ML/AI',
+            'scikit-learn': 'ML/AI',
+            pandas: 'Data',
+            docker: 'DevOps',
+            sql: 'Data',
+            'apache spark': 'Data',
+            spark: 'Data',
+            mlflow: 'MLOps'
+        };
+        normalized.forEach((s) => {
+            if (!s.category) {
+                const key = s.name.toLowerCase();
+                s.category = catMap[key] || 'General';
+            }
+        });
+
+        // Icon map (static)
         const iconMap = {
             Python: 'images/skills/python.svg',
             PyTorch: 'images/skills/pytorch.svg',
@@ -142,20 +186,388 @@ document.addEventListener('DOMContentLoaded', () => {
             'Apache Spark': 'images/skills/spark.svg',
             MLflow: 'images/skills/mlflow.svg'
         };
-        const tags = items
-            .map((s) => {
-                const src = iconMap[s] || '';
-                if (src) {
-                    return `<span class="skill-tag bg-gray-800 flex items-center justify-center p-2 rounded-full h-14 w-14"><img src="${escapeAttr(
-                        src
-                    )}" alt="${escapeAttr(s)} logo" class="h-10 w-10 object-contain" loading="lazy" /></span>`;
+
+        const radius = 30; // inner progress ring
+        const outerRadius = 34; // subtle backdrop ring
+        const circ = 2 * Math.PI * radius;
+        const outerCirc = 2 * Math.PI * outerRadius;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Build category pills (dedupe)
+        const pillBar = document.getElementById('skill-category-pills');
+        if (pillBar) {
+            const cats = Array.from(new Set(normalized.map((s) => s.category)));
+            pillBar.innerHTML = '';
+            cats.forEach((cat) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'skill-cat-pill';
+                b.textContent = cat;
+                b.setAttribute('data-category', cat);
+                b.setAttribute('aria-pressed', 'false');
+                b.addEventListener('click', (e) => {
+                    // Toggle all skills in category
+                    const skillsInCat = normalized
+                        .filter((s) => s.category === cat)
+                        .map((s) => s.name);
+                    const allSelected = skillsInCat.every((s) => activeSkillFilters.has(s));
+                    if (allSelected) {
+                        skillsInCat.forEach((s) => activeSkillFilters.delete(s));
+                        b.setAttribute('aria-pressed', 'false');
+                    } else {
+                        skillsInCat.forEach((s) => activeSkillFilters.add(s));
+                        b.setAttribute('aria-pressed', 'true');
+                    }
+                    updateProjectFiltering();
+                    announceFilterChange();
+                    syncPillStates();
+                });
+                pillBar.appendChild(b);
+            });
+            function syncPillStates() {
+                Array.from(pillBar.querySelectorAll('button[data-category]')).forEach((btn) => {
+                    const cat = btn.getAttribute('data-category');
+                    const skillsInCat = normalized
+                        .filter((s) => s.category === cat)
+                        .map((s) => s.name);
+                    const allSelected = skillsInCat.every((s) => activeSkillFilters.has(s));
+                    btn.setAttribute('aria-pressed', allSelected ? 'true' : 'false');
+                    btn.classList.toggle('active', allSelected);
+                });
+            }
+        }
+
+        const frag = document.createDocumentFragment();
+        normalized.forEach((skill, idx) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'skill-arc';
+            wrap.dataset.index = String(idx);
+            wrap.dataset.category = skill.category;
+            wrap.setAttribute('role', 'progressbar');
+            wrap.setAttribute('aria-label', `${skill.name} proficiency`);
+            wrap.setAttribute('aria-valuemin', '0');
+            wrap.setAttribute('aria-valuemax', '100');
+            wrap.setAttribute('aria-valuenow', String(skill.percent));
+
+            const fig = document.createElement('figure');
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 90 90');
+            svg.classList.add('arc-svg');
+
+            // Outer ambient track (very subtle)
+            const outerTrack = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            outerTrack.setAttribute('class', 'ring-outer');
+            outerTrack.setAttribute('cx', '45');
+            outerTrack.setAttribute('cy', '45');
+            outerTrack.setAttribute('r', String(outerRadius));
+            outerTrack.style.strokeDasharray = `${outerCirc}`;
+            outerTrack.style.strokeDashoffset = '0';
+
+            // Background track
+            const trackCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            trackCircle.setAttribute('class', 'ring-track');
+            trackCircle.setAttribute('cx', '45');
+            trackCircle.setAttribute('cy', '45');
+            trackCircle.setAttribute('r', String(radius));
+            trackCircle.style.strokeDasharray = `${circ}`;
+            trackCircle.style.strokeDashoffset = '0';
+
+            // Progress ring
+            const prog = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            prog.setAttribute('class', 'ring-progress');
+            prog.setAttribute('cx', '45');
+            prog.setAttribute('cy', '45');
+            prog.setAttribute('r', String(radius));
+            prog.style.strokeDasharray = `${circ}`;
+            prog.style.strokeDashoffset = `${circ}`; // start hidden
+            prog.style.transformOrigin = '50% 50%';
+            prog.style.transform = 'rotate(-90deg)';
+            prog.setAttribute('data-target-offset', String(circ * (1 - skill.percent / 100)));
+            prog.setAttribute('stroke', 'url(#grad-accent)');
+
+            svg.appendChild(outerTrack);
+            svg.appendChild(trackCircle);
+            svg.appendChild(prog);
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'skill-item';
+            btn.setAttribute('data-skill', skill.name);
+            btn.setAttribute('data-category', skill.category);
+            btn.setAttribute('aria-label', skill.name + ' skill icon');
+            const src = iconMap[skill.name];
+            btn.innerHTML = src
+                ? `<img src="${escapeAttr(src)}" alt="${escapeAttr(skill.name)} logo" loading="lazy"/>`
+                : escapeHTML(skill.name[0] || '?');
+            // Tooltip info via data-title attribute (will use native title for simplicity)
+            const tooltip = `${skill.name} — ${skill.level || ''} (${skill.percent}%)\nXP: ${skill.xp || 'n/a'}\nCategory: ${skill.category}`;
+            btn.setAttribute('title', tooltip.trim());
+
+            // Count-up number overlay (hidden until reveal)
+            const percentSpan = document.createElement('span');
+            percentSpan.className = 'skill-percent';
+            percentSpan.textContent = '0%';
+            percentSpan.dataset.target = String(skill.percent);
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'skill-name';
+            nameSpan.textContent = skill.name;
+
+            fig.appendChild(svg);
+            fig.appendChild(btn);
+            fig.appendChild(percentSpan);
+            fig.appendChild(nameSpan);
+            wrap.appendChild(fig);
+            frag.appendChild(wrap);
+
+            // Filtering interaction (multi-select capable)
+            btn.addEventListener('click', (e) => {
+                if (typeof handleSkillFilterClick === 'function') {
+                    handleSkillFilterClick(e, skill.name);
                 }
-                return `<span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">${escapeHTML(
-                    s
-                )}</span>`;
-            })
-            .join('');
-        track.innerHTML = tags + tags; // duplicate for loop effect
+            });
+        });
+
+        track.innerHTML = '';
+        track.appendChild(frag);
+
+        // IntersectionObserver to trigger animations once visible
+        if ('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver(
+                (entries, o) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        const el = entry.target;
+                        el.classList.add('reveal');
+                        const prog = el.querySelector('circle.ring-progress');
+                        const num = el.querySelector('.skill-percent');
+                        if (prog) {
+                            const target = prog.getAttribute('data-target-offset');
+                            if (prefersReducedMotion) {
+                                prog.style.strokeDashoffset = target;
+                            } else {
+                                requestAnimationFrame(() => {
+                                    prog.style.strokeDashoffset = target;
+                                });
+                            }
+                        }
+                        if (num)
+                            animateCount(
+                                num,
+                                Number(num.dataset.target || '0'),
+                                prefersReducedMotion
+                            );
+                        o.unobserve(el);
+                    });
+                },
+                { threshold: 0.25 }
+            );
+            track.querySelectorAll('.skill-arc').forEach((arc) => obs.observe(arc));
+        } else {
+            // Fallback – no observer
+            track.querySelectorAll('.skill-arc').forEach((el) => {
+                const prog = el.querySelector('circle.ring-progress');
+                const num = el.querySelector('.skill-percent');
+                if (prog)
+                    prog.style.strokeDashoffset = prog.getAttribute('data-target-offset') || '0';
+                if (num) num.textContent = num.dataset.target + '%';
+            });
+        }
+    }
+
+    function animateCount(el, target, reduced) {
+        if (reduced) {
+            el.textContent = target + '%';
+            return;
+        }
+        const duration = 1100;
+        // Use safe perf timer (avoid ESLint no-undef if performance not globally declared in config)
+        const nowFn =
+            typeof performance !== 'undefined' && performance.now
+                ? () => performance.now()
+                : () => Date.now();
+        const start = nowFn();
+        function step(now) {
+            const p = Math.min(1, (now - start) / duration);
+            const eased = p * (2 - p); // easeOutQuad
+            el.textContent = Math.round(eased * target) + '%';
+            if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    const activeSkillFilters = new Set();
+    let lastClickedSkill = null; // for shift-range selection
+    function handleSkillFilterClick(evt, skill) {
+        const multi = evt.ctrlKey || evt.metaKey; // allow multi-select with Ctrl / Cmd
+        const isShift = evt.shiftKey;
+        if (isShift && lastClickedSkill) {
+            // Range selection across constellation order
+            const order = Array.from(document.querySelectorAll('#skills-track [data-skill]'));
+            const startIdx = order.findIndex(
+                (b) => b.getAttribute('data-skill') === lastClickedSkill
+            );
+            const endIdx = order.findIndex((b) => b.getAttribute('data-skill') === skill);
+            if (startIdx !== -1 && endIdx !== -1) {
+                const [a, b] = startIdx < endIdx ? [startIdx, endIdx] : [endIdx, startIdx];
+                for (let i = a; i <= b; i++) {
+                    activeSkillFilters.add(order[i].getAttribute('data-skill'));
+                }
+            } else {
+                activeSkillFilters.add(skill);
+            }
+        } else if (!multi && !activeSkillFilters.has(skill) && activeSkillFilters.size <= 1) {
+            activeSkillFilters.clear();
+            activeSkillFilters.add(skill);
+        } else if (multi) {
+            if (activeSkillFilters.has(skill)) activeSkillFilters.delete(skill);
+            else activeSkillFilters.add(skill);
+            if (activeSkillFilters.size === 0) {
+                updateProjectFiltering();
+                announceFilterChange();
+                lastClickedSkill = skill;
+                return;
+            }
+        } else if (activeSkillFilters.has(skill) && activeSkillFilters.size === 1) {
+            activeSkillFilters.clear();
+        } else {
+            activeSkillFilters.clear();
+            activeSkillFilters.add(skill);
+        }
+        lastClickedSkill = skill;
+        updateProjectFiltering();
+        announceFilterChange();
+    }
+
+    function updateProjectFiltering() {
+        const grid = document.getElementById('projects-grid');
+        if (!grid) return;
+        const cards = Array.from(grid.children);
+        const filters = Array.from(activeSkillFilters);
+        const filtering = filters.length > 0;
+        let matchedTotal = 0;
+        if (filtering) grid.classList.add('filtering');
+        else grid.classList.remove('filtering');
+        cards.forEach((card) => {
+            const techBadges = Array.from(card.querySelectorAll('span')).map((s) =>
+                (s.textContent || '').toLowerCase()
+            );
+            const show = !filtering || filters.some((f) => techBadges.includes(f.toLowerCase()));
+            card.dataset.hidden = show ? 'false' : 'true';
+            if (!show) {
+                // delay hide to allow transition
+                setTimeout(() => {
+                    if (card.dataset.hidden === 'true') card.style.display = 'none';
+                }, 380);
+            } else {
+                card.style.display = '';
+                matchedTotal++;
+            }
+        });
+        if (!filtering) {
+            cards.forEach((c) => {
+                c.style.display = '';
+                c.dataset.hidden = 'false';
+            });
+        }
+        // Update skill arc selection highlighting
+        const skillArcs = document.querySelectorAll('#skills-track .skill-arc');
+        skillArcs.forEach((arc) => {
+            const name = arc.querySelector('[data-skill]')?.getAttribute('data-skill');
+            if (filters.length === 0) {
+                arc.removeAttribute('data-selected');
+            } else if (name && activeSkillFilters.has(name)) {
+                arc.setAttribute('data-selected', 'true');
+            } else {
+                arc.removeAttribute('data-selected');
+            }
+        });
+        updateFilterIndicators(filters, matchedTotal);
+    }
+
+    function updateFilterIndicators(filters, matched) {
+        const headerBox = document.getElementById('active-skill-filters');
+        const clearBtn = document.getElementById('clear-skill-filters');
+        const announcer = document.getElementById('filter-announcer');
+        if (!headerBox || !clearBtn) return;
+        headerBox.innerHTML = '';
+        if (filters.length === 0) {
+            headerBox.classList.add('hidden');
+            clearBtn.classList.add('hidden');
+            if (announcer) announcer.textContent = 'Filters cleared. Showing all projects.';
+            document
+                .querySelectorAll('.skills-legend button[data-category]')
+                .forEach((b) => b.setAttribute('aria-pressed', 'false'));
+            return;
+        }
+        headerBox.classList.remove('hidden');
+        clearBtn.classList.remove('hidden');
+        filters.forEach((f) => {
+            const pill = document.createElement('span');
+            pill.className = 'px-2 py-1 bg-gray-700 rounded-full';
+            pill.textContent = f;
+            headerBox.appendChild(pill);
+        });
+        clearBtn.onclick = () => {
+            activeSkillFilters.clear();
+            updateProjectFiltering();
+            announceFilterChange();
+        };
+        clearBtn.textContent = 'Clear Filters (' + matched + ')';
+    }
+
+    function announceFilterChange() {
+        const announcer = document.getElementById('filter-announcer');
+        if (!announcer) return;
+        const filters = Array.from(activeSkillFilters);
+        if (filters.length === 0) {
+            announcer.textContent = 'All projects visible';
+        } else {
+            announcer.textContent = 'Filtered by ' + filters.join(', ');
+        }
+    }
+
+    // Category legend click -> toggle all category skills
+    document.addEventListener('click', (e) => {
+        const target = e.target.closest('.skills-legend button[data-category]');
+        if (!target) return;
+        const cat = target.getAttribute('data-category');
+        const skillsInCat = Array.from(
+            document.querySelectorAll(`#skills-track [data-category='${cat}']`)
+        ).map((el) => el.getAttribute('data-skill'));
+        const allSelected = skillsInCat.every((s) => activeSkillFilters.has(s));
+        if (allSelected) {
+            skillsInCat.forEach((s) => activeSkillFilters.delete(s));
+            target.setAttribute('aria-pressed', 'false');
+        } else {
+            skillsInCat.forEach((s) => activeSkillFilters.add(s));
+            target.setAttribute('aria-pressed', 'true');
+        }
+        updateProjectFiltering();
+        announceFilterChange();
+    });
+
+    // Lazy-load constellation: wait until skills section visible
+    const skillsSection = document.getElementById('skills');
+    if (skillsSection && 'IntersectionObserver' in window) {
+        const obs = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // If not rendered yet (no children), re-render skills from cached data
+                        if (
+                            skillsSection.querySelector('#skills-track')?.children.length === 0 &&
+                            window.__PORTFOLIO_DATA__?.skills
+                        ) {
+                            renderSkills(window.__PORTFOLIO_DATA__.skills);
+                        }
+                        obs.disconnect();
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+        obs.observe(skillsSection);
     }
 
     function renderPublications(items) {

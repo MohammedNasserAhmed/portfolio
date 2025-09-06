@@ -125,33 +125,289 @@ body {
     }
 }
 
-/* Skills Section */
-.skills-container {
-    position: relative;
-    -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-    mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-}
-.skills-track {
+/* Progressive Arc Matrix */
+.skills-matrix {
+    --arc-cell: 108px;
     display: flex;
-    gap: 1.5rem;
-    animation: scroll 40s linear infinite;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2.25rem 2.6rem;
+    padding: 1rem 0.5rem 1.75rem;
+    max-width: 1250px;
+    margin: 0 auto;
+    position: relative;
 }
-@keyframes scroll {
-    from {
-        transform: translateX(0);
+.skills-matrix::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 40%, rgba(217, 35, 35, 0.08), transparent 65%);
+}
+.skill-arc {
+    width: var(--arc-cell);
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+    filter: blur(4px);
+    transition:
+        opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+        filter 0.9s ease;
+}
+.skill-arc.reveal {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+.skill-arc.reveal::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 74px;
+    height: 74px;
+    margin-left: -37px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(217, 35, 35, 0.5),
+        rgba(217, 35, 35, 0) 60%
+    );
+    filter: blur(10px);
+    opacity: 0;
+    animation: halo-pulse 2.4s ease-out forwards;
+    pointer-events: none;
+}
+.skill-arc[data-selected='true'].reveal::after {
+    animation: halo-pulse-selected 2.4s ease-out forwards;
+}
+.skill-arc:nth-child(odd).reveal {
+    transition-delay: 0.05s;
+}
+.skill-arc:nth-child(3n).reveal {
+    transition-delay: 0.1s;
+}
+.skill-arc figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.skill-arc .arc-svg {
+    display: block;
+    margin: 0 auto;
+}
+.skill-arc .arc-svg {
+    width: 82px;
+    height: 82px;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.4));
+}
+.skill-arc .ring-outer {
+    stroke: linear-gradient(#d92323, #ff5858);
+    stroke: #2b2b2b;
+    stroke-width: 4;
+    fill: none;
+    opacity: 0.55;
+}
+.skill-arc .ring-track {
+    stroke: #262626;
+    stroke-width: 8;
+    fill: none;
+}
+.skill-arc .ring-progress {
+    stroke: var(--color-accent);
+    stroke-width: 8;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+.skill-arc[data-selected='true'] .ring-progress {
+    filter: drop-shadow(0 0 6px var(--color-accent)) drop-shadow(0 0 16px rgba(217, 35, 35, 0.5));
+}
+.skill-arc button.skill-item {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #1d1d1d, #222);
+    box-shadow:
+        0 0 0 1px #2d2d2d inset,
+        0 4px 10px -2px rgba(0, 0, 0, 0.6);
+    margin: 0.45rem auto 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+.skill-arc button.skill-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.08), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.skill-arc button.skill-item:hover::after {
+    opacity: 1;
+}
+.skill-arc button.skill-item:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+}
+.skill-arc button.skill-item img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    animation: logo-float 5s ease-in-out infinite;
+}
+@keyframes logo-float {
+    0%,
+    100% {
+        transform: translateY(0);
     }
-    to {
-        transform: translateX(-50%);
+    50% {
+        transform: translateY(-6px);
     }
 }
-.skill-tag {
-    transition: all 0.3s ease;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+@media (prefers-reduced-motion: reduce) {
+    .skill-arc button.skill-item img {
+        animation: none;
+    }
 }
-.skill-tag:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px var(--color-accent);
-    color: white;
+.skill-arc .skill-percent {
+    font-size: 0.6rem;
+    letter-spacing: 0.6px;
+    color: #b5b5b5;
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    min-height: 0.85em;
+}
+.skill-arc .skill-name {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 0.4rem;
+    color: #e5e5e5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.progressive-arcs .skill-arc[data-selected='true'] button.skill-item {
+    box-shadow:
+        0 0 0 1px var(--color-accent),
+        0 0 14px -2px rgba(217, 35, 35, 0.55);
+}
+.progressive-arcs .skill-arc[data-selected='true'] .skill-name {
+    color: #fff;
+}
+@media (max-width: 900px) {
+    .skills-matrix {
+        --arc-cell: 96px;
+        gap: 1.9rem 2rem;
+    }
+    .skill-arc .arc-svg {
+        width: 74px;
+        height: 74px;
+    }
+}
+@media (max-width: 640px) {
+    .skills-matrix {
+        --arc-cell: 86px;
+        gap: 1.65rem 1.65rem;
+    }
+    .skill-arc button.skill-item {
+        width: 54px;
+        height: 54px;
+    }
+    .skill-arc .arc-svg {
+        width: 68px;
+        height: 68px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .skill-arc {
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+    }
+}
+
+/* Category Pills */
+.skill-cat-pill {
+    position: relative;
+    background: #1e1e1e;
+    color: #bfbfbf;
+    border: 1px solid #2d2d2d;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+    transition:
+        background 0.35s,
+        color 0.35s,
+        border-color 0.35s,
+        box-shadow 0.35s;
+    cursor: pointer;
+    line-height: 1;
+}
+.skill-cat-pill:hover {
+    color: #fff;
+    border-color: #3a3a3a;
+}
+.skill-cat-pill.active,
+.skill-cat-pill[aria-pressed='true'] {
+    background: linear-gradient(90deg, #d92323, #ff5858);
+    color: #fff;
+    border-color: #d92323;
+    box-shadow:
+        0 0 0 1px #d92323,
+        0 0 12px -2px rgba(217, 35, 35, 0.7);
+}
+.skill-cat-pill:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* Halo Pulse */
+@keyframes halo-pulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.55);
+    }
+    40% {
+        opacity: 0.85;
+    }
+    75% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.65);
+    }
+}
+@keyframes halo-pulse-selected {
+    0% {
+        opacity: 0;
+        transform: scale(0.55);
+    }
+    30% {
+        opacity: 0.95;
+    }
+    60% {
+        opacity: 0.35;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.9);
+    }
 }
 
 /* Gallery */

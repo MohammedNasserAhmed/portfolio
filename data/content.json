@@ -30,15 +30,33 @@
         }
     ],
     "skills": [
-        "Python",
-        "PyTorch",
-        "TensorFlow",
-        "Scikit-learn",
-        "Pandas",
-        "Docker",
-        "SQL",
-        "Apache Spark",
-        "MLflow"
+        { "name": "Python", "percent": 92, "category": "ML/AI", "level": "Expert", "xp": "6y" },
+        { "name": "PyTorch", "percent": 88, "category": "ML/AI", "level": "Advanced", "xp": "4y" },
+        {
+            "name": "TensorFlow",
+            "percent": 75,
+            "category": "ML/AI",
+            "level": "Advanced",
+            "xp": "3y"
+        },
+        {
+            "name": "Scikit-learn",
+            "percent": 85,
+            "category": "ML/AI",
+            "level": "Advanced",
+            "xp": "5y"
+        },
+        { "name": "Pandas", "percent": 90, "category": "Data", "level": "Expert", "xp": "6y" },
+        { "name": "Docker", "percent": 80, "category": "DevOps", "level": "Advanced", "xp": "4y" },
+        { "name": "SQL", "percent": 83, "category": "Data", "level": "Advanced", "xp": "7y" },
+        {
+            "name": "Apache Spark",
+            "percent": 70,
+            "category": "Data",
+            "level": "Intermediate",
+            "xp": "2y"
+        },
+        { "name": "MLflow", "percent": 76, "category": "MLOps", "level": "Advanced", "xp": "3y" }
     ],
     "publications": [
         {
