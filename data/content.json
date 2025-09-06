@@ -24,6 +24,22 @@
         "Apache Spark",
         "MLflow"
     ],
+    "projects": [
+        {
+            "title": "Culturally-Aware Arabic RAG System",
+            "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+RAG",
+            "description": "Developed a Retrieval-Augmented Generation pipeline optimized for Arabic dialects, leveraging custom embeddings and a hybrid search approach.",
+            "tech": ["PyTorch", "Weaviate", "LLM Fine-Tuning"],
+            "githubUrl": "https://github.com/your-user/arabic-rag"
+        },
+        {
+            "title": "Agentic AI for Data Analysis",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent",
+            "description": "Built an autonomous AI agent capable of performing complex data analysis tasks, from data cleaning to generating visualizations and reports.",
+            "tech": ["LangChain", "Pandas", "OpenAI API"],
+            "githubUrl": "https://github.com/your-user/agentic-data-analyst"
+        }
+    ],
     "publications": [
         {
             "title": "2024 AI Recap: A Comprehensive Year-in-Review",
