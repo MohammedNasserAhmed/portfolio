@@ -1,5 +1,5 @@
 // Main JavaScript file for portfolio project
-console.log('Portfolio site loaded');
+// (Removed startup console.log to keep console clean in production)
 
 // Theme toggle logic
 (function () {
@@ -26,7 +26,7 @@ console.log('Portfolio site loaded');
     function getStoredTheme() {
         try {
             return localStorage.getItem(STORAGE_KEY);
-        } catch (_e) {
+        } catch (__e) {
             return null;
         }
     }
@@ -34,7 +34,7 @@ console.log('Portfolio site loaded');
     function storeTheme(mode) {
         try {
             localStorage.setItem(STORAGE_KEY, mode);
-        } catch (_e) {
+        } catch (__e) {
             /* ignore */
         }
     }
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     const parsed = JSON.parse(ta.value);
                     ta.value = JSON.stringify(parsed, null, 2);
-                } catch (_e) {
+                } catch (__e) {
                     /* ignore */
                 }
             };
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     msgEl.textContent = 'Applied successfully';
                     msgEl.classList.remove('text-red-400');
                     msgEl.classList.add('text-green-400');
-                } catch (_e) {
+                } catch (__e) {
                     ta.style.borderColor = 'red';
                     setTimeout(() => (ta.style.borderColor = ''), 1200);
                 }

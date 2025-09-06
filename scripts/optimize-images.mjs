@@ -15,7 +15,7 @@ const OUT_DIR = './images/optimized';
 async function ensureDir(p) {
   try {
     await mkdir(p, { recursive: true });
-  } catch (_e) {
+  } catch (__e) {
     // already exists or cannot create – ignore
   }
 }

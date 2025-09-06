@@ -30,7 +30,10 @@ export default [
             }
         },
         rules: {
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+            'no-unused-vars': [
+                'warn',
+                { argsIgnorePattern: '^_{1,2}', varsIgnorePattern: '^_{1,2}', caughtErrors: 'none' }
+            ],
             'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
             'import/order': [
                 'warn',
@@ -66,7 +69,10 @@ export default [
             }
         },
         rules: {
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+            'no-unused-vars': [
+                'warn',
+                { argsIgnorePattern: '^_{1,2}', varsIgnorePattern: '^_{1,2}', caughtErrors: 'none' }
+            ],
             'no-console': 'off'
         }
     }
