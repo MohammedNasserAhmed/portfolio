@@ -381,14 +381,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const duration = 1100;
-        // Use safe perf timer (avoid ESLint no-undef if performance not globally declared in config)
         const nowFn =
-            typeof performance !== 'undefined' && performance.now
-                ? () => performance.now()
+            typeof globalThis !== 'undefined' &&
+            globalThis.performance &&
+            typeof globalThis.performance.now === 'function'
+                ? () => globalThis.performance.now()
                 : () => Date.now();
         const start = nowFn();
-        function step(now) {
-            const p = Math.min(1, (now - start) / duration);
+        function step(ts) {
+            const p = Math.min(1, (ts - start) / duration);
             const eased = p * (2 - p); // easeOutQuad
             el.textContent = Math.round(eased * target) + '%';
             if (p < 1) requestAnimationFrame(step);
