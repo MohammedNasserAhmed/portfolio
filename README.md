@@ -182,17 +182,29 @@ Extendable targets:
 
 ## 🚀 Deployment
 
-Add a GitHub Pages deploy job (after build on `main`). Optionally introduce:
+Automated via GitHub Actions on every push to `main` using a dedicated workflow: `.github/workflows/deploy-pages.yml`.
 
-```yaml
-on:
-	push:
-		branches: [ main ]
+Pipeline summary:
+
+1. Install dependencies
+2. Build Tailwind CSS → `dist/style.css`
+3. Assemble static bundle (HTML, `dist/`, `js/`, `images/`, `docs/`, PWA assets, SW)
+4. Upload with `actions/upload-pages-artifact`
+5. Publish using `actions/deploy-pages`
+
+Prerequisites (one‑time in repository settings):
+
+-   Enable GitHub Pages → Source: GitHub Actions
+
+Resulting site URL: `https://<user>.github.io/portfolio/` (already reflected in canonical + manifest `start_url`).
+
+To force an immediate redeploy (e.g., cache purge), re‑run the workflow from the Actions tab or push an empty commit:
+
+```bash
+git commit --allow-empty -m "chore: trigger pages redeploy" && git push
 ```
 
-With a step using `actions/upload-pages-artifact` + `actions/deploy-pages`.
-
-Already includes manifest + service worker (installable). Add `actions/deploy-pages` after PR merge to `main` for automatic publishing.
+Service worker + manifest are included, so the site is installable and works offline (within the defined caching strategies).
 
 ---
 
