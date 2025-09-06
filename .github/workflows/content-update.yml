@@ -15,48 +15,63 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Parse issue body to JSON files
+          cache: 'npm'
+      - name: Install dependencies (for schema validation)
+        run: npm ci
+      - name: Parse & write JSON blocks
         id: parse
-        run: |
-          echo "Issue body:\n${{ github.event.issue.body }}" > issue.md
-          # Expect fenced code blocks with json and filenames e.g. ```json content.json { ... }
-          node - <<'EOF'
-          import { readFileSync, writeFileSync } from 'node:fs';
-          const body = readFileSync('issue.md','utf8');
-          const regex = /```json\s+([\w.-/]+)\s+([\s\S]*?)```/g;
-          let m, wrote = [];
-          while ((m = regex.exec(body))) {
-            const file = m[1];
-            try {
-              JSON.parse(m[2]);
-              writeFileSync(file, JSON.stringify(JSON.parse(m[2]), null, 2) + '\n');
-              wrote.push(file);
-            } catch (e) {
-              console.log('Invalid JSON for', file, e.message);
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue?.body || '';
+            const regex = /```json\s+([^\s]+)\s+([\s\S]*?)```/g;
+            const fs = require('fs');
+            const path = require('path');
+            let match; const wrote=[];
+            while ((match = regex.exec(body))) {
+              const file = match[1].trim();
+              const raw = match[2].trim();
+              try {
+                const parsed = JSON.parse(raw);
+                fs.mkdirSync(path.dirname(file), { recursive: true });
+                fs.writeFileSync(file, JSON.stringify(parsed, null, 2)+'\n');
+                wrote.push(file);
+                core.info(`Wrote ${file}`);
+              } catch (e) {
+                core.warning(`Invalid JSON for ${file}: ${e.message}`);
+              }
             }
-          }
-          if (!wrote.length) {
-            console.log('No valid JSON blocks found.');
-            process.exit(0);
-          }
-          console.log('Updated files:', wrote.join(', '));
-          writeFileSync('updated-files.txt', wrote.join('\n'));
-          EOF
-      - name: Commit changes
-        if: success()
+            if (wrote.length) {
+              fs.writeFileSync('updated-files.txt', wrote.join('\n'));
+              core.setOutput('changed', 'true');
+              core.setOutput('files', wrote.join('\n'));
+            } else {
+              core.setOutput('changed', 'false');
+              core.info('No valid JSON blocks found.');
+            }
+      - name: Validate updated content (schema)
+        if: steps.parse.outputs.changed == 'true'
         run: |
-          if [ -f updated-files.txt ]; then
-            git config user.name 'github-actions';
-            git config user.email 'actions@users.noreply.github.com';
-            git add $(cat updated-files.txt) || true
-            if git diff --cached --quiet; then
-              echo 'No changes to commit.'
-            else
-              git commit -m 'chore(content): update content via issue #${{ github.event.issue.number }}'
-              git push origin HEAD:${{ github.ref_name }}
-            fi
+          if grep -q "content" updated-files.txt; then
+            npm run validate:content
+          else
+            echo "No content files changed; skipping schema validation.";
+          fi
+      - name: Commit changes
+        if: steps.parse.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'actions@users.noreply.github.com'
+          git add $(cat updated-files.txt) || true
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+          else
+            git commit -m "chore(content): update content via issue #${{ github.event.issue.number }}"
+            git push origin HEAD:main
           fi
