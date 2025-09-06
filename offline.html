@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Offline – M. N. Jaber</title>
+        <link rel="stylesheet" href="dist/style.css" />
+        <style>
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 2rem;
+                text-align: center;
+            }
+            .card {
+                max-width: 480px;
+                background: var(--color-card);
+                border: 1px solid var(--color-gray-border);
+                padding: 2rem;
+                border-radius: 1rem;
+            }
+        </style>
+    </head>
+    <body class="bg-brand-dark text-brand-light-gray font-sans">
+        <div class="card">
+            <h1 class="text-2xl font-bold mb-4">You are offline</h1>
+            <p class="text-brand-gray mb-6">
+                The requested page isn't available without a connection. Once you're back online,
+                reload to continue exploring the portfolio.
+            </p>
+            <a href="./" class="bg-brand-red text-white px-5 py-2 rounded-lg inline-block"
+                >Return Home</a
+            >
+        </div>
+    </body>
+</html>

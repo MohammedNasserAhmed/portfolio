@@ -49,13 +49,14 @@
             content="AI Engineer (PhD) building impactful LLM & ML solutions."
         />
         <meta name="twitter:image" content="images/website-photo.png" />
-        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Tailwind is built locally into dist/style.css; CDN script removed -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+        <!-- TODO: bundle local three.js if needed; temporarily still using CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <link
             rel="preload"
@@ -82,39 +83,36 @@
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
-                "@type": "Person",
-                "name": "M. N. Jaber",
-                "url": "https://mohammednasserahmed.github.io/portfolio/",
-                "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
-                "jobTitle": "AI Engineer",
-                "description": "PhD-level AI Engineer specializing in LLM systems, Retrieval-Augmented Generation and production ML.",
-                "sameAs": [
-                    "https://github.com/mohammedNasserAhmed",
-                    "https://linkedin.com/in/m-n-g"
-                ]
-            }
-        </script>
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "M. N. Jaber Portfolio",
-                "url": "https://mohammednasserahmed.github.io/portfolio/",
-                "inLanguage": "en",
-                "description": "AI Engineer portfolio focused on LLM systems, retrieval architectures, and production ML pipelines.",
-                "publisher": {
-                    "@type": "Person",
-                    "name": "M. N. Jaber",
-                    "url": "https://mohammednasserahmed.github.io/portfolio/"
-                },
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": {
-                        "@type": "EntryPoint",
-                        "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/?q={search_term_string}"
+                "@graph": [
+                    {
+                        "@type": "Person",
+                        "name": "M. N. Jaber",
+                        "url": "https://mohammednasserahmed.github.io/portfolio/",
+                        "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
+                        "jobTitle": "AI Engineer",
+                        "description": "PhD-level AI Engineer specializing in LLM systems, Retrieval-Augmented Generation and production ML.",
+                        "sameAs": [
+                            "https://github.com/mohammedNasserAhmed",
+                            "https://linkedin.com/in/m-n-g"
+                        ]
                     },
-                    "query-input": "required name=search_term_string"
-                }
+                    {
+                        "@type": "WebSite",
+                        "name": "M. N. Jaber Portfolio",
+                        "url": "https://mohammednasserahmed.github.io/portfolio/",
+                        "inLanguage": "en",
+                        "description": "AI Engineer portfolio focused on LLM systems, retrieval architectures, and production ML pipelines.",
+                        "publisher": { "@type": "Person", "name": "M. N. Jaber" },
+                        "potentialAction": {
+                            "@type": "SearchAction",
+                            "target": {
+                                "@type": "EntryPoint",
+                                "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/?q={search_term_string}"
+                            },
+                            "query-input": "required name=search_term_string"
+                        }
+                    }
+                ]
             }
         </script>
         <script>
@@ -137,6 +135,11 @@
         </script>
     </head>
     <body class="bg-brand-dark text-brand-light-gray font-sans">
+        <a
+            href="#hero"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-red text-white px-4 py-2 rounded"
+            >Skip to content</a
+        >
         <!-- Header & Navigation -->
         <header
             class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20"

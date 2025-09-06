@@ -56,46 +56,48 @@
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
-                "@type": "Person",
-                "name": "م. ن. جابر",
-                "alternateName": "M. N. Jaber",
-                "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
-                "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
-                "jobTitle": "مهندس ذكاء اصطناعي",
-                "description": "مهندس ذكاء اصطناعي (دكتوراه) متخصص في الأنظمة اللغوية الكبيرة واسترجاع المعرفة والتعلم الآلي التطبيقي.",
-                "sameAs": [
-                    "https://github.com/mohammedNasserAhmed",
-                    "https://linkedin.com/in/m-n-g"
-                ],
-                "inLanguage": "ar"
-            }
-        </script>
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "ملف م. ن. جابر",
-                "alternateName": "M. N. Jaber Portfolio",
-                "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
-                "inLanguage": "ar",
-                "description": "ملف مهندس ذكاء اصطناعي متخصص في النماذج اللغوية، استرجاع المعرفة، وحلول التعلم الآلي.",
-                "publisher": {
-                    "@type": "Person",
-                    "name": "م. ن. جابر",
-                    "url": "https://mohammednasserahmed.github.io/portfolio/ar/"
-                },
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": {
-                        "@type": "EntryPoint",
-                        "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/ar/?q={search_term_string}"
+                "@graph": [
+                    {
+                        "@type": "Person",
+                        "name": "م. ن. جابر",
+                        "alternateName": "M. N. Jaber",
+                        "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
+                        "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
+                        "jobTitle": "مهندس ذكاء اصطناعي",
+                        "description": "مهندس ذكاء اصطناعي (دكتوراه) متخصص في الأنظمة اللغوية الكبيرة واسترجاع المعرفة والتعلم الآلي التطبيقي.",
+                        "sameAs": [
+                            "https://github.com/mohammedNasserAhmed",
+                            "https://linkedin.com/in/m-n-g"
+                        ],
+                        "inLanguage": "ar"
                     },
-                    "query-input": "required name=search_term_string"
-                }
+                    {
+                        "@type": "WebSite",
+                        "name": "ملف م. ن. جابر",
+                        "alternateName": "M. N. Jaber Portfolio",
+                        "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
+                        "inLanguage": "ar",
+                        "description": "ملف مهندس ذكاء اصطناعي متخصص في النماذج اللغوية، استرجاع المعرفة، وحلول التعلم الآلي.",
+                        "publisher": { "@type": "Person", "name": "م. ن. جابر" },
+                        "potentialAction": {
+                            "@type": "SearchAction",
+                            "target": {
+                                "@type": "EntryPoint",
+                                "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/ar/?q={search_term_string}"
+                            },
+                            "query-input": "required name=search_term_string"
+                        }
+                    }
+                ]
             }
         </script>
     </head>
     <body class="bg-brand-dark text-brand-light-gray font-sans font-arabic">
+        <a
+            href="#hero"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-red text-white px-4 py-2 rounded"
+            >تخطي إلى المحتوى</a
+        >
         <header
             class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20"
         >

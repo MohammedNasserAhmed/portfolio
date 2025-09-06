@@ -48,6 +48,28 @@ body {
     border-color: var(--color-gray-border) !important;
 }
 
+/* Accessibility utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+.sr-only:focus,
+.sr-only:active,
+.focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+}
+
 /* Extracted custom styles from inline <style> */
 /* Custom styles for animations and creative look */
 .gradient-text {
@@ -255,8 +277,7 @@ body {
     font-family: 'IBM Plex Sans Arabic', Cairo, Tahoma, sans-serif !important;
 }
 
-[dir='rtl'] body,
-[dir='rtl'] .font-arabic {
+[dir='rtl'] body {
     font-family: 'IBM Plex Sans Arabic', Cairo, Tahoma, sans-serif;
 }
 
