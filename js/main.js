@@ -98,7 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 (p) =>
                     `\n          <div class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800">\n            <img src="${escapeAttr(p.image)}" alt="${escapeAttr(
                         p.title
-                    )}" class="w-full h-48 object-cover" />\n            <div class="p-6">\n              <h3 class="text-xl font-bold text-white">${escapeHTML(p.title)}</h3>\n              <p class="mt-2 text-brand-gray">${escapeHTML(p.description)}</p>\n              <div class="mt-4 flex flex-wrap gap-2">${(
+                    )}" class="w-full h-48 object-cover" />\n            <div class="p-6">\n              <h3 class="text-xl font-bold text-white flex items-start justify-between gap-2">${escapeHTML(
+                        p.title
+                    )}${
+                        p.githubUrl
+                            ? `<a href="${escapeAttr(
+                                  p.githubUrl
+                              )}" class="text-gray-400 hover:text-white" target="_blank" rel="noopener" aria-label="GitHub repository for ${escapeAttr(
+                                  p.title
+                              )}">\n                                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='w-5 h-5'><path d='M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.11.79-.25.79-.56 0-.27-.01-1.17-.02-2.13-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.79 2.76 1.27 3.43.97.11-.76.41-1.27.75-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.19a11.1 11.1 0 0 1 2.9-.39 11.1 11.1 0 0 1 2.9.39c2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.76.12 3.05.75.81 1.2 1.84 1.2 3.1 0 4.43-2.69 5.41-5.25 5.69.42.37.8 1.1.8 2.22 0 1.6-.02 2.88-.02 3.27 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z'/></svg>`
+                            : ''
+                    }</h3>\n              <p class="mt-2 text-brand-gray">${escapeHTML(p.description)}</p>\n              <div class="mt-4 flex flex-wrap gap-2">${(
                         p.tech || []
                     )
                         .map(
@@ -107,7 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                     t
                                 )}</span>`
                         )
-                        .join('')}\n              </div>\n            </div>\n          </div>`
+                        .join('')}\n              </div>\n              ${
+                        p.githubUrl
+                            ? `<div class='mt-4'><a href='${escapeAttr(
+                                  p.githubUrl
+                              )}' class='text-brand-red text-sm font-semibold hover:underline' target='_blank' rel='noopener'>View on GitHub →</a></div>`
+                            : ''
+                    }\n            </div>\n          </div>`
             )
             .join('');
     }

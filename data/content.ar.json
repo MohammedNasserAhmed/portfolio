@@ -18,13 +18,15 @@
             "title": "نظام RAG عربي واعٍ بالسياق الثقافي",
             "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+RAG",
             "description": "تطوير خط معالجة استرجاع-تعزيز توليد مهيأ للهجات العربية باستخدام تضمينات مخصصة وبحث هجين.",
-            "tech": ["PyTorch", "Weaviate", "LLM Fine-Tuning"]
+            "tech": ["PyTorch", "Weaviate", "LLM Fine-Tuning"],
+            "githubUrl": "https://github.com/your-user/arabic-rag"
         },
         {
             "title": "وكيل ذكاء اصطناعي للتحليل البياني",
             "image": "https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent",
             "description": "بناء وكيل ذاتي قادر على تحليل البيانات من التنظيف إلى توليد التقارير المرئية.",
-            "tech": ["LangChain", "Pandas", "OpenAI API"]
+            "tech": ["LangChain", "Pandas", "OpenAI API"],
+            "githubUrl": "https://github.com/your-user/agentic-data-analyst"
         }
     ],
     "skills": [
