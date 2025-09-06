@@ -166,10 +166,11 @@ Workflow (`.github/workflows/ci.yml`):
 3. `npm ci`
 4. Prettier formatting check
 5. ESLint (import + best-practice rules)
-6. Tailwind build (production CSS)
-7. Local static server & wait-on
-8. Lighthouse audit (performance, accessibility, SEO) — JSON report artifact
-9. Upload built CSS artifact (optional deployable asset)
+6. JSON Schema validation for multilingual content (`content.json`, `content.ar.json`)
+7. Tailwind build (production CSS)
+8. Local static server & wait-on
+9. Lighthouse audit (performance, accessibility, SEO) — JSON report artifact
+10. Upload built CSS artifact (optional deployable asset)
 
 Extendable targets:
 
@@ -210,18 +211,20 @@ Service worker + manifest are included, so the site is installable and works off
 
 ## 📦 Scripts Reference
 
-| Script            | Purpose                                    |
-| ----------------- | ------------------------------------------ |
-| `dev`             | Watch CSS + serve locally                  |
-| `watch:css`       | Tailwind watch only                        |
-| `build`           | Production CSS build/minify                |
-| `build:css`       | Alias for CSS build pipeline               |
-| `format`          | Prettier write                             |
-| `format:check`    | Prettier verify                            |
-| `lint`            | ESLint scan                                |
-| `lint:fix`        | ESLint auto-fix                            |
-| `optimize:images` | Optimize PNG/JPEG via sharp (local script) |
-| `lighthouse`      | Programmatic Lighthouse audit              |
+| Script             | Purpose                                     |
+| ------------------ | ------------------------------------------- |
+| `dev`              | Watch CSS + serve locally                   |
+| `watch:css`        | Tailwind watch only                         |
+| `build`            | Production CSS build/minify                 |
+| `build:css`        | Alias for CSS build pipeline                |
+| `build:js`         | Build JS (strips dev overlay in production) |
+| `format`           | Prettier write                              |
+| `format:check`     | Prettier verify                             |
+| `lint`             | ESLint scan                                 |
+| `lint:fix`         | ESLint auto-fix                             |
+| `optimize:images`  | Optimize PNG/JPEG via sharp (local script)  |
+| `lighthouse`       | Programmatic Lighthouse audit               |
+| `validate:content` | Validate JSON content against schema        |
 
 ---
 
@@ -276,6 +279,34 @@ Distributed under the MIT License. See `LICENSE` for details.
 ---
 
 Crafted with clean architecture, semantic HTML, progressive enhancement, and future extensibility in mind.
+
+### 🛠 Dev Overlay & Production Stripping
+
+During local development you can append `#admin=dev` to the URL (and NOT be on a `github.io` host) to open a lightweight content editing overlay:
+
+```text
+http://localhost:5500/#admin=dev
+```
+
+Features:
+
+-   Live JSON view of merged content
+-   Format, copy, or apply edits immediately (no persistence — for draft preview only)
+-   Schema validation before applying ensures structural integrity
+-   Prominent red banner indicates “DEV MODE ACTIVE”
+
+Security / Safety:
+
+-   Overlay code is wrapped between sentinel comments `/* DEV-OVERLAY-START */ ... /* DEV-OVERLAY-END */`
+-   The production JS build (`NODE_ENV=production npm run build`) strips this block; `dist/main.js` contains only a placeholder comment
+-   Service worker caches the stripped production script
+-   No secrets or network mutations are performed; this is purely a local convenience tool
+
+Content Model Enforcement:
+
+-   `data/content.schema.json` defines a JSON Schema (draft-07)
+-   CI runs `npm run validate:content` to ensure English & Arabic JSON comply
+-   Local manual check: `npm run validate:content`
 
 ### 🔒 Security Note
 

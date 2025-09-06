@@ -23,6 +23,8 @@ jobs:
         run: npm run format:check
       - name: ESLint
         run: npm run lint
+      - name: Validate content JSON schema
+        run: npm run validate:content
       - name: Build CSS
         run: npm run build:css
       - name: Start static server

@@ -10,6 +10,7 @@
         "build:js": "node ./scripts/build.mjs",
         "watch:css": "tailwindcss -c tailwind.config.js -i ./css/style.css -o ./dist/style.css --watch",
         "build": "npm run build:css && npm run build:js",
+        "validate:content": "node ./scripts/validate-content.mjs",
         "postbuild": "echo Build complete",
         "dev": "concurrently -k -n CSS,WEB -c cyan,magenta \"npm:watch:css\" \"serve -l 5500\"",
         "prepare": "husky install",
@@ -19,6 +20,7 @@
         "lighthouse": "node ./scripts/run-lh.mjs"
     },
     "devDependencies": {
+        "ajv": "^8.17.1",
         "@commitlint/cli": "^19.3.0",
         "@commitlint/config-conventional": "^19.3.0",
         "autoprefixer": "^10.4.20",
