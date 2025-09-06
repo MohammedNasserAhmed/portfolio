@@ -10,16 +10,16 @@ Modern, multilingual (EN + AR), performance‑tuned, accessibility‑aware portf
 
 ## ✨ Key Highlights
 
-- 🌓 Persisted dark/light theme (system preference aware)
-- 🌐 Bilingual (English / Arabic, full RTL support + dedicated Arabic font)
-- 🧠 Typing effect + performant starfield (reduced motion aware)
-- ♿ Accessibility conscious (focus restoration, reduced motion fallback, semantic structure)
-- ⚡ Tailwind JIT build + purged/minified CSS
-- 🔍 SEO: Open Graph, Twitter Card, canonical, hreflang, sitemap, robots.txt
-- 🧾 Structured Data: Person + WebSite + SearchAction JSON-LD (EN & AR)
-- 🛠️ CI: GitHub Actions (format check + CSS build artifact)
-- 🧩 Modular architecture (extracted JS/CSS, theme tokens via CSS variables)
-- 🔁 Smooth marquee skill + outreach scrollers (GPU-friendly)
+-   🌓 Persisted dark/light theme (system preference aware)
+-   🌐 Bilingual (English / Arabic, full RTL support + dedicated Arabic font)
+-   🧠 Typing effect + performant starfield (reduced motion aware)
+-   ♿ Accessibility conscious (focus restoration, reduced motion fallback, semantic structure)
+-   ⚡ Tailwind JIT build + purged/minified CSS
+-   🔍 SEO: Open Graph, Twitter Card, canonical, hreflang, sitemap, robots.txt
+-   🧾 Structured Data: Person + WebSite + SearchAction JSON-LD (EN & AR)
+-   🛠️ CI: GitHub Actions (format check + CSS build artifact)
+-   🧩 Modular architecture (extracted JS/CSS, theme tokens via CSS variables)
+-   🔁 Smooth marquee skill + outreach scrollers (GPU-friendly)
 
 ---
 
@@ -47,14 +47,14 @@ Modern, multilingual (EN + AR), performance‑tuned, accessibility‑aware portf
 
 ## 🏗 Technology Stack
 
-| Layer | Tools / Approach |
-|-------|------------------|
-| Styling | TailwindCSS (JIT) + CSS custom properties |
-| Interactivity | Vanilla JS + Three.js (lightweight particle field) |
-| Fonts | Inter (EN), IBM Plex Sans Arabic (AR) |
-| Build | Tailwind CLI + PostCSS + Autoprefixer |
-| CI | GitHub Actions (Node 20) |
-| SEO / Semantics | JSON-LD, OG/Twitter, hreflang, canonical |
+| Layer           | Tools / Approach                                   |
+| --------------- | -------------------------------------------------- |
+| Styling         | TailwindCSS (JIT) + CSS custom properties          |
+| Interactivity   | Vanilla JS + Three.js (lightweight particle field) |
+| Fonts           | Inter (EN), IBM Plex Sans Arabic (AR)              |
+| Build           | Tailwind CLI + PostCSS + Autoprefixer              |
+| CI              | GitHub Actions (Node 20)                           |
+| SEO / Semantics | JSON-LD, OG/Twitter, hreflang, canonical           |
 
 ---
 
@@ -82,30 +82,30 @@ npm run format
 
 Dev script runs two concurrent processes:
 
-- Tailwind watch → regenerates `dist/style.css`
-- Static server (`serve`) → serves root for local testing
+-   Tailwind watch → regenerates `dist/style.css`
+-   Static server (`serve`) → serves root for local testing
 
 ---
 
 ## 🌗 Theming Strategy
 
-- CSS variables define color tokens (`:root` + `.light` modifier)
-- `localStorage` key: `portfolio-theme`
-- System preference respected on first visit (`prefers-color-scheme`)
-- Toggle instantly swaps variables (no repaint thrash)
+-   CSS variables define color tokens (`:root` + `.light` modifier)
+-   `localStorage` key: `portfolio-theme`
+-   System preference respected on first visit (`prefers-color-scheme`)
+-   Toggle instantly swaps variables (no repaint thrash)
 
 ---
 
 ## 🧩 Architecture Notes
 
-| Concern | Implementation |
-|---------|----------------|
-| Animations | GPU-friendly transforms, reduced motion short-circuit |
-| Starfield | Three.js Points; limited particles + adaptive pixel ratio |
-| Typing Effect | Defer via `requestIdleCallback` (fallback timeout) |
-| Scroll Reveal | IntersectionObserver + graceful fallback |
-| RTL Fidelity | Direction-aware spacing + preserved marquee direction |
-| Fonts Loading | Preconnect to Google Fonts + separate Arabic font import |
+| Concern       | Implementation                                            |
+| ------------- | --------------------------------------------------------- |
+| Animations    | GPU-friendly transforms, reduced motion short-circuit     |
+| Starfield     | Three.js Points; limited particles + adaptive pixel ratio |
+| Typing Effect | Defer via `requestIdleCallback` (fallback timeout)        |
+| Scroll Reveal | IntersectionObserver + graceful fallback                  |
+| RTL Fidelity  | Direction-aware spacing + preserved marquee direction     |
+| Fonts Loading | Preconnect to Google Fonts + separate Arabic font import  |
 
 ---
 
@@ -113,32 +113,32 @@ Dev script runs two concurrent processes:
 
 Implemented:
 
-- `meta` description & author
-- Open Graph + Twitter card (large image)
-- Canonical + hreflang (`en`, `ar`, `x-default`)
-- `robots.txt` + `sitemap.xml`
-- JSON-LD: `Person`, `WebSite` (with `SearchAction`) both localized.
+-   `meta` description & author
+-   Open Graph + Twitter card (large image)
+-   Canonical + hreflang (`en`, `ar`, `x-default`)
+-   `robots.txt` + `sitemap.xml`
+-   JSON-LD: `Person`, `WebSite` (with `SearchAction`) both localized.
 
 Planned (optional):
 
-- `BreadcrumbList` (if multi-page expansion)
-- `Article` schema for reports/guides
-- Social preview custom composite image
+-   `BreadcrumbList` (if multi-page expansion)
+-   `Article` schema for reports/guides
+-   Social preview custom composite image
 
 ---
 
 ## ♿ Accessibility Considerations
 
-- Respects `prefers-reduced-motion`
-- High contrast accent colors
-- Focus visibility opt-in (`user-tabbing` class)
-- Semantic sections + meaningful alt text (needs continuous curation)
+-   Respects `prefers-reduced-motion`
+-   High contrast accent colors
+-   Focus visibility opt-in (`user-tabbing` class)
+-   Semantic sections + meaningful alt text (needs continuous curation)
 
 Roadmap:
 
-- Skip link & landmarks
-- ARIA roles refinement
-- Color contrast automated audit (Lighthouse / axe)
+-   Skip link & landmarks
+-   ARIA roles refinement
+-   Color contrast automated audit (Lighthouse / axe)
 
 ---
 
@@ -155,8 +155,8 @@ Workflow (`.github/workflows/ci.yml`):
 
 Extendable targets:
 
-- Add Pages deploy after merge
-- Add Lighthouse CI / Pa11y checks
+-   Add Pages deploy after merge
+-   Add Lighthouse CI / Pa11y checks
 
 ---
 
@@ -177,25 +177,25 @@ Future: PWA (manifest + service worker) for offline + installability.
 
 ## 📦 Scripts Reference
 
-| Script | Purpose |
-|--------|---------|
-| `dev` | Watch CSS + serve locally |
-| `watch:css` | Tailwind watch only |
-| `build` | Production CSS build/minify |
-| `format` | Prettier write |
-| `format:check` | Prettier verify |
+| Script         | Purpose                     |
+| -------------- | --------------------------- |
+| `dev`          | Watch CSS + serve locally   |
+| `watch:css`    | Tailwind watch only         |
+| `build`        | Production CSS build/minify |
+| `format`       | Prettier write              |
+| `format:check` | Prettier verify             |
 
 ---
 
 ## 🛣 Roadmap (Curated)
 
-- [ ] Accessibility: skip link, keyboard trap audit
-- [ ] Performance: pre-generate social share image (1200×630)
-- [ ] Add HTTP security headers (via deploy layer)
-- [ ] PWA: manifest + offline cache of critical assets
-- [ ] Add analytics (privacy-friendly, e.g., Plausible)
-- [ ] Automated visual regression (optional)
-- [ ] Expand multilingual content (blog/articles)
+-   [ ] Accessibility: skip link, keyboard trap audit
+-   [ ] Performance: pre-generate social share image (1200×630)
+-   [ ] Add HTTP security headers (via deploy layer)
+-   [ ] PWA: manifest + offline cache of critical assets
+-   [ ] Add analytics (privacy-friendly, e.g., Plausible)
+-   [ ] Automated visual regression (optional)
+-   [ ] Expand multilingual content (blog/articles)
 
 ---
 
@@ -229,9 +229,9 @@ Distributed under the MIT License. See `LICENSE` for details.
 
 ## 🙌 Acknowledgements
 
-- TailwindCSS team for an elegant utility-first framework
-- Three.js for lightweight WebGL abstractions
-- IBM Plex & Inter type designers
+-   TailwindCSS team for an elegant utility-first framework
+-   Three.js for lightweight WebGL abstractions
+-   IBM Plex & Inter type designers
 
 ---
 

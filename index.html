@@ -1,345 +1,670 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M. N. Jaber - AI Engineer Portfolio</title>
-    <meta name="description" content="Portfolio of M. N. Jaber, PhD-level AI Engineer specializing in LLMs, Retrieval-Augmented Generation, and end-to-end machine learning solutions." />
-    <meta name="author" content="M. N. Jaber" />
-    <meta name="keywords" content="AI Engineer, Machine Learning, LLM, RAG, Generative AI, Portfolio" />
-    <meta name="theme-color" content="#121212" />
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="M. N. Jaber - AI Engineer Portfolio" />
-    <meta property="og:description" content="PhD-level AI Engineer focused on LLM systems, retrieval architectures, and production ML pipelines." />
-    <meta property="og:image" content="images/website-photo.png" />
-    <meta property="og:image:alt" content="Portrait of M.N. Jaber" />
-    <meta property="og:url" content="https://mohammednasserahmed.github.io/portfolio/" />
-    <meta property="og:site_name" content="M. N. Jaber Portfolio" />
-    <meta property="og:locale" content="en_US" />
-    <link rel="alternate" hreflang="en" href="https://mohammednasserahmed.github.io/portfolio/" />
-    <link rel="alternate" hreflang="ar" href="https://mohammednasserahmed.github.io/portfolio/ar/" />
-    <link rel="alternate" hreflang="x-default" href="https://mohammednasserahmed.github.io/portfolio/" />
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="M. N. Jaber - AI Engineer Portfolio" />
-    <meta name="twitter:description" content="AI Engineer (PhD) building impactful LLM & ML solutions." />
-    <meta name="twitter:image" content="images/website-photo.png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link rel="preload" as="image" href="images/website-photo.png" imagesrcset="images/website-photo.png 1x" />
-    <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/" />
-    <link rel="stylesheet" href="dist/style.css">
-    <script src="js/main.js" defer></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>M. N. Jaber - AI Engineer Portfolio</title>
+        <meta
+            name="description"
+            content="Portfolio of M. N. Jaber, PhD-level AI Engineer specializing in LLMs, Retrieval-Augmented Generation, and end-to-end machine learning solutions."
+        />
+        <meta name="author" content="M. N. Jaber" />
+        <meta
+            name="keywords"
+            content="AI Engineer, Machine Learning, LLM, RAG, Generative AI, Portfolio"
+        />
+        <meta name="theme-color" content="#121212" />
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="M. N. Jaber - AI Engineer Portfolio" />
+        <meta
+            property="og:description"
+            content="PhD-level AI Engineer focused on LLM systems, retrieval architectures, and production ML pipelines."
+        />
+        <meta property="og:image" content="images/website-photo.png" />
+        <meta property="og:image:alt" content="Portrait of M.N. Jaber" />
+        <meta property="og:url" content="https://mohammednasserahmed.github.io/portfolio/" />
+        <meta property="og:site_name" content="M. N. Jaber Portfolio" />
+        <meta property="og:locale" content="en_US" />
+        <link
+            rel="alternate"
+            hreflang="en"
+            href="https://mohammednasserahmed.github.io/portfolio/"
+        />
+        <link
+            rel="alternate"
+            hreflang="ar"
+            href="https://mohammednasserahmed.github.io/portfolio/ar/"
+        />
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://mohammednasserahmed.github.io/portfolio/"
+        />
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="M. N. Jaber - AI Engineer Portfolio" />
+        <meta
+            name="twitter:description"
+            content="AI Engineer (PhD) building impactful LLM & ML solutions."
+        />
+        <meta name="twitter:image" content="images/website-photo.png" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <link
+            rel="preload"
+            as="image"
+            href="images/website-photo.png"
+            imagesrcset="images/website-photo.png 1x"
+        />
+        <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/" />
+        <link rel="stylesheet" href="dist/style.css" />
+        <script src="js/main.js" defer></script>
         <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "M. N. Jaber",
-            "url": "https://mohammednasserahmed.github.io/portfolio/",
-            "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
-            "jobTitle": "AI Engineer",
-            "description": "PhD-level AI Engineer specializing in LLM systems, Retrieval-Augmented Generation and production ML.",
-            "sameAs": [
-                "https://github.com/mohammedNasserAhmed",
-                "https://linkedin.com/in/m-n-g"
-            ]
-        }
-        </script>
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "M. N. Jaber Portfolio",
-            "url": "https://mohammednasserahmed.github.io/portfolio/",
-            "inLanguage": "en",
-            "description": "AI Engineer portfolio focused on LLM systems, retrieval architectures, and production ML pipelines.",
-            "publisher": {
+            {
+                "@context": "https://schema.org",
                 "@type": "Person",
                 "name": "M. N. Jaber",
-                "url": "https://mohammednasserahmed.github.io/portfolio/"
-            },
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": {
-                    "@type": "EntryPoint",
-                    "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/?q={search_term_string}"
-                },
-                "query-input": "required name=search_term_string"
+                "url": "https://mohammednasserahmed.github.io/portfolio/",
+                "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
+                "jobTitle": "AI Engineer",
+                "description": "PhD-level AI Engineer specializing in LLM systems, Retrieval-Augmented Generation and production ML.",
+                "sameAs": [
+                    "https://github.com/mohammedNasserAhmed",
+                    "https://linkedin.com/in/m-n-g"
+                ]
             }
-        }
         </script>
-        <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "M. N. Jaber Portfolio",
+                "url": "https://mohammednasserahmed.github.io/portfolio/",
+                "inLanguage": "en",
+                "description": "AI Engineer portfolio focused on LLM systems, retrieval architectures, and production ML pipelines.",
+                "publisher": {
+                    "@type": "Person",
+                    "name": "M. N. Jaber",
+                    "url": "https://mohammednasserahmed.github.io/portfolio/"
+                },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/?q={search_term_string}"
                     },
-                    colors: {
-                        'brand-red': '#D92323',
-                        'brand-dark': '#121212',
-                        'brand-gray': '#A0A0A0',
-                        'brand-light-gray': '#F5F5F5',
-                        'brand-card': '#1E1E1E'
-                    }
+                    "query-input": "required name=search_term_string"
                 }
             }
-        }
-    </script>
-</head>
-<body class="bg-brand-dark text-brand-light-gray font-sans">
-
-    <!-- Header & Navigation -->
-    <header class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white">
-                M. N. <span class="text-brand-red">Jaber</span>
-            </a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#summary" class="text-gray-300 hover:text-brand-red transition-colors">Summary</a>
-                <a href="#projects" class="text-gray-300 hover:text-brand-red transition-colors">Projects</a>
-                <a href="#skills" class="text-gray-300 hover:text-brand-red transition-colors">Skills</a>
-                <a href="#publications" class="text-gray-300 hover:text-brand-red transition-colors">Publications</a>
-                <a href="#contact" class="bg-brand-red text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold">Contact</a>
-                <button id="theme-toggle" class="ml-4 text-gray-300 hover:text-brand-red transition-colors flex items-center" aria-label="Toggle theme">
-                    <span id="theme-toggle-icon" class="inline-block">🌙</span>
+        </script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif']
+                        },
+                        colors: {
+                            'brand-red': '#D92323',
+                            'brand-dark': '#121212',
+                            'brand-gray': '#A0A0A0',
+                            'brand-light-gray': '#F5F5F5',
+                            'brand-card': '#1E1E1E'
+                        }
+                    }
+                }
+            };
+        </script>
+    </head>
+    <body class="bg-brand-dark text-brand-light-gray font-sans">
+        <!-- Header & Navigation -->
+        <header
+            class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20"
+        >
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-white">
+                    M. N. <span class="text-brand-red">Jaber</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#summary" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >Summary</a
+                    >
+                    <a href="#projects" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >Projects</a
+                    >
+                    <a href="#skills" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >Skills</a
+                    >
+                    <a
+                        href="#publications"
+                        class="text-gray-300 hover:text-brand-red transition-colors"
+                        >Publications</a
+                    >
+                    <a
+                        href="#contact"
+                        class="bg-brand-red text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold"
+                        >Contact</a
+                    >
+                    <button
+                        id="theme-toggle"
+                        class="ml-4 text-gray-300 hover:text-brand-red transition-colors flex items-center"
+                        aria-label="Toggle theme"
+                    >
+                        <span id="theme-toggle-icon" class="inline-block">🌙</span>
+                    </button>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-white">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
+            </nav>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+                <a href="#summary" class="block py-2 text-gray-300 hover:text-brand-red">Summary</a>
+                <a href="#projects" class="block py-2 text-gray-300 hover:text-brand-red"
+                    >Projects</a
+                >
+                <a href="#skills" class="block py-2 text-gray-300 hover:text-brand-red">Skills</a>
+                <a href="#publications" class="block py-2 text-gray-300 hover:text-brand-red"
+                    >Publications</a
+                >
+                <a
+                    href="#contact"
+                    class="block mt-2 bg-brand-red text-white px-4 py-2 rounded-lg text-center"
+                    >Contact</a
+                >
+                <button
+                    id="theme-toggle-mobile"
+                    class="mt-4 w-full bg-brand-card border border-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                    aria-label="Toggle theme (mobile)"
+                >
+                    Toggle Theme
                 </button>
             </div>
-            <button id="mobile-menu-button" class="md:hidden text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-            </button>
-        </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#summary" class="block py-2 text-gray-300 hover:text-brand-red">Summary</a>
-            <a href="#projects" class="block py-2 text-gray-300 hover:text-brand-red">Projects</a>
-            <a href="#skills" class="block py-2 text-gray-300 hover:text-brand-red">Skills</a>
-            <a href="#publications" class="block py-2 text-gray-300 hover:text-brand-red">Publications</a>
-            <a href="#contact" class="block mt-2 bg-brand-red text-white px-4 py-2 rounded-lg text-center">Contact</a>
-            <button id="theme-toggle-mobile" class="mt-4 w-full bg-brand-card border border-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors" aria-label="Toggle theme (mobile)">Toggle Theme</button>
-        </div>
-    </header>
+        </header>
 
-    <main class="container mx-auto px-6 py-12">
+        <main class="container mx-auto px-6 py-12">
+            <!-- Hero Section -->
+            <section
+                id="hero"
+                class="relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
+            >
+                <canvas id="hero-canvas"></canvas>
+                <div class="hero-content md:w-2/3 text-center md:text-left">
+                    <h1
+                        id="hero-title"
+                        class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
+                    >
+                        AI Engineer & <span class="gradient-text"></span>
+                    </h1>
+                    <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
+                        PhD-level AI Engineer with deep expertise in AI and ML, specializing in
+                        scalable, real-world solutions across supervised, unsupervised, and
+                        reinforcement learning.
+                    </p>
+                    <div class="mt-8 flex gap-4 justify-center md:justify-start">
+                        <a
+                            href="#contact"
+                            class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                            >Get In Touch</a
+                        >
+                        <a
+                            href="#projects"
+                            class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                            >View Work</a
+                        >
+                    </div>
+                </div>
+                <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-brand-red to-yellow-400 rounded-full blur-2xl opacity-30 animate-pulse"
+                        ></div>
+                        <img
+                            src="images/website-photo.png"
+                            alt="M. N. Jaber"
+                            class="relative w-full h-full object-cover rounded-full shadow-2xl shadow-brand-red/20 border-4 border-gray-800"
+                            onerror="this.onerror=null;this.src='https://placehold.co/320x320/1E1E1E/FFFFFF?text=M.N.J'"
+                        />
+                    </div>
+                </div>
+            </section>
 
-        <!-- Hero Section -->
-        <section id="hero" class="relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden">
-            <canvas id="hero-canvas"></canvas>
-            <div class="hero-content md:w-2/3 text-center md:text-left">
-                <h1 id="hero-title" class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
-                    AI Engineer & <span class="gradient-text"></span>
-                </h1>
-                <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
-                    PhD-level AI Engineer with deep expertise in AI and ML, specializing in scalable, real-world solutions across supervised, unsupervised, and reinforcement learning.
-                </p>
-                <div class="mt-8 flex gap-4 justify-center md:justify-start">
-                    <a href="#contact" class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">Get In Touch</a>
-                    <a href="#projects" class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">View Work</a>
+            <!-- Professional Summary Section -->
+            <section id="summary" class="my-24 fade-in-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">
+                    Professional Summary
+                </h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div
+                        class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800"
+                    >
+                        <h3 class="text-xl font-bold text-brand-red mb-2">
+                            End-to-End Machine Learning
+                        </h3>
+                        <p class="text-brand-gray">
+                            Expertise in the complete ML lifecycle, from data preprocessing and
+                            feature engineering to deploying high-performance ensemble models.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800"
+                    >
+                        <h3 class="text-xl font-bold text-brand-red mb-2">
+                            Generative AI & LLM Systems
+                        </h3>
+                        <p class="text-brand-gray">
+                            Skilled in building and optimizing LLMs using prompt engineering, RLHF,
+                            and LoRA/QLoRA fine-tuning for culturally-aware Arabic NLP.
+                        </p>
+                    </div>
+                    <div
+                        class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800"
+                    >
+                        <h3 class="text-xl font-bold text-brand-red mb-2">
+                            Advanced Retrieval & Vector Search
+                        </h3>
+                        <p class="text-brand-gray">
+                            Proficient in designing retrieval systems using dense/hybrid search and
+                            scalable vector databases like ChromaDB and Weaviate.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
-                <div class="relative w-64 h-64 md:w-80 md:h-80">
-                    <div class="absolute inset-0 bg-gradient-to-br from-brand-red to-yellow-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-                    <img src="images/website-photo.png" alt="M. N. Jaber" class="relative w-full h-full object-cover rounded-full shadow-2xl shadow-brand-red/20 border-4 border-gray-800"
-                    onerror="this.onerror=null;this.src='https://placehold.co/320x320/1E1E1E/FFFFFF?text=M.N.J'">
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Professional Summary Section -->
-        <section id="summary" class="my-24 fade-in-section">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Professional Summary</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800">
-                    <h3 class="text-xl font-bold text-brand-red mb-2">End-to-End Machine Learning</h3>
-                    <p class="text-brand-gray">Expertise in the complete ML lifecycle, from data preprocessing and feature engineering to deploying high-performance ensemble models.</p>
-                </div>
-                <div class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800">
-                    <h3 class="text-xl font-bold text-brand-red mb-2">Generative AI & LLM Systems</h3>
-                    <p class="text-brand-gray">Skilled in building and optimizing LLMs using prompt engineering, RLHF, and LoRA/QLoRA fine-tuning for culturally-aware Arabic NLP.</p>
-                </div>
-                <div class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800">
-                    <h3 class="text-xl font-bold text-brand-red mb-2">Advanced Retrieval & Vector Search</h3>
-                    <p class="text-brand-gray">Proficient in designing retrieval systems using dense/hybrid search and scalable vector databases like ChromaDB and Weaviate.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="my-24 fade-in-section">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Featured Projects</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800">
-                    <img src="https://placehold.co/600x400/D92323/121212?text=Arabic+RAG" alt="Project 1" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white">Culturally-Aware Arabic RAG System</h3>
-                        <p class="mt-2 text-brand-gray">Developed a Retrieval-Augmented Generation pipeline optimized for Arabic dialects, leveraging custom embeddings and a hybrid search approach.</p>
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">PyTorch</span>
-                            <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">Weaviate</span>
-                            <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">LLM Fine-Tuning</span>
+            <!-- Projects Section -->
+            <section id="projects" class="my-24 fade-in-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">Featured Projects</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div
+                        class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800"
+                    >
+                        <img
+                            src="https://placehold.co/600x400/D92323/121212?text=Arabic+RAG"
+                            alt="Project 1"
+                            class="w-full h-48 object-cover"
+                        />
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">
+                                Culturally-Aware Arabic RAG System
+                            </h3>
+                            <p class="mt-2 text-brand-gray">
+                                Developed a Retrieval-Augmented Generation pipeline optimized for
+                                Arabic dialects, leveraging custom embeddings and a hybrid search
+                                approach.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span
+                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                                    >PyTorch</span
+                                >
+                                <span
+                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                                    >Weaviate</span
+                                >
+                                <span
+                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                                    >LLM Fine-Tuning</span
+                                >
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800">
-                    <img src="https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent" alt="Project 2" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-white">Agentic AI for Data Analysis</h3>
-                        <p class="mt-2 text-brand-gray">Built an autonomous AI agent capable of performing complex data analysis tasks, from data cleaning to generating visualizations and reports.</p>
-                         <div class="mt-4 flex flex-wrap gap-2">
-                            <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">LangChain</span>
-                            <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">Pandas</span>
-                            <span class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full">OpenAI API</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Core Libraries & Skills Section -->
-        <section id="skills" class="my-24 fade-in-section overflow-hidden">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Core Technologies</h2>
-            <div class="skills-container">
-                <div class="skills-track">
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Python</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">PyTorch</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">TensorFlow</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Scikit-learn</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Pandas</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Docker</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">SQL</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Apache Spark</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">MLflow</span>
-                    <!-- Duplicate for seamless scroll -->
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Python</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">PyTorch</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">TensorFlow</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Scikit-learn</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Pandas</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Docker</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">SQL</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">Apache Spark</span>
-                    <span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">MLflow</span>
-                </div>
-            </div>
-        </section>
-
-         <!-- Training, Conferencing & Outreach Section -->
-        <section id="outreach" class="my-24 fade-in-section overflow-hidden">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Training, Conferencing & Outreach</h2>
-            <div class="outreach-scroller">
-                <div class="outreach-track">
-                    <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image">
-                    <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image">
-                    <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image">
-                    <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image">
-                    <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image">
-                    <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image">
-                    <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image">
-                    <!-- Duplicate images for seamless scroll -->
-                    <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image">
-                    <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image">
-                    <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image">
-                    <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image">
-                    <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image">
-                    <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image">
-                    <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image">
-                </div>
-            </div>
-        </section>
-
-        <!-- Publications Section -->
-        <section id="publications" class="my-24 fade-in-section">
-            <h2 class="text-3xl font-bold text-center mb-12 text-white">Guides & Reports</h2>
-            <div class="space-y-8">
-                <div class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800">
-                    <img src="docs/report.png" alt="Report Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
-                    <div class="flex-1">
-                        <p class="text-sm text-gray-500">Published: January, 2025</p>
-                        <h3 class="text-xl font-bold text-white mt-1">2024 AI Recap: A Comprehensive Year-in-Review</h3>
-                        <p class="mt-2 text-brand-gray">An in-depth annual report analyzing key breakthroughs, emerging trends, and significant milestones in AI throughout 2024.</p>
-                        <a href="#" class="text-brand-red font-semibold mt-4 inline-block hover:underline">Read More &rarr;</a>
-                    </div>
-                </div>
-                 <div class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800">
-                    <img src="docs/guide.png" alt="Guide Cover" class="w-full md:w-1/4 h-auto rounded-md object-cover">
-                    <div class="flex-1">
-                        <p class="text-sm text-gray-500">Published: July, 2025</p>
-                        <h3 class="text-xl font-bold text-white mt-1">Choosing the Right IT Major: A Student's Guide</h3>
-                        <p class="mt-2 text-brand-gray">A practical guide for students on making informed decisions about their IT education, outlining career paths and required skills.</p>
-                        <a href="#" class="text-brand-red font-semibold mt-4 inline-block hover:underline">Read More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education & Training Section -->
-        <section id="education" class="my-24 fade-in-section">
-            <div class="grid md:grid-cols-5 gap-8">
-                <div class="md:col-span-3">
-                    <h2 class="text-3xl font-bold mb-8 text-white">Education</h2>
-                     <div class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full">
-                        <div class="relative border-l-2 border-gray-700 pl-8">
-                            <div class="mb-8">
-                                <div class="absolute w-4 h-4 bg-brand-red rounded-full -left-2.5 mt-1.5 border-4 border-brand-card"></div>
-                                <p class="text-sm text-gray-500">2021 - Present</p>
-                                <h3 class="text-lg font-bold text-white">PhD in Computer Science and Engineering</h3>
-                                <p class="text-brand-gray">VGU, Rajasthan, India</p>
-                            </div>
-                            <div class="mb-8">
-                                <div class="absolute w-4 h-4 bg-brand-red rounded-full -left-2.5 mt-1.5 border-4 border-brand-card"></div>
-                                <p class="text-sm text-gray-500">2016 - 2019</p>
-                                <h3 class="text-lg font-bold text-white">Master of Information Systems, MSc</h3>
-                                <p class="text-brand-gray">Osmania University, Hyderabad, India</p>
-                            </div>
-                            <div>
-                                <div class="absolute w-4 h-4 bg-brand-red rounded-full -left-2.5 mt-1.5 border-4 border-brand-card"></div>
-                                <p class="text-sm text-gray-500">2010 - 2014</p>
-                                <h3 class="text-lg font-bold text-white">Bachelor of Computer Science</h3>
-                                <p class="text-brand-gray">Al-Ahgaff University, Yemen</p>
+                    <div
+                        class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800"
+                    >
+                        <img
+                            src="https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent"
+                            alt="Project 2"
+                            class="w-full h-48 object-cover"
+                        />
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">
+                                Agentic AI for Data Analysis
+                            </h3>
+                            <p class="mt-2 text-brand-gray">
+                                Built an autonomous AI agent capable of performing complex data
+                                analysis tasks, from data cleaning to generating visualizations and
+                                reports.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span
+                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                                    >LangChain</span
+                                >
+                                <span
+                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                                    >Pandas</span
+                                >
+                                <span
+                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
+                                    >OpenAI API</span
+                                >
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="md:col-span-2">
-                    <h2 class="text-3xl font-bold mb-8 text-white">Outreach</h2>
-                    <div class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full">
-                        <ul class="space-y-4">
-                           <li class="flex items-start"><span class="text-brand-red mr-3 mt-1">&#10003;</span><span class="text-brand-gray">Delivered hands-on AI technical camps.</span></li>
-                           <li class="flex items-start"><span class="text-brand-red mr-3 mt-1">&#10003;</span><span class="text-brand-gray">Conducted private training for government & academia.</span></li>
-                           <li class="flex items-start"><span class="text-brand-red mr-3 mt-1">&#10003;</span><span class="text-brand-gray">Organized AI bootcamps for students.</span></li>
-                           <li class="flex items-start"><span class="text-brand-red mr-3 mt-1">&#10003;</span><span class="text-brand-gray">Led public AI conferences to promote AI literacy.</span></li>
-                        </ul>
+            </section>
+
+            <!-- Core Libraries & Skills Section -->
+            <section id="skills" class="my-24 fade-in-section overflow-hidden">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">Core Technologies</h2>
+                <div class="skills-container">
+                    <div class="skills-track">
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Python</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >PyTorch</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >TensorFlow</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Scikit-learn</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Pandas</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Docker</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >SQL</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Apache Spark</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >MLflow</span
+                        >
+                        <!-- Duplicate for seamless scroll -->
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Python</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >PyTorch</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >TensorFlow</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Scikit-learn</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Pandas</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Docker</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >SQL</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >Apache Spark</span
+                        >
+                        <span
+                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
+                            >MLflow</span
+                        >
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </main>
+            <!-- Training, Conferencing & Outreach Section -->
+            <section id="outreach" class="my-24 fade-in-section overflow-hidden">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">
+                    Training, Conferencing & Outreach
+                </h2>
+                <div class="outreach-scroller">
+                    <div class="outreach-track">
+                        <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image" />
+                        <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image" />
+                        <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image" />
+                        <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image" />
+                        <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image" />
+                        <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image" />
+                        <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image" />
+                        <!-- Duplicate images for seamless scroll -->
+                        <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image" />
+                        <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image" />
+                        <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image" />
+                        <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image" />
+                        <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image" />
+                        <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image" />
+                        <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image" />
+                    </div>
+                </div>
+            </section>
 
-    <!-- Footer & Contact -->
-    <footer id="contact" class="bg-black text-white border-t border-gray-800">
-        <div class="container mx-auto px-6 py-12">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold">Let's Build the Future of AI Together</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-brand-gray">I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.</p>
-                <a href="mailto:mohnasgr@ainarabic.io" class="mt-8 inline-block bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">mohnasgr@ainarabic.io</a>
-            </div>
-            <div class="mt-12 flex justify-center space-x-6">
-                 <a href="https://github.com/mohammedNasserAhmed" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
-                <a href="https://linkedin.com/in/m-n-g" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-                <a href="https://whatsapp.com/channel/ainarabic" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.457l-6.354 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.273-.099-.471-.148-.67.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.67-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.793.372c-.273.297-1.046 1.016-1.046 2.479 0 1.462 1.07 2.865 1.218 3.064.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
-            </div>
-            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
-                <p>&copy; 2025 M. N. Jaber. All Rights Reserved. Designed & Coded with a passion for AI.</p>
-            </div>
-        </div>
-    </footer>
+            <!-- Publications Section -->
+            <section id="publications" class="my-24 fade-in-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">Guides & Reports</h2>
+                <div class="space-y-8">
+                    <div
+                        class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800"
+                    >
+                        <img
+                            src="docs/report.png"
+                            alt="Report Cover"
+                            class="w-full md:w-1/4 h-auto rounded-md object-cover"
+                        />
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-500">Published: January, 2025</p>
+                            <h3 class="text-xl font-bold text-white mt-1">
+                                2024 AI Recap: A Comprehensive Year-in-Review
+                            </h3>
+                            <p class="mt-2 text-brand-gray">
+                                An in-depth annual report analyzing key breakthroughs, emerging
+                                trends, and significant milestones in AI throughout 2024.
+                            </p>
+                            <a
+                                href="#"
+                                class="text-brand-red font-semibold mt-4 inline-block hover:underline"
+                                >Read More &rarr;</a
+                            >
+                        </div>
+                    </div>
+                    <div
+                        class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800"
+                    >
+                        <img
+                            src="docs/guide.png"
+                            alt="Guide Cover"
+                            class="w-full md:w-1/4 h-auto rounded-md object-cover"
+                        />
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-500">Published: July, 2025</p>
+                            <h3 class="text-xl font-bold text-white mt-1">
+                                Choosing the Right IT Major: A Student's Guide
+                            </h3>
+                            <p class="mt-2 text-brand-gray">
+                                A practical guide for students on making informed decisions about
+                                their IT education, outlining career paths and required skills.
+                            </p>
+                            <a
+                                href="#"
+                                class="text-brand-red font-semibold mt-4 inline-block hover:underline"
+                                >Read More &rarr;</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Scripts handled via external js/main.js -->
-</body>
+            <!-- Education & Training Section -->
+            <section id="education" class="my-24 fade-in-section">
+                <div class="grid md:grid-cols-5 gap-8">
+                    <div class="md:col-span-3">
+                        <h2 class="text-3xl font-bold mb-8 text-white">Education</h2>
+                        <div
+                            class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full"
+                        >
+                            <div class="relative border-l-2 border-gray-700 pl-8">
+                                <div class="mb-8">
+                                    <div
+                                        class="absolute w-4 h-4 bg-brand-red rounded-full -left-2.5 mt-1.5 border-4 border-brand-card"
+                                    ></div>
+                                    <p class="text-sm text-gray-500">2021 - Present</p>
+                                    <h3 class="text-lg font-bold text-white">
+                                        PhD in Computer Science and Engineering
+                                    </h3>
+                                    <p class="text-brand-gray">VGU, Rajasthan, India</p>
+                                </div>
+                                <div class="mb-8">
+                                    <div
+                                        class="absolute w-4 h-4 bg-brand-red rounded-full -left-2.5 mt-1.5 border-4 border-brand-card"
+                                    ></div>
+                                    <p class="text-sm text-gray-500">2016 - 2019</p>
+                                    <h3 class="text-lg font-bold text-white">
+                                        Master of Information Systems, MSc
+                                    </h3>
+                                    <p class="text-brand-gray">
+                                        Osmania University, Hyderabad, India
+                                    </p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="absolute w-4 h-4 bg-brand-red rounded-full -left-2.5 mt-1.5 border-4 border-brand-card"
+                                    ></div>
+                                    <p class="text-sm text-gray-500">2010 - 2014</p>
+                                    <h3 class="text-lg font-bold text-white">
+                                        Bachelor of Computer Science
+                                    </h3>
+                                    <p class="text-brand-gray">Al-Ahgaff University, Yemen</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h2 class="text-3xl font-bold mb-8 text-white">Outreach</h2>
+                        <div
+                            class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full"
+                        >
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-brand-red mr-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >Delivered hands-on AI technical camps.</span
+                                    >
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-brand-red mr-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >Conducted private training for government & academia.</span
+                                    >
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-brand-red mr-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >Organized AI bootcamps for students.</span
+                                    >
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-brand-red mr-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >Led public AI conferences to promote AI literacy.</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer & Contact -->
+        <footer id="contact" class="bg-black text-white border-t border-gray-800">
+            <div class="container mx-auto px-6 py-12">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold">Let's Build the Future of AI Together</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-brand-gray">
+                        I'm always open to discussing new projects, creative ideas, or opportunities
+                        to be part of an ambitious vision. Feel free to reach out.
+                    </p>
+                    <a
+                        href="mailto:mohnasgr@ainarabic.io"
+                        class="mt-8 inline-block bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                        >mohnasgr@ainarabic.io</a
+                    >
+                </div>
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a
+                        href="https://github.com/mohammedNasserAhmed"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors"
+                        ><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                            /></svg
+                    ></a>
+                    <a
+                        href="https://linkedin.com/in/m-n-g"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors"
+                        ><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                            /></svg
+                    ></a>
+                    <a
+                        href="https://whatsapp.com/channel/ainarabic"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors"
+                        ><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.457l-6.354 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.273-.099-.471-.148-.67.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.67-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.793.372c-.273.297-1.046 1.016-1.046 2.479 0 1.462 1.07 2.865 1.218 3.064.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"
+                            /></svg
+                    ></a>
+                </div>
+                <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
+                    <p>
+                        &copy; 2025 M. N. Jaber. All Rights Reserved. Designed & Coded with a
+                        passion for AI.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Scripts handled via external js/main.js -->
+    </body>
 </html>
