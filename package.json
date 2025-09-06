@@ -10,7 +10,8 @@
         "watch:css": "tailwindcss -c tailwind.config.js -i ./css/style.css -o ./dist/style.css --watch",
         "build": "npm run build:css",
         "postbuild": "echo Build complete",
-        "dev": "concurrently -k -n CSS,WEB -c cyan,magenta \"npm:watch:css\" \"serve -l 5500\""
+        "dev": "concurrently -k -n CSS,WEB -c cyan,magenta \"npm:watch:css\" \"serve -l 5500\"",
+        "prepare": "husky install"
     },
     "devDependencies": {
         "prettier": "^3.2.5",
@@ -18,6 +19,13 @@
         "postcss": "^8.4.41",
         "autoprefixer": "^10.4.20",
         "serve": "^14.2.0",
-        "concurrently": "^8.2.2"
+        "concurrently": "^8.2.2",
+        "husky": "^9.0.11",
+        "lint-staged": "^15.2.2"
+    },
+    "lint-staged": {
+        "*.{html,css,js,json,md}": [
+            "prettier --write"
+        ]
     }
 }
