@@ -37,9 +37,22 @@
         />
         <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/ar/" />
         <link rel="preload" as="image" href="../images/website-photo.png" />
+        <link rel="manifest" href="../manifest.webmanifest" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="apple-touch-icon" href="../images/website-photo.png" />
         <link rel="stylesheet" href="../dist/style.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script src="../js/main.js" defer></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker
+                        .register('/portfolio/sw.js')
+                        .catch((e) => console.warn('SW reg failed', e));
+                });
+            }
+        </script>
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",

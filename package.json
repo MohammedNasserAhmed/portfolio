@@ -11,7 +11,11 @@
         "build": "npm run build:css",
         "postbuild": "echo Build complete",
         "dev": "concurrently -k -n CSS,WEB -c cyan,magenta \"npm:watch:css\" \"serve -l 5500\"",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "lint": "eslint . --ext .js",
+        "lint:fix": "eslint . --ext .js --fix",
+        "optimize:images": "imagemin images/* --out-dir=images/optimized",
+        "lighthouse": "node ./scripts/run-lh.mjs"
     },
     "devDependencies": {
         "prettier": "^3.2.5",
@@ -21,7 +25,15 @@
         "serve": "^14.2.0",
         "concurrently": "^8.2.2",
         "husky": "^9.0.11",
-        "lint-staged": "^15.2.2"
+        "lint-staged": "^15.2.2",
+        "eslint": "^9.9.0",
+        "eslint-plugin-import": "^2.29.1",
+        "@commitlint/cli": "^19.3.0",
+        "@commitlint/config-conventional": "^19.3.0",
+        "imagemin": "^9.0.1",
+        "imagemin-mozjpeg": "^10.0.0",
+        "imagemin-pngquant": "^10.0.0",
+        "lighthouse": "^12.1.0"
     },
     "lint-staged": {
         "*.{html,css,js,json,md}": [
