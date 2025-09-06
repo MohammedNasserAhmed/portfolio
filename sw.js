@@ -10,7 +10,7 @@ const CORE_ASSETS = [
     '/portfolio/ar/index.html',
     '/portfolio/offline.html',
     '/portfolio/dist/style.css',
-    '/portfolio/js/main.js',
+    '/portfolio/dist/main.js',
     '/portfolio/data/content.json',
     '/portfolio/data/content.ar.json',
     '/portfolio/images/website-photo.png',
