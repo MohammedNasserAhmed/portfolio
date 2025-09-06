@@ -115,15 +115,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSkills(items) {
         const track = document.getElementById('skills-track');
         if (!track) return;
+        const iconMap = {
+            Python: 'images/skills/python.svg',
+            PyTorch: 'images/skills/pytorch.svg',
+            TensorFlow: 'images/skills/tensorflow.svg',
+            'Scikit-learn': 'images/skills/scikit-learn.svg',
+            Pandas: 'images/skills/pandas.svg',
+            Docker: 'images/skills/docker.svg',
+            SQL: 'images/skills/sql.svg',
+            'Apache Spark': 'images/skills/spark.svg',
+            MLflow: 'images/skills/mlflow.svg'
+        };
         const tags = items
-            .map(
-                (s) =>
-                    `<span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">${escapeHTML(
-                        s
-                    )}</span>`
-            )
+            .map((s) => {
+                const src = iconMap[s] || '';
+                if (src) {
+                    return `<span class="skill-tag bg-gray-800 flex items-center justify-center p-2 rounded-full h-14 w-14"><img src="${escapeAttr(
+                        src
+                    )}" alt="${escapeAttr(s)} logo" class="h-10 w-10 object-contain" loading="lazy" /></span>`;
+                }
+                return `<span class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full">${escapeHTML(
+                    s
+                )}</span>`;
+            })
             .join('');
-        track.innerHTML = tags + tags; // duplicate for scroll loop effect
+        track.innerHTML = tags + tags; // duplicate for loop effect
     }
 
     function renderPublications(items) {
