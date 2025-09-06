@@ -153,8 +153,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return escapeHTML(str).replace(/`/g, '&#96;');
     }
 
-    // Simple content editing overlay (hash #admin) - non-persistent (console copy JSON)
-    if (window.location.hash === '#admin') {
+    // Simple content editing overlay (development only)
+    // Security model: Disabled on production (GitHub Pages). Accessible locally via:
+    //   #admin or #admin=<token> (token currently 'dev')
+    // NOTE: Static front-end cannot truly protect secrets; this is a safety gate to avoid
+    // accidental exposure in production.
+    const ADMIN_TOKEN = 'dev';
+    function isProductionHost() {
+        return /github\.io$/i.test(window.location.hostname);
+    }
+    function adminHashToken() {
+        const h = window.location.hash;
+        if (h === '#admin') return ADMIN_TOKEN; // legacy shortcut
+        if (h.startsWith('#admin=')) return h.split('=')[1] || '';
+        return null;
+    }
+    const candidateToken = adminHashToken();
+    if (!isProductionHost() && candidateToken === ADMIN_TOKEN) {
         injectAdminPanel();
     }
 
