@@ -22,6 +22,8 @@ export default [
                 clearTimeout: 'readonly',
                 clearInterval: 'readonly',
                 console: 'readonly',
+                fetch: 'readonly',
+                navigator: 'readonly',
                 THREE: 'readonly'
             }
         },

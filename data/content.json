@@ -1,0 +1,57 @@
+{
+    "summary": [
+        {
+            "title": "End-to-End Machine Learning",
+            "body": "Expertise in the complete ML lifecycle, from data preprocessing and feature engineering to deploying high-performance ensemble models."
+        },
+        {
+            "title": "Generative AI & LLM Systems",
+            "body": "Skilled in building and optimizing LLMs using prompt engineering, RLHF, and LoRA/QLoRA fine-tuning for culturally-aware Arabic NLP."
+        },
+        {
+            "title": "Advanced Retrieval & Vector Search",
+            "body": "Proficient in designing retrieval systems using dense/hybrid search and scalable vector databases like ChromaDB and Weaviate."
+        }
+    ],
+    "projects": [
+        {
+            "title": "Culturally-Aware Arabic RAG System",
+            "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+RAG",
+            "description": "Developed a Retrieval-Augmented Generation pipeline optimized for Arabic dialects, leveraging custom embeddings and a hybrid search approach.",
+            "tech": ["PyTorch", "Weaviate", "LLM Fine-Tuning"]
+        },
+        {
+            "title": "Agentic AI for Data Analysis",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent",
+            "description": "Built an autonomous AI agent capable of performing complex data analysis tasks, from data cleaning to generating visualizations and reports.",
+            "tech": ["LangChain", "Pandas", "OpenAI API"]
+        }
+    ],
+    "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn",
+        "Pandas",
+        "Docker",
+        "SQL",
+        "Apache Spark",
+        "MLflow"
+    ],
+    "publications": [
+        {
+            "title": "2024 AI Recap: A Comprehensive Year-in-Review",
+            "image": "docs/report.png",
+            "published": "January, 2025",
+            "description": "An in-depth annual report analyzing key breakthroughs, emerging trends, and significant milestones in AI throughout 2024.",
+            "link": "#"
+        },
+        {
+            "title": "Choosing the Right IT Major: A Student's Guide",
+            "image": "docs/guide.png",
+            "published": "July, 2025",
+            "description": "A practical guide for students on making informed decisions about their IT education, outlining career paths and required skills.",
+            "link": "#"
+        }
+    ]
+}

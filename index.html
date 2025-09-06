@@ -266,200 +266,33 @@
                 </div>
             </section>
 
-            <!-- Professional Summary Section -->
+            <!-- Professional Summary Section (dynamic) -->
             <section id="summary" class="my-24 fade-in-section">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">
                     Professional Summary
                 </h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div
-                        class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800"
-                    >
-                        <h3 class="text-xl font-bold text-brand-red mb-2">
-                            End-to-End Machine Learning
-                        </h3>
-                        <p class="text-brand-gray">
-                            Expertise in the complete ML lifecycle, from data preprocessing and
-                            feature engineering to deploying high-performance ensemble models.
-                        </p>
-                    </div>
-                    <div
-                        class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800"
-                    >
-                        <h3 class="text-xl font-bold text-brand-red mb-2">
-                            Generative AI & LLM Systems
-                        </h3>
-                        <p class="text-brand-gray">
-                            Skilled in building and optimizing LLMs using prompt engineering, RLHF,
-                            and LoRA/QLoRA fine-tuning for culturally-aware Arabic NLP.
-                        </p>
-                    </div>
-                    <div
-                        class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800"
-                    >
-                        <h3 class="text-xl font-bold text-brand-red mb-2">
-                            Advanced Retrieval & Vector Search
-                        </h3>
-                        <p class="text-brand-gray">
-                            Proficient in designing retrieval systems using dense/hybrid search and
-                            scalable vector databases like ChromaDB and Weaviate.
-                        </p>
-                    </div>
-                </div>
+                <div
+                    id="summary-cards"
+                    class="grid md:grid-cols-3 gap-8"
+                    data-dynamic="summary"
+                ></div>
             </section>
 
-            <!-- Projects Section -->
+            <!-- Projects Section (dynamic) -->
             <section id="projects" class="my-24 fade-in-section">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">Featured Projects</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div
-                        class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800"
-                    >
-                        <img
-                            src="https://placehold.co/600x400/D92323/121212?text=Arabic+RAG"
-                            alt="Project 1"
-                            class="w-full h-48 object-cover"
-                        />
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white">
-                                Culturally-Aware Arabic RAG System
-                            </h3>
-                            <p class="mt-2 text-brand-gray">
-                                Developed a Retrieval-Augmented Generation pipeline optimized for
-                                Arabic dialects, leveraging custom embeddings and a hybrid search
-                                approach.
-                            </p>
-                            <div class="mt-4 flex flex-wrap gap-2">
-                                <span
-                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
-                                    >PyTorch</span
-                                >
-                                <span
-                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
-                                    >Weaviate</span
-                                >
-                                <span
-                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
-                                    >LLM Fine-Tuning</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-brand-card rounded-lg shadow-lg overflow-hidden card-hover-effect border border-gray-800"
-                    >
-                        <img
-                            src="https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent"
-                            alt="Project 2"
-                            class="w-full h-48 object-cover"
-                        />
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-white">
-                                Agentic AI for Data Analysis
-                            </h3>
-                            <p class="mt-2 text-brand-gray">
-                                Built an autonomous AI agent capable of performing complex data
-                                analysis tasks, from data cleaning to generating visualizations and
-                                reports.
-                            </p>
-                            <div class="mt-4 flex flex-wrap gap-2">
-                                <span
-                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
-                                    >LangChain</span
-                                >
-                                <span
-                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
-                                    >Pandas</span
-                                >
-                                <span
-                                    class="bg-gray-700 text-gray-300 text-xs font-medium px-2.5 py-1 rounded-full"
-                                    >OpenAI API</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div
+                    id="projects-grid"
+                    class="grid md:grid-cols-2 gap-8"
+                    data-dynamic="projects"
+                ></div>
             </section>
 
-            <!-- Core Libraries & Skills Section -->
+            <!-- Core Libraries & Skills Section (dynamic) -->
             <section id="skills" class="my-24 fade-in-section overflow-hidden">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">Core Technologies</h2>
                 <div class="skills-container">
-                    <div class="skills-track">
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Python</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >PyTorch</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >TensorFlow</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Scikit-learn</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Pandas</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Docker</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >SQL</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Apache Spark</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >MLflow</span
-                        >
-                        <!-- Duplicate for seamless scroll -->
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Python</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >PyTorch</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >TensorFlow</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Scikit-learn</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Pandas</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Docker</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >SQL</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >Apache Spark</span
-                        >
-                        <span
-                            class="skill-tag bg-gray-800 text-gray-300 text-sm font-medium px-5 py-2 rounded-full"
-                            >MLflow</span
-                        >
-                    </div>
+                    <div id="skills-track" class="skills-track" data-dynamic="skills"></div>
                 </div>
             </section>
 
@@ -489,59 +322,10 @@
                 </div>
             </section>
 
-            <!-- Publications Section -->
+            <!-- Publications Section (dynamic) -->
             <section id="publications" class="my-24 fade-in-section">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">Guides & Reports</h2>
-                <div class="space-y-8">
-                    <div
-                        class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800"
-                    >
-                        <img
-                            src="docs/report.png"
-                            alt="Report Cover"
-                            class="w-full md:w-1/4 h-auto rounded-md object-cover"
-                        />
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-500">Published: January, 2025</p>
-                            <h3 class="text-xl font-bold text-white mt-1">
-                                2024 AI Recap: A Comprehensive Year-in-Review
-                            </h3>
-                            <p class="mt-2 text-brand-gray">
-                                An in-depth annual report analyzing key breakthroughs, emerging
-                                trends, and significant milestones in AI throughout 2024.
-                            </p>
-                            <a
-                                href="#"
-                                class="text-brand-red font-semibold mt-4 inline-block hover:underline"
-                                >Read More &rarr;</a
-                            >
-                        </div>
-                    </div>
-                    <div
-                        class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800"
-                    >
-                        <img
-                            src="docs/guide.png"
-                            alt="Guide Cover"
-                            class="w-full md:w-1/4 h-auto rounded-md object-cover"
-                        />
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-500">Published: July, 2025</p>
-                            <h3 class="text-xl font-bold text-white mt-1">
-                                Choosing the Right IT Major: A Student's Guide
-                            </h3>
-                            <p class="mt-2 text-brand-gray">
-                                A practical guide for students on making informed decisions about
-                                their IT education, outlining career paths and required skills.
-                            </p>
-                            <a
-                                href="#"
-                                class="text-brand-red font-semibold mt-4 inline-block hover:underline"
-                                >Read More &rarr;</a
-                            >
-                        </div>
-                    </div>
-                </div>
+                <div id="publications-list" class="space-y-8" data-dynamic="publications"></div>
             </section>
 
             <!-- Education & Training Section -->

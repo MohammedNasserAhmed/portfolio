@@ -11,6 +11,7 @@ const CORE_ASSETS = [
     '/portfolio/offline.html',
     '/portfolio/dist/style.css',
     '/portfolio/js/main.js',
+    '/portfolio/data/content.json',
     '/portfolio/images/website-photo.png',
     '/portfolio/manifest.webmanifest'
 ];
