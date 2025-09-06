@@ -17,7 +17,7 @@ Modern, multilingual (EN + AR), performance‑tuned, accessibility‑aware portf
 -   ⚡ Tailwind JIT build → purged & minified CSS (`dist/style.css`)
 -   🔍 SEO: canonical, hreflang, Open Graph, Twitter Card, robots.txt, sitemap (EN & AR)
 -   🧾 Structured Data: single JSON-LD `@graph` (Person + WebSite + SearchAction) per locale
--   � PWA: manifest + service worker (network‑first HTML, stale‑while‑revalidate CSS/JS, cache‑first images, offline fallback)
+-   📱 PWA: manifest + service worker (network‑first HTML, stale‑while‑revalidate CSS/JS, cache‑first images, offline fallback)
 -   🛠️ CI: Prettier, ESLint, Tailwind build, Lighthouse perf/accessibility/SEO audit
 -   🧪 Quality Gates: Husky pre-commit (lint-staged + formatting) & commitlint (Conventional Commits)
 -   🧩 Modular JS architecture (theme, interactions, deferred heavy tasks)
@@ -49,25 +49,25 @@ Modern, multilingual (EN + AR), performance‑tuned, accessibility‑aware portf
 
 ## 🏗 Technology Stack & Libraries
 
-| Area                    | Library / Tool                                              | Role & Rationale                                                                       |
-| ----------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Styling                 | **Tailwind CSS**                                            | Utility-first styling, rapid iteration, JIT purging for minimal output.                |
-| Styling post-processing | **PostCSS** + **Autoprefixer**                              | Vendor prefixing & pipeline for Tailwind build.                                        |
-| Layout/Theming          | CSS Custom Properties                                       | Theme tokens (dark/light) toggled at root without recomputing classes.                 |
-| Interactivity           | Vanilla JS                                                  | Keeps footprint small; progressive enhancement layered in.                             |
-| Graphics                | **Three.js**                                                | Lightweight starfield (Points geometry) with adaptive pixel ratio.                     |
-| Performance audits      | **Lighthouse**                                              | Automated perf/accessibility/SEO scoring in CI.                                        |
-| Code quality            | **ESLint** + `eslint-plugin-import`                         | Enforces consistent imports & modern JS hygiene.                                       |
-| Formatting              | **Prettier**                                                | Uniform formatting across HTML/CSS/JS/JSON/MD.                                         |
-| Commit conventions      | **commitlint** + **@commitlint/config-conventional**        | Ensures semantic commit messages for changelog / history clarity.                      |
-| Git hooks               | **Husky** + **lint-staged**                                 | Pre-commit formatting & quick feedback loops.                                          |
-| Accessibility & Motion  | `IntersectionObserver`, `requestIdleCallback`, `matchMedia` | Defers non-critical tasks, honors reduced-motion users.                                |
-| Dev server              | **serve**                                                   | Zero-config static preview for local & CI audits.                                      |
-| Parallel scripts        | **concurrently**                                            | Run CSS watch + local server simultaneously.                                           |
-| Images (local script)   | **imagemin** (mozjpeg/pngquant)                             | On-demand image optimization (pending potential migration due to upstream advisories). |
-| PWA                     | Web App Manifest + Service Worker                           | Installability & offline resilience with layered caching strategies.                   |
-| CI                      | GitHub Actions                                              | Deterministic build + audits on PR & main pushes.                                      |
-| i18n/Fonts              | Google Fonts (Inter / IBM Plex Sans Arabic)                 | High readability Latin + Arabic scripts with appropriate glyph coverage.               |
+| Area                    | Library / Tool                                              | Role & Rationale                                                         |
+| ----------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Styling                 | **Tailwind CSS**                                            | Utility-first styling, rapid iteration, JIT purging for minimal output.  |
+| Styling post-processing | **PostCSS** + **Autoprefixer**                              | Vendor prefixing & pipeline for Tailwind build.                          |
+| Layout/Theming          | CSS Custom Properties                                       | Theme tokens (dark/light) toggled at root without recomputing classes.   |
+| Interactivity           | Vanilla JS                                                  | Keeps footprint small; progressive enhancement layered in.               |
+| Graphics                | **Three.js**                                                | Lightweight starfield (Points geometry) with adaptive pixel ratio.       |
+| Performance audits      | **Lighthouse**                                              | Automated perf/accessibility/SEO scoring in CI.                          |
+| Code quality            | **ESLint** + `eslint-plugin-import`                         | Enforces consistent imports & modern JS hygiene.                         |
+| Formatting              | **Prettier**                                                | Uniform formatting across HTML/CSS/JS/JSON/MD.                           |
+| Commit conventions      | **commitlint** + **@commitlint/config-conventional**        | Ensures semantic commit messages for changelog / history clarity.        |
+| Git hooks               | **Husky** + **lint-staged**                                 | Pre-commit formatting & quick feedback loops.                            |
+| Accessibility & Motion  | `IntersectionObserver`, `requestIdleCallback`, `matchMedia` | Defers non-critical tasks, honors reduced-motion users.                  |
+| Dev server              | **serve**                                                   | Zero-config static preview for local & CI audits.                        |
+| Parallel scripts        | **concurrently**                                            | Run CSS watch + local server simultaneously.                             |
+| Images (local script)   | **sharp**                                                   | Fast native image optimization (replaced vulnerable imagemin toolchain). |
+| PWA                     | Web App Manifest + Service Worker                           | Installability & offline resilience with layered caching strategies.     |
+| CI                      | GitHub Actions                                              | Deterministic build + audits on PR & main pushes.                        |
+| i18n/Fonts              | Google Fonts (Inter / IBM Plex Sans Arabic)                 | High readability Latin + Arabic scripts with appropriate glyph coverage. |
 
 ---
 
@@ -185,8 +185,9 @@ Extendable targets:
 Add a GitHub Pages deploy job (after build on `main`). Optionally introduce:
 
 ```yaml
-on: push:
-	branches: [ main ]
+on:
+	push:
+		branches: [ main ]
 ```
 
 With a step using `actions/upload-pages-artifact` + `actions/deploy-pages`.
@@ -197,25 +198,25 @@ Already includes manifest + service worker (installable). Add `actions/deploy-pa
 
 ## 📦 Scripts Reference
 
-| Script            | Purpose                                                   |
-| ----------------- | --------------------------------------------------------- |
-| `dev`             | Watch CSS + serve locally                                 |
-| `watch:css`       | Tailwind watch only                                       |
-| `build`           | Production CSS build/minify                               |
-| `build:css`       | Alias for CSS build pipeline                              |
-| `format`          | Prettier write                                            |
-| `format:check`    | Prettier verify                                           |
-| `lint`            | ESLint scan                                               |
-| `lint:fix`        | ESLint auto-fix                                           |
-| `optimize:images` | Lossy optimize (PNG/JPEG) via imagemin (optional / local) |
-| `lighthouse`      | Programmatic Lighthouse audit                             |
+| Script            | Purpose                                    |
+| ----------------- | ------------------------------------------ |
+| `dev`             | Watch CSS + serve locally                  |
+| `watch:css`       | Tailwind watch only                        |
+| `build`           | Production CSS build/minify                |
+| `build:css`       | Alias for CSS build pipeline               |
+| `format`          | Prettier write                             |
+| `format:check`    | Prettier verify                            |
+| `lint`            | ESLint scan                                |
+| `lint:fix`        | ESLint auto-fix                            |
+| `optimize:images` | Optimize PNG/JPEG via sharp (local script) |
+| `lighthouse`      | Programmatic Lighthouse audit              |
 
 ---
 
 ## 🛣 Roadmap (Curated)
 
--   [ ] Replace CDN Three.js with local bundled version (tree-shaken)
--   [ ] Migrate imagemin toolchain → **sharp** (fewer transitive binaries / vulns)
+-   [x] Replace CDN Three.js with local vendored module (tree-shaken later)
+-   [x] Migrate imagemin toolchain → **sharp** (fewer transitive binaries / vulns)
 -   [ ] Add performance budgets (Lighthouse score floors)
 -   [ ] Generate social preview composite image (1200×630)
 -   [ ] Add HTTP security headers (Pages / Netlify config)
@@ -262,12 +263,8 @@ Distributed under the MIT License. See `LICENSE` for details.
 
 ---
 
----
-
 Crafted with clean architecture, semantic HTML, progressive enhancement, and future extensibility in mind.
-
----
 
 ### 🔒 Security Note
 
-Current `imagemin` (mozjpeg/pngquant) chain surfaces several high advisory notices (transitive native binary tooling). If strict supply-chain minimization is required, consider swapping to **sharp** or removing the optimization dev dependencies and performing image compression externally.
+Replaced vulnerable imagemin chain with **sharp** (native bindings). Keep dependencies patched and periodically review `npm audit` output.
