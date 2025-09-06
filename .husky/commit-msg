@@ -1,3 +1,1 @@
-#!/bin/sh
-. "$(dirname -- "$0")/_/husky.sh" 2>/dev/null || true
 npx commitlint --edit "$1"

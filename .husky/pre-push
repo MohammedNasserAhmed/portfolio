@@ -1,0 +1,5 @@
+#!/bin/sh
+# Pre-push quality gate
+npm run lint || exit 1
+npm run validate:content || exit 1
+npm run build || exit 1

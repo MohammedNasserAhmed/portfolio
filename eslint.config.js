@@ -3,6 +3,8 @@ import pluginImport from 'eslint-plugin-import';
 
 // Flat config with per-environment globals so "no-undef" stops flagging browser / SW / Node built-ins.
 export default [
+    // Global ignores (build artifacts etc.)
+    { ignores: ['dist/**'] },
     js.configs.recommended,
     // Generic JS / MJS (browser – site scripts)
     {
@@ -22,11 +24,16 @@ export default [
                 clearTimeout: 'readonly',
                 clearInterval: 'readonly',
                 console: 'readonly',
+                fetch: 'readonly',
+                navigator: 'readonly',
                 THREE: 'readonly'
             }
         },
         rules: {
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+            'no-unused-vars': [
+                'warn',
+                { argsIgnorePattern: '^_{1,2}', varsIgnorePattern: '^_{1,2}', caughtErrors: 'none' }
+            ],
             'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
             'import/order': [
                 'warn',
@@ -62,7 +69,10 @@ export default [
             }
         },
         rules: {
-            'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+            'no-unused-vars': [
+                'warn',
+                { argsIgnorePattern: '^_{1,2}', varsIgnorePattern: '^_{1,2}', caughtErrors: 'none' }
+            ],
             'no-console': 'off'
         }
     }
