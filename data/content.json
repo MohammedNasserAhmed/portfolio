@@ -13,22 +13,6 @@
             "body": "Proficient in designing retrieval systems using dense/hybrid search and scalable vector databases like ChromaDB and Weaviate."
         }
     ],
-    "projects": [
-        {
-            "title": "Culturally-Aware Arabic RAG System",
-            "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+RAG",
-            "description": "Developed a Retrieval-Augmented Generation pipeline optimized for Arabic dialects, leveraging custom embeddings and a hybrid search approach.",
-            "tech": ["PyTorch", "Weaviate", "LLM Fine-Tuning"],
-            "githubUrl": "https://github.com/your-user/arabic-rag"
-        },
-        {
-            "title": "Agentic AI for Data Analysis",
-            "image": "https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent",
-            "description": "Built an autonomous AI agent capable of performing complex data analysis tasks, from data cleaning to generating visualizations and reports.",
-            "tech": ["LangChain", "Pandas", "OpenAI API"],
-            "githubUrl": "https://github.com/your-user/agentic-data-analyst"
-        }
-    ],
     "skills": [
         "Python",
         "PyTorch",
@@ -39,35 +23,6 @@
         "SQL",
         "Apache Spark",
         "MLflow"
-    ],
-    "skillsData": [
-        { "name": "Python", "percent": 92, "category": "ML/AI", "level": "Expert", "xp": "6y" },
-        { "name": "PyTorch", "percent": 88, "category": "ML/AI", "level": "Advanced", "xp": "4y" },
-        {
-            "name": "TensorFlow",
-            "percent": 75,
-            "category": "ML/AI",
-            "level": "Advanced",
-            "xp": "3y"
-        },
-        {
-            "name": "Scikit-learn",
-            "percent": 85,
-            "category": "ML/AI",
-            "level": "Advanced",
-            "xp": "5y"
-        },
-        { "name": "Pandas", "percent": 90, "category": "Data", "level": "Expert", "xp": "6y" },
-        { "name": "Docker", "percent": 80, "category": "DevOps", "level": "Advanced", "xp": "4y" },
-        { "name": "SQL", "percent": 83, "category": "Data", "level": "Advanced", "xp": "7y" },
-        {
-            "name": "Apache Spark",
-            "percent": 70,
-            "category": "Data",
-            "level": "Intermediate",
-            "xp": "2y"
-        },
-        { "name": "MLflow", "percent": 76, "category": "MLOps", "level": "Advanced", "xp": "3y" }
     ],
     "publications": [
         {
