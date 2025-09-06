@@ -25,8 +25,8 @@ jobs:
         run: npm run lint
       - name: Validate content JSON schema
         run: npm run validate:content
-      - name: Build CSS
-        run: npm run build:css
+      - name: Build (CSS + JS)
+        run: NODE_ENV=production npm run build
       - name: Start static server
         run: npx serve -l 5500 &
       - name: Wait for server
