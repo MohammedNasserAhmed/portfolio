@@ -12,6 +12,7 @@ const CORE_ASSETS = [
     '/portfolio/dist/style.css',
     '/portfolio/js/main.js',
     '/portfolio/data/content.json',
+    '/portfolio/data/content.ar.json',
     '/portfolio/images/website-photo.png',
     '/portfolio/manifest.webmanifest'
 ];

@@ -62,7 +62,9 @@ console.log('Portfolio site loaded');
 // ---- Site Interactions (moved from inline) ----
 document.addEventListener('DOMContentLoaded', () => {
     // Dynamic content injection
-    fetch('data/content.json')
+    const isArabic = document.documentElement.lang === 'ar';
+    const contentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
+    fetch(contentPath)
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((data) => {
             renderSummary(data.summary || []);
