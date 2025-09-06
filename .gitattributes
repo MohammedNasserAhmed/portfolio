@@ -1,0 +1,29 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Explicitly mark text file types (helps on older git versions)
+*.js text
+*.ts text
+*.jsx text
+*.tsx text
+*.css text
+*.html text
+*.md text
+*.json text
+*.yml text
+*.yaml text
+*.cjs text
+*.mjs text
+
+# Binary / should not be modified by Git line ending normalization
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+
+# Keep lockfile as LF
+package-lock.json text eol=lf
