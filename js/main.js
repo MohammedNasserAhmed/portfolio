@@ -1,63 +1,13 @@
 // Main JavaScript file for portfolio project
 // (Removed startup console.log to keep console clean in production)
 
-// Theme toggle logic (restored)
-(function () {
-    const root = document.documentElement; // using :root for variables
-    const STORAGE_KEY = 'portfolio-theme';
-    const toggleBtn = document.getElementById('theme-toggle');
-    const toggleBtnMobile = document.getElementById('theme-toggle-mobile');
-    const iconSpan = document.getElementById('theme-toggle-icon');
-
-    function applyTheme(mode) {
-        if (mode === 'light') {
-            root.classList.add('light');
-            if (iconSpan) iconSpan.textContent = '🌞';
-        } else {
-            root.classList.remove('light');
-            if (iconSpan) iconSpan.textContent = '🌙';
-        }
-    }
-
-    function currentPrefersLight() {
-        return window.matchMedia('(prefers-color-scheme: light)').matches;
-    }
-
-    function getStoredTheme() {
-        try {
-            return localStorage.getItem(STORAGE_KEY);
-        } catch (__e) {
-            return null;
-        }
-    }
-
-    function storeTheme(mode) {
-        try {
-            localStorage.setItem(STORAGE_KEY, mode);
-        } catch (__e) {
-            /* ignore */
-        }
-    }
-
-    function initTheme() {
-        const stored = getStoredTheme();
-        const mode = stored || (currentPrefersLight() ? 'light' : 'dark');
-        applyTheme(mode);
-    }
-
-    function toggleTheme() {
-        const isLight = root.classList.contains('light');
-        const next = isLight ? 'dark' : 'light';
-        applyTheme(next);
-        storeTheme(next);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        initTheme();
-        if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
-        if (toggleBtnMobile) toggleBtnMobile.addEventListener('click', toggleTheme);
-    });
-})();
+// Force dark theme only (light mode disabled)
+document.documentElement.classList.remove('light');
+try {
+    localStorage.removeItem('portfolio-theme');
+} catch (_e) {
+    // ignore storage access issues
+}
 
 // ---- Site Interactions (moved from inline) ----
 document.addEventListener('DOMContentLoaded', () => {
@@ -67,17 +17,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseContentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
     const v = (window.BUILD_VERSION || '').toString();
     const contentPath = v ? `${baseContentPath}?v=${v}` : baseContentPath;
+    function hydrateFromData(data) {
+        renderSummary(data.summary || []);
+        renderProjects(data.projects || []);
+        renderSkills(data.skills || []);
+        renderPublications(data.publications || []);
+        window.__PORTFOLIO_DATA__ = data;
+    }
     fetch(contentPath, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-        .then((data) => {
-            renderSummary(data.summary || []);
-            renderProjects(data.projects || []);
-            renderSkills(data.skills || []);
-            renderPublications(data.publications || []);
-            window.__PORTFOLIO_DATA__ = data; // expose for simple admin edits
-        })
-        .catch((err) => {
-            console.warn('Content fetch failed:', err);
+        .then(hydrateFromData)
+        .catch((_err1) => {
+            // Retry without version query
+            fetch(baseContentPath)
+                .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+                .then(hydrateFromData)
+                .catch((_err2) => {
+                    console.warn('Content fetch failed twice; injecting fallback');
+                    hydrateFromData({
+                        summary: [
+                            {
+                                title: 'Portfolio Loading Issue',
+                                body: 'Default fallback content loaded because data file could not be fetched.'
+                            }
+                        ],
+                        projects: [],
+                        skills: [],
+                        publications: []
+                    });
+                });
         });
 
     function renderSummary(items) {
