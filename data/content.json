@@ -44,11 +44,20 @@
     ],
     "projects": [
         {
-            "title": "Culturally-Aware Arabic RAG System",
-            "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+RAG",
-            "description": "Developed a Retrieval-Augmented Generation pipeline optimized for Arabic dialects, leveraging custom embeddings and a hybrid search approach.",
-            "tech": ["PyTorch", "Weaviate", "LLM Fine-Tuning"],
-            "githubUrl": "https://github.com/your-user/arabic-rag"
+            "title": "Arabic PDF Chat 📚💬",
+            "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+PDF+Chat",
+            "description": "Arabic Chat with PDF is an innovative tool designed to enable users to interactively query Arabic PDF documents. Powered by state-of-the-art language models and document processing libraries, this application extracts, processes, and retrieves meaningful insights from Arabic text documents.",
+            "tech": [
+                "Gradio",
+                "PyPDF2",
+                "LangChain",
+                "LangChain",
+                "gTTS",
+                "Gemma2",
+                "pytesseract",
+                "sentence-transformers"
+            ],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/arabic-pdf-chat"
         },
         {
             "title": "Agentic AI for Data Analysis",
@@ -64,14 +73,14 @@
             "image": "docs/report.png",
             "published": "January, 2025",
             "description": "An in-depth annual report analyzing key breakthroughs, emerging trends, and significant milestones in AI throughout 2024.",
-            "link": "#"
+            "link": "https://drive.google.com/file/d/18fNhv7TPk8bQEYenf1tGq90D3Xr8iit-/view?usp=drive_link"
         },
         {
             "title": "Choosing the Right IT Major: A Student's Guide",
             "image": "docs/guide.png",
             "published": "July, 2025",
             "description": "A practical guide for students on making informed decisions about their IT education, outlining career paths and required skills.",
-            "link": "#"
+            "link": "https://drive.google.com/file/d/1YMuC7OXdCTXvC5wjEQwKadV5tsNQ6f0K/view?usp=drive_link"
         }
     ]
 }
