@@ -59,11 +59,18 @@
             "githubUrl": "https://github.com/MohammedNasserAhmed/arabic-pdf-chat"
         },
         {
-            "title": "Agentic AI for Data Analysis",
-            "image": "https://placehold.co/600x400/333333/FFFFFF?text=AI+Agent",
-            "description": "Built an autonomous AI agent capable of performing complex data analysis tasks, from data cleaning to generating visualizations and reports.",
-            "tech": ["LangChain", "Pandas", "OpenAI API"],
-            "githubUrl": "https://github.com/your-user/agentic-data-analyst"
+            "title": "aiNarabic Hub",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=aiNarabic+Hub",
+            "description": "Our aiNarabic Hub is the official web presence for the aiNarabic initiative. It's designed to be a central hub for the Arabic-speaking community to explore the world of Artificial Intelligence. The platform is built from the ground up using a modern, performant, and scalable tech stack. open-source.",
+            "tech": ["React", "Tailwind", "Vite", "Vercel", "TypeScript", "Next.js"],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/ainarabic-hub"
+        },
+        {
+            "title": "ATS Cover Letter Generator",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=ATS+Cover+Letter+Generator",
+            "description": "The ATS Cover Letter Generator bridges the gap between job seekers and employers by leveraging AI to create perfectly tailored, Applicant Tracking System (ATS) optimized cover letters. Using Groq's high-performance LLaMA-3.1-8B-Instant API, the application analyzes your resume and job descriptions to craft compelling cover letters that increase your chances of interview selection.",
+            "tech": ["Streamlit", "Docker", "RAG", "llama", "Groq", "Python"],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/ats-cover-letter-generator"
         }
     ],
     "publications": [
