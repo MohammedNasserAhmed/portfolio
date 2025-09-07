@@ -1374,10 +1374,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetRY = 0;
                 const damp = 0.12;
                 function animateTilt() {
-                    const currentRX =
-                        parseFloat(getComputedStyle(heroPhoto).getPropertyValue('--tilt-rx')) || 0;
-                    const currentRY =
-                        parseFloat(getComputedStyle(heroPhoto).getPropertyValue('--tilt-ry')) || 0;
+                    const cs = window.getComputedStyle ? window.getComputedStyle(heroPhoto) : null;
+                    const currentRX = cs ? parseFloat(cs.getPropertyValue('--tilt-rx')) || 0 : 0;
+                    const currentRY = cs ? parseFloat(cs.getPropertyValue('--tilt-ry')) || 0 : 0;
                     const nextRX = currentRX + (targetRX - currentRX) * damp;
                     const nextRY = currentRY + (targetRY - currentRY) * damp;
                     heroPhoto.style.setProperty('--tilt-rx', nextRX + 'deg');
@@ -1410,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let hero3DInitialized = false;
             let threeCanvas = null;
             let threeRenderer, threeScene, threeCamera, threeModel, threeFrameId;
-            const originalClasses = heroPhoto.className;
+            // originalClasses removed (unused)
             const prefersRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
             function buildPedestalGeometry(THREE) {
@@ -1505,10 +1504,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 threeModel.add(portrait);
                 threeScene.add(threeModel);
                 // Auto slow oscillation
-                let t0 = window.performance ? performance.now() : Date.now();
+                let t0 =
+                    window.performance && window.performance.now
+                        ? window.performance.now()
+                        : Date.now();
                 let manualRotationY = 0; // declare before render to avoid TDZ issues
                 function render() {
-                    const now = window.performance ? performance.now() : Date.now();
+                    const now =
+                        window.performance && window.performance.now
+                            ? window.performance.now()
+                            : Date.now();
                     const t = now - t0;
                     const base = Math.sin(t * 0.0004) * 0.35;
                     threeModel.rotation.y = base + manualRotationY;
@@ -1625,7 +1630,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dx = mx / 100 - 0.5;
                 const dy = my / 100 - 0.5;
                 const declaredTilt = parseFloat(
-                    getComputedStyle(card).getPropertyValue('--card-tilt-max')
+                    (window.getComputedStyle
+                        ? window.getComputedStyle(card)
+                        : { getPropertyValue: () => '5' }
+                    ).getPropertyValue('--card-tilt-max')
                 );
                 const maxTilt = isNaN(declaredTilt) ? 5 : declaredTilt;
                 card.style.setProperty('--rx', `${(-dy * maxTilt).toFixed(2)}deg`);
