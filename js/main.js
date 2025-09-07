@@ -142,10 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProjects(items) {
         const container = document.getElementById('projects-grid');
         if (!container) return;
-        container.innerHTML = items
+        const wrapper = document.getElementById('projects-carousel');
+        const auto = wrapper && wrapper.dataset.auto === 'true';
+        const list = auto ? [...items, ...items] : items; // duplicate for seamless loop
+        container.innerHTML = list
             .map(
-                (p) =>
-                    `\n          <div class="project-card" role="listitem">\n            <img src="${escapeAttr(p.image)}" alt="${escapeAttr(
+                (p, i) =>
+                    `\n          <div class="project-card" role="listitem" data-dupe="${i >= items.length ? 'true' : 'false'}">\n            <img src="${escapeAttr(p.image)}" alt="${escapeAttr(
                         p.title
                     )}" loading="lazy" decoding="async" />\n            <div class="project-body">\n              <h3 class="text-white font-semibold flex items-start justify-between gap-2">${escapeHTML(
                         p.title
@@ -170,25 +173,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     }\n            </div>\n          </div>`
             )
             .join('');
-
-        // Setup nav buttons
-        const prevBtn = document.getElementById('projects-prev');
-        const nextBtn = document.getElementById('projects-next');
-        if (prevBtn && nextBtn) {
-            const scrollBy = () => Math.min(container.clientWidth * 0.85, 600);
-            prevBtn.addEventListener('click', () => {
-                container.scrollBy({ left: -scrollBy(), behavior: 'smooth' });
+        if (auto) {
+            if (!container.classList.contains('auto-scroll-track')) {
+                container.classList.add('auto-scroll-track');
+            }
+            wrapper.addEventListener('mouseenter', () => {
+                container.style.animationPlayState = 'paused';
             });
-            nextBtn.addEventListener('click', () => {
-                container.scrollBy({ left: scrollBy(), behavior: 'smooth' });
+            wrapper.addEventListener('mouseleave', () => {
+                container.style.animationPlayState = 'running';
             });
-            // Keyboard access
-            prevBtn.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight') nextBtn.click();
-            });
-            nextBtn.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') prevBtn.click();
-            });
+            const prefersReducedMotion = window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches;
+            if (prefersReducedMotion) {
+                container.style.animation = 'none';
+            }
         }
     }
 

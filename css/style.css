@@ -308,6 +308,26 @@ body {
         height: 120px;
     }
 }
+/* Auto-roll for Featured Projects */
+.projects-carousel-wrapper[data-auto='true'] .projects-row {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, white 6%, white 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, white 6%, white 94%, transparent);
+    position: relative;
+}
+.projects-row.auto-scroll-track {
+    display: flex;
+    width: max-content;
+    animation: projects-auto-scroll 70s linear infinite;
+}
+@keyframes projects-auto-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
 .fade-in-section {
     opacity: 0;
     transform: translateY(20px);
