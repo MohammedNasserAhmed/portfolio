@@ -74,8 +74,22 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="apple-touch-icon" href="images/website-photo.png" />
-        <link rel="stylesheet" href="dist/style.css" />
-        <script src="dist/main.js" defer></script>
+        <!-- Cache-busting query string appended; update BUILD_VERSION via build script if desired -->
+        <script>
+            window.BUILD_VERSION = Date.now().toString();
+        </script>
+        <link rel="stylesheet" id="app-css" href="dist/style.css?v=" />
+        <script>
+            (function () {
+                var v = window.BUILD_VERSION;
+                var css = document.getElementById('app-css');
+                if (css) css.href = 'dist/style.css?v=' + v;
+                var s = document.createElement('script');
+                s.src = 'dist/main.js?v=' + v;
+                s.defer = true;
+                document.currentScript.after(s);
+            })();
+        </script>
         <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
