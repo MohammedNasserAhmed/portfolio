@@ -23,6 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSkills(data.skills || []);
         renderPublications(data.publications || []);
         window.__PORTFOLIO_DATA__ = data;
+        // Force reveal to avoid user thinking content missing if observer not yet fired
+        try {
+            const sc = document.getElementById('summary-cards');
+            if (sc) sc.classList.add('is-visible');
+            document
+                .querySelectorAll('.fade-in-section')
+                .forEach((sec) => sec.classList.add('is-visible'));
+        } catch (_e) {
+            /* ignore */
+        }
     }
     fetch(contentPath, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
