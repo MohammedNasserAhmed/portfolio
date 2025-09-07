@@ -244,7 +244,19 @@ document.addEventListener('DOMContentLoaded', () => {
             Docker: 'images/skills/docker.svg',
             SQL: 'images/skills/sql.svg',
             'Apache Spark': 'images/skills/spark.svg',
-            MLflow: 'images/skills/mlflow.svg'
+            MLflow: 'images/skills/mlflow.svg',
+            'Hugging Face Transformers': 'images/skills/huggingface.svg',
+            Diffusers: 'images/skills/diffusers.svg',
+            'Neural Networks': 'images/skills/neural-networks.svg',
+            Ollama: 'images/skills/ollama.svg',
+            'PEFT/LoRA': 'images/skills/peft-lora.svg',
+            LlamaIndex: 'images/skills/llamaindex.svg',
+            ChromaDB: 'images/skills/chromadb.svg',
+            Milvus: 'images/skills/milvus.svg',
+            LangGraph: 'images/skills/langgraph.svg',
+            CrewAI: 'images/skills/crewai.svg',
+            Docling: 'images/skills/docling.svg',
+            Tesseract: 'images/skills/tesseract.svg'
         };
 
         const radius = 30; // inner progress ring
