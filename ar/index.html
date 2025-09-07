@@ -126,7 +126,13 @@
                         >تواصل</a
                     >
                     <a href="../" class="text-sm text-gray-400 hover:text-white">EN</a>
-                    <!-- إزالة زر تبديل النمط (الوضع الداكن فقط) -->
+                    <button
+                        id="theme-toggle"
+                        class="ml-4 text-gray-300 hover:text-brand-red transition-colors flex items-center"
+                        aria-label="تبديل النمط"
+                    >
+                        <span id="theme-toggle-icon" class="inline-block">🌙</span>
+                    </button>
                 </div>
                 <button id="mobile-menu-button" class="md:hidden text-white" aria-label="القائمة">
                     <svg
@@ -161,7 +167,13 @@
                     >تواصل</a
                 >
                 <a href="../" class="block py-2 text-gray-400">English</a>
-                <!-- الوضع الداكن فقط -->
+                <button
+                    id="theme-toggle-mobile"
+                    class="mt-4 w-full bg-brand-card border border-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                    aria-label="تبديل النمط (جوال)"
+                >
+                    تبديل النمط
+                </button>
             </div>
         </header>
         <main class="container mx-auto px-6 py-12">
