@@ -988,6 +988,8 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(equalizeHeights);
             attachPubImageSkeletons(heroContainer);
             attachPubImageSkeletons(gridContainer);
+            // Publication image path recovery (filter re-render)
+            runPublicationImageRecovery();
             const resetBtn = gridContainer.querySelector('.pub-empty .pub-reset');
             if (resetBtn) {
                 resetBtn.addEventListener('click', () => {
@@ -1014,6 +1016,8 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(equalizeHeights);
         attachPubImageSkeletons(heroContainer);
         attachPubImageSkeletons(gridContainer);
+        // Publication image path recovery (initial render)
+        runPublicationImageRecovery();
 
         function equalizeHeights() {
             // Equalize summary heights in feature cards for clean row
@@ -1045,6 +1049,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Apply filters initially if controls exist
         if (controlsContainer?.dataset.ready) applyFilters();
+    }
+
+    // Helper added outside renderPublications so both initial & dynamic renders can use it
+    function runPublicationImageRecovery() {
+        const triedAttr = 'data-img-fallback-idx';
+        const altRoots = ['src', 'images', 'docs'];
+        document
+            .querySelectorAll('#publications-hero img.thumb, #publications-grid img.cover')
+            .forEach((img) => {
+                if (img.getAttribute('data-img-recovery-bound') === '1') return;
+                img.setAttribute('data-img-recovery-bound', '1');
+                function tryNext() {
+                    const current = img.getAttribute('src') || '';
+                    const file = current.split(/[/\\]/).pop();
+                    let idx = Number(img.getAttribute(triedAttr) || '0');
+                    const candidates = [];
+                    altRoots.forEach((r) => {
+                        const prefix = r + '/';
+                        if (!current.startsWith(prefix)) candidates.push(prefix + file);
+                    });
+                    if (idx >= candidates.length) return; // exhausted
+                    img.setAttribute(triedAttr, String(idx + 1));
+                    const next = candidates[idx];
+                    img.src = next;
+                }
+                img.addEventListener('error', () => {
+                    if (img.complete && img.naturalWidth > 0) return; // already loaded after race
+                    tryNext();
+                });
+                // If still zero after delay with no error fired (some browsers), trigger manually
+                setTimeout(() => {
+                    if (img.naturalWidth === 0 && !img.hasAttribute(triedAttr)) {
+                        tryNext();
+                    }
+                }, 1200);
+            });
     }
 
     function escapeHTML(str) {
