@@ -1852,6 +1852,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         setTimeout(initDeferred, 200);
     }
+
+    // --- Hard Fallback: ensure sections become visible even if observers or earlier JS fail ---
+    setTimeout(() => {
+        document.querySelectorAll('.fade-in-section:not(.is-visible)').forEach((el) => {
+            el.classList.add('is-visible');
+        });
+        // If summary failed to render, inject minimal fallback so page never looks empty.
+        const sc = document.getElementById('summary-cards');
+        if (sc && sc.children.length === 0 && typeof renderSummary === 'function') {
+            renderSummary([
+                { title: 'Machine Learning Engineering', body: 'Designing robust ML systems.' },
+                { title: 'LLM & Retrieval', body: 'Building production-grade AI pipelines.' },
+                { title: 'MLOps & Deployment', body: 'Shipping reliable, scalable models.' }
+            ]);
+            sc.classList.add('is-visible');
+        }
+    }, 1600);
 });
 
 // Accessibility: focus outline restoration if user tabs
