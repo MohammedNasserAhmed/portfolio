@@ -669,11 +669,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
         parsed.sort((a, b) => b.dateVal - a.dateVal);
 
-        // Pick hero = first item (newest) or flagged by p.featured
-        let heroIndex = parsed.findIndex((p) => p.raw.featured);
-        if (heroIndex === -1) heroIndex = 0;
-        const hero = parsed[heroIndex]?.raw;
-        const rest = parsed.filter((_, i) => i !== heroIndex).map((o) => o.raw);
+        // Select up to 2 featured (explicit featured flag first, then newest)
+        const featuredExplicit = parsed.filter((p) => p.raw.featured).map((p) => p.raw);
+        const remainingForFeature = parsed
+            .filter((p) => !p.raw.featured)
+            .slice(0, Math.max(0, 2 - featuredExplicit.length))
+            .map((p) => p.raw);
+        const featuredSet = [...featuredExplicit, ...remainingForFeature].slice(0, 2);
+        const featuredIds = new Set(featuredSet.map((p) => p.title + '|' + p.published));
+        const rest = parsed
+            .filter((p) => !featuredIds.has(p.raw.title + '|' + p.raw.published))
+            .map((o) => o.raw);
 
         function badgeHTML(pub) {
             const badges = [];
@@ -714,30 +720,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return `<p class="pub-summary">${escapeHTML(pub.description || '')}</p>`;
         }
 
-        function heroHTML(pub) {
-            if (!pub) return '';
-            return `
-            <div class="pub-hero-card">
-              <article class="pub-hero-item" aria-labelledby="hero-pub-title">
-                <img class="pub-hero-media" src="${escapeAttr(pub.image)}" alt="${escapeAttr(
-                    pub.title
-                )}" loading="lazy" />
-                <div class="pub-hero-body">
-                  ${badgeHTML(pub)}
-                  <h3 class="pub-title" id="hero-pub-title"><a href="${escapeAttr(pub.link)}" target="_blank" rel="noopener">${escapeHTML(
-                      pub.title
-                  )}</a></h3>
-                  ${metaRow(pub)}
-                  ${summaryHTML(pub)}
-                  <div class="pub-actions">
-                    <a class="pub-btn primary" href="${escapeAttr(pub.link)}" target="_blank" rel="noopener" aria-label="Read ${escapeAttr(
-                        pub.title
-                    )}">Read →</a>
-                    ${pub.pdf ? `<a class="pub-btn" href="${escapeAttr(pub.pdf)}" target="_blank" rel="noopener" aria-label="Download PDF of ${escapeAttr(pub.title)}">PDF</a>` : ''}
-                  </div>
-                </div>
-              </article>
-            </div>`;
+        function featureCardHTML(pub, idx) {
+            return `<article class="pub-feature-card" aria-labelledby="feature-${idx}-title">
+                                <img class="thumb" src="${escapeAttr(pub.image)}" alt="${escapeAttr(pub.title)}" loading="lazy" />
+                                <div class="content">
+                                    ${badgeHTML(pub)}
+                                    <h3 class="pub-title" id="feature-${idx}-title"><a href="${escapeAttr(pub.link)}" target="_blank" rel="noopener">${escapeHTML(pub.title)}</a></h3>
+                                    ${metaRow(pub)}
+                                    ${summaryHTML(pub)}
+                                    <div class="pub-actions">
+                                        <a class="pub-btn primary" href="${escapeAttr(pub.link)}" target="_blank" rel="noopener" aria-label="Read ${escapeAttr(pub.title)}">Read →</a>
+                                        ${pub.pdf ? `<a class="pub-btn" href="${escapeAttr(pub.pdf)}" target="_blank" rel="noopener" aria-label="Download PDF of ${escapeAttr(pub.title)}">PDF</a>` : ''}
+                                    </div>
+                                </div>
+                        </article>`;
         }
 
         function cardHTML(pub, i) {
@@ -759,7 +755,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </article>`;
         }
 
-        heroContainer.innerHTML = heroHTML(hero);
+        heroContainer.innerHTML = featuredSet.length
+            ? `<div class="pub-featured-row">${featuredSet
+                  .map((p, i) => featureCardHTML(p, i))
+                  .join('')}</div>`
+            : '';
         gridContainer.innerHTML = rest.map(cardHTML).join('');
     }
 
