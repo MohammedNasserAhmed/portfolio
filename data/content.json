@@ -40,7 +40,73 @@
             "level": "Intermediate",
             "xp": "2y"
         },
-        { "name": "MLflow", "percent": 76, "category": "MLOps", "level": "Advanced", "xp": "3y" }
+        { "name": "MLflow", "percent": 76, "category": "MLOps", "level": "Advanced", "xp": "3y" },
+        {
+            "name": "Hugging Face Transformers",
+            "percent": 90,
+            "category": "LLM",
+            "level": "Expert",
+            "xp": "3y"
+        },
+        {
+            "name": "Diffusers",
+            "percent": 75,
+            "category": "Generative",
+            "level": "Advanced",
+            "xp": "2y"
+        },
+        {
+            "name": "Neural Networks",
+            "percent": 87,
+            "category": "ML/AI",
+            "level": "Advanced",
+            "xp": "6y"
+        },
+        { "name": "Ollama", "percent": 98, "category": "LLM", "level": "Expert", "xp": "1y" },
+        { "name": "PEFT/LoRA", "percent": 85, "category": "LLM", "level": "Advanced", "xp": "2y" },
+        {
+            "name": "LlamaIndex",
+            "percent": 99,
+            "category": "Retrieval",
+            "level": "Expert",
+            "xp": "2y"
+        },
+        {
+            "name": "ChromaDB",
+            "percent": 89,
+            "category": "VectorDB",
+            "level": "Advanced",
+            "xp": "2y"
+        },
+        {
+            "name": "Milvus",
+            "percent": 80,
+            "category": "VectorDB",
+            "level": "Advanced",
+            "xp": "1y"
+        },
+        {
+            "name": "LangGraph",
+            "percent": 80,
+            "category": "Orchestration",
+            "level": "Advanced",
+            "xp": "1y"
+        },
+        {
+            "name": "CrewAI",
+            "percent": 70,
+            "category": "Agents",
+            "level": "Intermediate",
+            "xp": "1y"
+        },
+        {
+            "name": "Docling",
+            "percent": 90,
+            "category": "OCR/Parsing",
+            "level": "Expert",
+            "xp": "1y"
+        },
+        { "name": "Tesseract", "percent": 95, "category": "OCR", "level": "Expert", "xp": "3y" }
     ],
     "projects": [
         {
