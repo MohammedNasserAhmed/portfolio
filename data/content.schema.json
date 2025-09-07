@@ -38,7 +38,23 @@
         },
         "skills": {
             "type": "array",
-            "items": { "type": "string", "minLength": 1 }
+            "items": {
+                "oneOf": [
+                    { "type": "string", "minLength": 1 },
+                    {
+                        "type": "object",
+                        "required": ["name", "percent"],
+                        "additionalProperties": false,
+                        "properties": {
+                            "name": { "type": "string", "minLength": 1 },
+                            "percent": { "type": "number", "minimum": 0, "maximum": 100 },
+                            "category": { "type": "string" },
+                            "level": { "type": "string" },
+                            "xp": { "type": "string" }
+                        }
+                    }
+                ]
+            }
         },
         "publications": {
             "type": "array",

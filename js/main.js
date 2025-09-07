@@ -69,23 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
             renderSummary(data.summary || []);
             renderProjects(data.projects || []);
-            // Reconstruct rich skill objects from schema-approved string array
-            const SKILL_DETAILS = {
-                Python: { percent: 92, category: 'ML/AI', level: 'Expert', xp: '6y' },
-                PyTorch: { percent: 88, category: 'ML/AI', level: 'Advanced', xp: '4y' },
-                TensorFlow: { percent: 75, category: 'ML/AI', level: 'Advanced', xp: '3y' },
-                'Scikit-learn': { percent: 85, category: 'ML/AI', level: 'Advanced', xp: '5y' },
-                Pandas: { percent: 90, category: 'Data', level: 'Expert', xp: '6y' },
-                Docker: { percent: 80, category: 'DevOps', level: 'Advanced', xp: '4y' },
-                SQL: { percent: 83, category: 'Data', level: 'Advanced', xp: '7y' },
-                'Apache Spark': { percent: 70, category: 'Data', level: 'Intermediate', xp: '2y' },
-                MLflow: { percent: 76, category: 'MLOps', level: 'Advanced', xp: '3y' }
-            };
-            const skillsSource = (data.skills || []).map((n) => ({
-                name: n,
-                ...(SKILL_DETAILS[n] || {})
-            }));
-            renderSkills(skillsSource);
+            renderSkills(data.skills || []);
             renderPublications(data.publications || []);
             window.__PORTFOLIO_DATA__ = data; // expose for simple admin edits
         })
