@@ -67,10 +67,34 @@
         },
         {
             "title": "ATS Cover Letter Generator",
-            "image": "https://placehold.co/600x400/333333/FFFFFF?text=ATS+Cover+Letter+Generator",
+            "image": "https://placehold.co/600x400/D92323/121212?text=ATS+Cover+Letter+Generator",
             "description": "The ATS Cover Letter Generator bridges the gap between job seekers and employers by leveraging AI to create perfectly tailored, Applicant Tracking System (ATS) optimized cover letters. Using Groq's high-performance LLaMA-3.1-8B-Instant API, the application analyzes your resume and job descriptions to craft compelling cover letters that increase your chances of interview selection.",
-            "tech": ["Streamlit", "Docker", "RAG", "llama", "Groq", "Python"],
+            "tech": ["Streamlit", "Docker", "RAG", "Llama", "Groq", "Python"],
             "githubUrl": "https://github.com/MohammedNasserAhmed/ats-cover-letter-generator"
+        },
+        {
+            "title": "Arabic Digits Recognition",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=Arabic+Digits+Recognition",
+            "description": "Arabic Digits Recognition project aims to develop a robust Convolutional Neural Network (CNN) model capable of accurately recognizing spoken Arabic digits. This project leverages a diverse dataset collected from 65 individuals of varying ages and genders, ensuring a comprehensive representation of the Arabic-speaking population.",
+            "tech": [
+                "Python",
+                "Librosa",
+                "Pandas",
+                "Tensorflow",
+                "Keras",
+                "Numpy",
+                "Matplotlib",
+                "CNN",
+                "ETL"
+            ],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/arabic-digits-recognition"
+        },
+        {
+            "title": "CodeXpert",
+            "image": "https://placehold.co/600x400/D92323/121212?text=CodeXpert",
+            "description": "CodeXpert, an advanced, state-of-the-art framework designed to analyze, explain, and optimize Python codebases. This repository leverages CodeLlama, LangChain, and FAISS to deliver a seamless, interactive experience for code comprehension and improvement.",
+            "tech": ["Python", "CodeLlama", "LangChain", "FAISS", "HuggingFace"],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/CodeXpert"
         }
     ],
     "publications": [
