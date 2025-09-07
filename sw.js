@@ -67,6 +67,12 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // Bypass caching for versioned JSON (content updates) – always network-first
+    if (/content\.json\?v=/.test(request.url) || /content\.ar\.json\?v=/.test(request.url)) {
+        event.respondWith(fetch(request).catch(() => caches.match(request.url.split('?')[0])));
+        return;
+    }
+
     // CSS/JS: Stale-while-revalidate
     if (request.destination === 'style' || request.destination === 'script') {
         event.respondWith(

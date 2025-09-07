@@ -63,8 +63,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Dynamic content injection
     const isArabic = document.documentElement.lang === 'ar';
-    const contentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
-    fetch(contentPath)
+    // Add version query to defeat stale SW/cached JSON so new skills update immediately
+    const baseContentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
+    const v = (window.BUILD_VERSION || '').toString();
+    const contentPath = v ? `${baseContentPath}?v=${v}` : baseContentPath;
+    fetch(contentPath, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((data) => {
             renderSummary(data.summary || []);
