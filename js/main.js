@@ -253,7 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 b.textContent = cat;
                 b.setAttribute('data-category', cat);
                 b.setAttribute('aria-pressed', 'false');
-                b.addEventListener('click', (e) => {
+                // Removed unused event parameter to satisfy lint (no-undef/no-unused-vars)
+                b.addEventListener('click', () => {
                     // Toggle all skills in category
                     const skillsInCat = normalized
                         .filter((s) => s.category === cat)
