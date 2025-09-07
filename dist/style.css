@@ -2067,10 +2067,6 @@ body {
         padding: 0.85rem 0.8rem 0.9rem;
     }
 }
-#theme-toggle,
-#theme-toggle-mobile {
-    cursor: pointer;
-}
 :root.light .outreach-image {
     border-color: #ccc;
 }
