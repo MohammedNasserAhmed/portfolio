@@ -2,7 +2,7 @@
 
 Multilingual (English + Arabic) personal portfolio showcasing machine learning, LLM, and retrieval engineering work. Fast, accessible, offline‑capable, and privacy‑friendly.
 
-**Live:** [English](https://mohammednasserahmed.github.io/portfolio/) · [العربية](https://mohammednasserahmed.github.io/portfolio/ar/)
+**Live:** [English](https://mohammednasserahmed.github.io/portfolio/) · [العربية]()
 
 ![Portfolio preview](images/website-photo.png)
 
