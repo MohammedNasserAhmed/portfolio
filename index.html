@@ -134,23 +134,26 @@
                 ]
             }
         </script>
+        <!-- Removed Tailwind runtime dependency; guard config to avoid ReferenceError -->
         <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        fontFamily: {
-                            sans: ['Inter', 'sans-serif']
-                        },
-                        colors: {
-                            'brand-red': '#D92323',
-                            'brand-dark': '#121212',
-                            'brand-gray': '#A0A0A0',
-                            'brand-light-gray': '#F5F5F5',
-                            'brand-card': '#1E1E1E'
+            if (window.tailwind) {
+                window.tailwind.config = {
+                    theme: {
+                        extend: {
+                            fontFamily: {
+                                sans: ['Inter', 'sans-serif']
+                            },
+                            colors: {
+                                'brand-red': '#D92323',
+                                'brand-dark': '#121212',
+                                'brand-gray': '#A0A0A0',
+                                'brand-light-gray': '#F5F5F5',
+                                'brand-card': '#1E1E1E'
+                            }
                         }
                     }
-                }
-            };
+                };
+            }
         </script>
     </head>
     <body class="bg-brand-dark text-brand-light-gray font-sans">
@@ -187,13 +190,7 @@
                         class="bg-brand-red text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold"
                         >Contact</a
                     >
-                    <button
-                        id="theme-toggle"
-                        class="ml-4 text-gray-300 hover:text-brand-red transition-colors flex items-center"
-                        aria-label="Toggle theme"
-                    >
-                        <span id="theme-toggle-icon" class="inline-block">🌙</span>
-                    </button>
+                    <!-- Theme toggle removed (dark-only) -->
                 </div>
                 <button id="mobile-menu-button" class="md:hidden text-white">
                     <svg
@@ -228,13 +225,6 @@
                     class="block mt-2 bg-brand-red text-white px-4 py-2 rounded-lg text-center"
                     >Contact</a
                 >
-                <button
-                    id="theme-toggle-mobile"
-                    class="mt-4 w-full bg-brand-card border border-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-                    aria-label="Toggle theme (mobile)"
-                >
-                    Toggle Theme
-                </button>
             </div>
         </header>
 

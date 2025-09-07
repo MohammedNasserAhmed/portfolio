@@ -166,14 +166,14 @@
     "publications": [
         {
             "title": "2024 AI Recap: A Comprehensive Year-in-Review",
-            "image": "docs/report.png",
+            "image": "images/report.png",
             "published": "January, 2025",
             "description": "An in-depth annual report analyzing key breakthroughs, emerging trends, and significant milestones in AI throughout 2024.",
             "link": "https://drive.google.com/file/d/18fNhv7TPk8bQEYenf1tGq90D3Xr8iit-/view?usp=drive_link"
         },
         {
             "title": "Choosing the Right IT Major: A Student's Guide",
-            "image": "docs/guide.png",
+            "image": "images/guide.png",
             "published": "July, 2025",
             "description": "A practical guide for students on making informed decisions about their IT education, outlining career paths and required skills.",
             "link": "https://drive.google.com/file/d/1YMuC7OXdCTXvC5wjEQwKadV5tsNQ6f0K/view?usp=drive_link"

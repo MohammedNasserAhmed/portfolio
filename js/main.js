@@ -61,15 +61,27 @@
 
 // ---- Site Interactions (moved from inline) ----
 document.addEventListener('DOMContentLoaded', () => {
+    try {
+        console.debug('[portfolio] DOMContentLoaded start');
+    } catch (_) {}
     // Dynamic content injection
     const isArabic = document.documentElement.lang === 'ar';
     // Add version query to defeat stale SW/cached JSON so new skills update immediately
     const baseContentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
     const v = (window.BUILD_VERSION || '').toString();
     const contentPath = v ? `${baseContentPath}?v=${v}` : baseContentPath;
+    try {
+        console.debug('[portfolio] fetching content:', contentPath);
+    } catch (_) {}
     fetch(contentPath, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((data) => {
+            try {
+                console.debug(
+                    '[portfolio] content loaded. summary items:',
+                    (data.summary || []).length
+                );
+            } catch (_) {}
             renderSummary(data.summary || []);
             renderProjects(data.projects || []);
             renderSkills(data.skills || []);
@@ -78,6 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch((err) => {
             console.warn('Content fetch failed:', err);
+            // Minimal fallback render so sections not empty if fetch fails
+            const fallback = {
+                summary: [
+                    { title: 'Machine Learning Engineering', body: 'Designing robust ML systems.' },
+                    { title: 'LLM & Retrieval', body: 'Building production-grade AI pipelines.' },
+                    { title: 'MLOps & Deployment', body: 'Shipping reliable, scalable models.' }
+                ],
+                projects: [],
+                skills: [],
+                publications: []
+            };
+            renderSummary(fallback.summary);
         });
 
     function renderSummary(items) {
