@@ -1101,10 +1101,7 @@ body {
 }
 
 /* Theme toggle button */
-#theme-toggle,
-#theme-toggle-mobile {
-    cursor: pointer;
-}
+/* Theme toggle styles removed (site is dark-only now) */
 
 /* Light mode specific tweaks */
 :root.light .outreach-image {
