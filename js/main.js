@@ -657,18 +657,110 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderPublications(items) {
-        const list = document.getElementById('publications-list');
-        if (!list) return;
-        list.innerHTML = items
-            .map(
-                (pub) =>
-                    `\n        <div class="bg-brand-card p-6 rounded-lg shadow-lg flex flex-col md:flex-row gap-6 card-hover-effect border border-gray-800">\n          <img src="${escapeAttr(pub.image)}" alt="${escapeAttr(
+        const heroContainer = document.getElementById('publications-hero');
+        const gridContainer = document.getElementById('publications-grid');
+        if (!heroContainer || !gridContainer) return;
+        if (!Array.isArray(items)) return;
+
+        // Sort newest first if date parse succeeds (expects published like '2025' or 'Jan 2025')
+        const parsed = [...items].map((p) => ({
+            raw: p,
+            dateVal: Date.parse(p.published) || Date.parse(p.updated || '') || 0
+        }));
+        parsed.sort((a, b) => b.dateVal - a.dateVal);
+
+        // Pick hero = first item (newest) or flagged by p.featured
+        let heroIndex = parsed.findIndex((p) => p.raw.featured);
+        if (heroIndex === -1) heroIndex = 0;
+        const hero = parsed[heroIndex]?.raw;
+        const rest = parsed.filter((_, i) => i !== heroIndex).map((o) => o.raw);
+
+        function badgeHTML(pub) {
+            const badges = [];
+            const type = (pub.type || '').toLowerCase();
+            if (type)
+                badges.push(
+                    `<span class="pub-badge type-${escapeAttr(type)}">${escapeHTML(type)}</span>`
+                );
+            if (pub.updated && pub.updated !== pub.published)
+                badges.push('<span class="pub-badge type-updated">Updated</span>');
+            if (pub.year || pub.published) {
+                const yr = pub.year || (pub.published || '').match(/\d{4}/)?.[0];
+                if (yr) badges.push(`<span class="pub-badge">${escapeHTML(yr)}</span>`);
+            }
+            if (pub.domain) badges.push(`<span class="pub-badge">${escapeHTML(pub.domain)}</span>`);
+            return `<div class="pub-badges">${badges.join('')}</div>`;
+        }
+
+        function metaRow(pub) {
+            const reading = pub.readingTime || approxReading(pub.description);
+            return `<div class="pub-meta-row">${[
+                pub.published ? `<span>📅 <time>${escapeHTML(pub.published)}</time></span>` : '',
+                reading ? `<span>⏱ ${escapeHTML(reading)}</span>` : '',
+                pub.views ? `<span>👁 ${escapeHTML(String(pub.views))}</span>` : ''
+            ]
+                .filter(Boolean)
+                .join('')}</div>`;
+        }
+
+        function approxReading(text) {
+            if (!text) return '';
+            const words = String(text).trim().split(/\s+/).length;
+            const mins = Math.max(1, Math.round(words / 200));
+            return mins + ' min';
+        }
+
+        function summaryHTML(pub) {
+            return `<p class="pub-summary">${escapeHTML(pub.description || '')}</p>`;
+        }
+
+        function heroHTML(pub) {
+            if (!pub) return '';
+            return `
+            <div class="pub-hero-card">
+              <article class="pub-hero-item" aria-labelledby="hero-pub-title">
+                <img class="pub-hero-media" src="${escapeAttr(pub.image)}" alt="${escapeAttr(
+                    pub.title
+                )}" loading="lazy" />
+                <div class="pub-hero-body">
+                  ${badgeHTML(pub)}
+                  <h3 class="pub-title" id="hero-pub-title"><a href="${escapeAttr(pub.link)}" target="_blank" rel="noopener">${escapeHTML(
+                      pub.title
+                  )}</a></h3>
+                  ${metaRow(pub)}
+                  ${summaryHTML(pub)}
+                  <div class="pub-actions">
+                    <a class="pub-btn primary" href="${escapeAttr(pub.link)}" target="_blank" rel="noopener" aria-label="Read ${escapeAttr(
                         pub.title
-                    )}" class="w-full md:w-1/4 h-auto rounded-md object-cover" />\n          <div class="flex-1">\n            <p class="text-sm text-gray-500">Published: ${escapeHTML(
-                        pub.published
-                    )}</p>\n            <h3 class="text-xl font-bold text-white mt-1">${escapeHTML(pub.title)}</h3>\n            <p class="mt-2 text-brand-gray">${escapeHTML(pub.description)}</p>\n            <a href="${escapeAttr(pub.link)}" class="text-brand-red font-semibold mt-4 inline-block hover:underline">Read More &rarr;</a>\n          </div>\n        </div>`
-            )
-            .join('');
+                    )}">Read →</a>
+                    ${pub.pdf ? `<a class="pub-btn" href="${escapeAttr(pub.pdf)}" target="_blank" rel="noopener" aria-label="Download PDF of ${escapeAttr(pub.title)}">PDF</a>` : ''}
+                  </div>
+                </div>
+              </article>
+            </div>`;
+        }
+
+        function cardHTML(pub, i) {
+            return `
+            <article class="pub-card" aria-labelledby="pub-${i}-title">
+              <img src="${escapeAttr(pub.image)}" alt="${escapeAttr(pub.title)}" class="cover" loading="lazy" />
+              ${badgeHTML(pub)}
+              <h3 class="pub-title" id="pub-${i}-title"><a href="${escapeAttr(pub.link)}" target="_blank" rel="noopener">${escapeHTML(
+                  pub.title
+              )}</a></h3>
+              ${metaRow(pub)}
+              ${summaryHTML(pub)}
+              <div class="pub-actions">
+                <a class="pub-btn" href="${escapeAttr(pub.link)}" target="_blank" rel="noopener" aria-label="Read ${escapeAttr(
+                    pub.title
+                )}">Open</a>
+                ${pub.pdf ? `<a class="pub-btn" href="${escapeAttr(pub.pdf)}" target="_blank" rel="noopener" aria-label="Download PDF of ${escapeAttr(pub.title)}">PDF</a>` : ''}
+              </div>
+            </article>`;
+        }
+
+        heroContainer.innerHTML = heroHTML(hero);
+        gridContainer.innerHTML = rest.map(cardHTML).join('');
     }
 
     function escapeHTML(str) {
