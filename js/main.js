@@ -220,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     updateProjectFiltering();
                     announceFilterChange();
+                    persistFilters();
                     syncPillStates();
                 });
                 pillBar.appendChild(b);
@@ -248,6 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
             wrap.setAttribute('aria-valuemin', '0');
             wrap.setAttribute('aria-valuemax', '100');
             wrap.setAttribute('aria-valuenow', String(skill.percent));
+            const pctVal = skill.percent;
+            let band = 'mid';
+            if (pctVal < 60) band = 'low';
+            else if (pctVal < 80) band = 'mid';
+            else if (pctVal < 92) band = 'high';
+            else band = 'top';
+            wrap.dataset.band = band;
 
             const fig = document.createElement('figure');
             const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -299,9 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = src
                 ? `<img src="${escapeAttr(src)}" alt="${escapeAttr(skill.name)} logo" loading="lazy"/>`
                 : escapeHTML(skill.name[0] || '?');
-            // Tooltip info via data-title attribute (will use native title for simplicity)
             const tooltip = `${skill.name} — ${skill.level || ''} (${skill.percent}%)\nXP: ${skill.xp || 'n/a'}\nCategory: ${skill.category}`;
-            btn.setAttribute('title', tooltip.trim());
+            btn.setAttribute('data-tooltip', tooltip.trim());
 
             // Count-up number overlay (hidden until reveal)
             const percentSpan = document.createElement('span');
@@ -330,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         track.innerHTML = '';
         track.appendChild(frag);
+        initSkillTooltip(track);
 
         // IntersectionObserver to trigger animations once visible
         if ('IntersectionObserver' in window) {
@@ -397,7 +405,81 @@ document.addEventListener('DOMContentLoaded', () => {
         requestAnimationFrame(step);
     }
 
+    // Tooltip system
+    let skillTooltipEl = null;
+    function ensureSkillTooltip() {
+        if (!skillTooltipEl) {
+            skillTooltipEl = document.createElement('div');
+            skillTooltipEl.className = 'skill-tooltip';
+            document.body.appendChild(skillTooltipEl);
+        }
+        return skillTooltipEl;
+    }
+    function initSkillTooltip(container) {
+        const el = ensureSkillTooltip();
+        const move = (e) => {
+            const pad = 14;
+            let x = e.clientX + pad,
+                y = e.clientY + pad;
+            const r = el.getBoundingClientRect();
+            if (x + r.width + 8 > window.innerWidth) x = e.clientX - r.width - pad;
+            if (y + r.height + 8 > window.innerHeight) y = e.clientY - r.height - pad;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+        };
+        container.addEventListener('pointerover', (e) => {
+            const btn = e.target.closest('button.skill-item');
+            if (!btn) return;
+            const data = btn.getAttribute('data-tooltip');
+            if (!data) return;
+            const skillName = btn.getAttribute('data-skill');
+            const arc = btn.closest('.skill-arc');
+            const pct = arc?.getAttribute('aria-valuenow') || '';
+            const category = btn.getAttribute('data-category') || '';
+            const lines = data.split(/\n+/);
+            const levelLine = lines[0];
+            const xpLine = lines.find((l) => /^XP:/i.test(l));
+            el.innerHTML =
+                `<div class="tt-head"><span>${escapeHTML(skillName || '')}</span><span class="pct">${pct}%</span></div>` +
+                `<div class="tt-meta">${category ? `<span>${escapeHTML(category)}</span>` : ''}${levelLine ? `<span>${escapeHTML(levelLine.replace(/^.*—/, '').replace(/\(.*/, '').trim())}</span>` : ''}${xpLine ? `<span>${escapeHTML(xpLine.replace('XP:', '').trim())}</span>` : ''}</div>`;
+            el.classList.add('show');
+            move(e);
+            window.addEventListener('pointermove', move, { passive: true });
+        });
+        container.addEventListener('pointerout', (e) => {
+            if (
+                e.relatedTarget &&
+                e.relatedTarget.closest &&
+                e.relatedTarget.closest('.skill-item')
+            )
+                return;
+            el.classList.remove('show');
+        });
+        container.addEventListener('pointerdown', () => el.classList.remove('show'));
+    }
+
     const activeSkillFilters = new Set();
+    const FILTER_STORAGE_KEY = 'portfolio-skill-filters-v1';
+    (function restoreFilters() {
+        try {
+            const raw = localStorage.getItem(FILTER_STORAGE_KEY);
+            if (raw) {
+                JSON.parse(raw).forEach((s) => activeSkillFilters.add(s));
+            }
+        } catch (_e) {
+            /* ignore restore error */
+        }
+    })();
+    function persistFilters() {
+        try {
+            localStorage.setItem(
+                FILTER_STORAGE_KEY,
+                JSON.stringify(Array.from(activeSkillFilters))
+            );
+        } catch (_e) {
+            /* ignore persist error */
+        }
+    }
     let lastClickedSkill = null; // for shift-range selection
     function handleSkillFilterClick(evt, skill) {
         const multi = evt.ctrlKey || evt.metaKey; // allow multi-select with Ctrl / Cmd
@@ -438,6 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastClickedSkill = skill;
         updateProjectFiltering();
         announceFilterChange();
+        persistFilters();
     }
 
     function updateProjectFiltering() {
@@ -513,6 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeSkillFilters.clear();
             updateProjectFiltering();
             announceFilterChange();
+            persistFilters();
         };
         clearBtn.textContent = 'Clear Filters (' + matched + ')';
     }
@@ -546,6 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateProjectFiltering();
         announceFilterChange();
+        persistFilters();
     });
 
     // Lazy-load constellation: wait until skills section visible
