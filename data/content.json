@@ -51,7 +51,6 @@
                 "Gradio",
                 "PyPDF2",
                 "LangChain",
-                "LangChain",
                 "gTTS",
                 "Gemma2",
                 "pytesseract",
