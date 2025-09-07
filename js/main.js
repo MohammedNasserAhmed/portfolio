@@ -61,27 +61,22 @@
 
 // ---- Site Interactions (moved from inline) ----
 document.addEventListener('DOMContentLoaded', () => {
-    try {
-        console.debug('[portfolio] DOMContentLoaded start');
-    } catch (_) {}
+    if (console && console.info) console.info('[portfolio] DOMContentLoaded start');
     // Dynamic content injection
     const isArabic = document.documentElement.lang === 'ar';
     // Add version query to defeat stale SW/cached JSON so new skills update immediately
     const baseContentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
     const v = (window.BUILD_VERSION || '').toString();
     const contentPath = v ? `${baseContentPath}?v=${v}` : baseContentPath;
-    try {
-        console.debug('[portfolio] fetching content:', contentPath);
-    } catch (_) {}
+    if (console && console.info) console.info('[portfolio] fetching content:', contentPath);
     fetch(contentPath, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
         .then((data) => {
-            try {
-                console.debug(
+            if (console && console.info)
+                console.info(
                     '[portfolio] content loaded. summary items:',
                     (data.summary || []).length
                 );
-            } catch (_) {}
             renderSummary(data.summary || []);
             renderProjects(data.projects || []);
             renderSkills(data.skills || []);
