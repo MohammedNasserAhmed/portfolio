@@ -56,6 +56,11 @@
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
+        <!-- Enhanced display font for section headings -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
         <!-- TODO: bundle local three.js if needed; temporarily still using CDN -->
         <script type="module" src="./js/vendor/three.min.js"></script>
         <link
@@ -252,24 +257,23 @@
                     </div>
                 </div>
                 <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
-                    <div class="relative w-64 h-64 md:w-80 md:h-80">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-brand-red to-yellow-400 rounded-full blur-2xl opacity-30 animate-pulse"
-                        ></div>
-                        <img
-                            src="images/website-photo.png"
-                            alt="M. N. Jaber"
-                            class="relative w-full h-full object-cover rounded-full shadow-2xl shadow-brand-red/20 border-4 border-gray-800"
-                            onerror="this.onerror=null;this.src='https://placehold.co/320x320/1E1E1E/FFFFFF?text=M.N.J'"
-                        />
-                    </div>
+                    <div
+                        class="hero-photo w-64 h-64 md:w-80 md:h-80 is-visible"
+                        role="img"
+                        aria-label="Professional portrait"
+                    ></div>
                 </div>
             </section>
 
             <!-- Professional Summary Section (dynamic) -->
             <section id="summary" class="my-24 fade-in-section">
-                <h2 class="text-3xl font-bold text-center mb-12 text-white">
-                    Professional Summary
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core"
+                        >Professional
+                        <span class="sh-accent" data-words="Summary|Impact|Trajectory"
+                            >Summary</span
+                        ></span
+                    >
                 </h2>
                 <div
                     id="summary-cards"
@@ -280,7 +284,14 @@
 
             <!-- Projects Section (dynamic) -->
             <section id="projects" class="my-24 fade-in-section">
-                <h2 class="text-3xl font-bold text-center mb-12 text-white">Featured Projects</h2>
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core"
+                        >Featured
+                        <span class="sh-accent" data-words="Projects|Builds|Systems"
+                            >Projects</span
+                        ></span
+                    >
+                </h2>
                 <div
                     id="projects-grid"
                     class="grid md:grid-cols-2 gap-8"
@@ -290,7 +301,14 @@
 
             <!-- Core Libraries & Skills Section (dynamic) -->
             <section id="skills" class="my-24 fade-in-section overflow-hidden">
-                <h2 class="text-3xl font-bold text-center mb-12 text-white">Core Technologies</h2>
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core"
+                        >Core
+                        <span class="sh-accent" data-words="Technologies|Stack|Toolkit"
+                            >Technologies</span
+                        ></span
+                    >
+                </h2>
                 <div class="skills-container">
                     <div
                         class="skills-pills-wrapper mb-8 flex flex-wrap gap-2 justify-center"
@@ -331,8 +349,13 @@
 
             <!-- Training, Conferencing & Outreach Section -->
             <section id="outreach" class="my-24 fade-in-section overflow-hidden">
-                <h2 class="text-3xl font-bold text-center mb-12 text-white">
-                    Training, Conferencing & Outreach
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core"
+                        >Training, Conferencing &
+                        <span class="sh-accent" data-words="Outreach|Community|Impact"
+                            >Outreach</span
+                        ></span
+                    >
                 </h2>
                 <div class="outreach-scroller">
                     <div class="outreach-track">
@@ -357,7 +380,14 @@
 
             <!-- Publications Section (dynamic) -->
             <section id="publications" class="my-24 fade-in-section">
-                <h2 class="text-3xl font-bold text-center mb-12 text-white">Guides & Reports</h2>
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core"
+                        >Guides &
+                        <span class="sh-accent" data-words="Reports|Guides|Insights"
+                            >Reports</span
+                        ></span
+                    >
+                </h2>
                 <div id="publications-wrapper" class="pub-wrapper" data-dynamic="publications">
                     <!-- Dynamic controls (search & filters) injected here -->
                     <div id="publications-controls" class="mb-8"></div>
@@ -370,7 +400,13 @@
             <section id="education" class="my-24 fade-in-section">
                 <div class="grid md:grid-cols-5 gap-8">
                     <div class="md:col-span-3">
-                        <h2 class="text-3xl font-bold mb-8 text-white">Education</h2>
+                        <h2 class="section-head mb-8" data-sh>
+                            <span class="sh-core"
+                                ><span class="sh-accent" data-words="Education|Learning|Growth"
+                                    >Education</span
+                                ></span
+                            >
+                        </h2>
                         <div
                             class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full"
                         >
@@ -470,7 +506,13 @@
                         </div>
                     </div>
                     <div class="md:col-span-2">
-                        <h2 class="text-3xl font-bold mb-8 text-white">Outreach</h2>
+                        <h2 class="section-head mb-8" data-sh>
+                            <span class="sh-core"
+                                ><span class="sh-accent" data-words="Outreach|Community|Reach"
+                                    >Outreach</span
+                                ></span
+                            >
+                        </h2>
                         <div
                             class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full flex flex-col"
                         >
@@ -554,7 +596,15 @@
         <footer id="contact" class="bg-black text-white border-t border-gray-800">
             <div class="container mx-auto px-6 py-12">
                 <div class="text-center">
-                    <h2 class="text-3xl font-bold">Let's Build the Future of AI Together</h2>
+                    <h2 class="section-head" data-sh>
+                        <span class="sh-core"
+                            >Let's Build the Future of
+                            <span class="sh-accent" data-words="AI|Intelligence|Innovation"
+                                >AI</span
+                            >
+                            Together</span
+                        >
+                    </h2>
                     <p class="mt-4 max-w-2xl mx-auto text-brand-gray">
                         I'm always open to discussing new projects, creative ideas, or opportunities
                         to be part of an ambitious vision. Feel free to reach out.

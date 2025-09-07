@@ -80,13 +80,62 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSummary(items) {
         const container = document.getElementById('summary-cards');
         if (!container) return;
+        function derivePillar(title) {
+            const t = (title || '').toLowerCase();
+            if (t.includes('machine')) return 'Core';
+            if (t.includes('generative') || t.includes('llm')) return 'LLMs';
+            if (t.includes('vector') || t.includes('retrieval')) return 'Retrieval';
+            if (t.includes('pipeline') || t.includes('mlops')) return 'MLOps';
+            return 'Focus';
+        }
+        // Inline SVG icon set (monotone)
+        const inlineIconMap = {
+            core: "<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><circle cx='12' cy='12' r='8'/></svg>",
+            brain: "<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M8 6a3 3 0 0 0-3 3v1.5A2.5 2.5 0 0 0 7.5 13H8v7h1a3 3 0 0 0 3-3v-4h1a3 3 0 0 0 3-3V8a2 2 0 0 0-2-2 2 2 0 0 0-2-2h-1'/><path d='M16 6a3 3 0 0 1 3 3v1.5A2.5 2.5 0 0 1 18.5 13H16v7h-1a3 3 0 0 1-3-3'/></svg>",
+            retrieval:
+                "<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M3 7h18M3 12h18M3 17h18'/><path d='M8 5v4M12 10v4M16 15v4'/></svg>",
+            pipeline:
+                "<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7' rx='1'/><rect x='14' y='3' width='7' height='7' rx='1'/><rect x='3' y='14' width='7' height='7' rx='1'/><path d='M10 6h4M6.5 10v4M17.5 10v4M10 17h4'/></svg>"
+        };
+        function pickInlineIcon(name) {
+            if (!name) return null;
+            const key = name.toLowerCase();
+            return inlineIconMap[key] || null;
+        }
+        function hexToRgba(hex, alpha) {
+            if (!hex || typeof hex !== 'string') return `rgba(255,88,88,${alpha})`;
+            const h = hex.replace('#', '');
+            if (![3, 6].includes(h.length)) return `rgba(255,88,88,${alpha})`;
+            const full =
+                h.length === 3
+                    ? h
+                          .split('')
+                          .map((c) => c + c)
+                          .join('')
+                    : h;
+            const r = parseInt(full.slice(0, 2), 16);
+            const g = parseInt(full.slice(2, 4), 16);
+            const b = parseInt(full.slice(4, 6), 16);
+            return `rgba(${r},${g},${b},${alpha})`;
+        }
         container.innerHTML = items
-            .map(
-                (s) =>
-                    `\n            <div class="bg-brand-card p-6 rounded-lg shadow-lg card-hover-effect border border-gray-800">\n              <h3 class="text-xl font-bold text-brand-red mb-2">${escapeHTML(
-                        s.title
-                    )}</h3>\n              <p class="text-brand-gray">${escapeHTML(s.body)}</p>\n            </div>`
-            )
+            .map((s, idx) => {
+                const pillar = derivePillar(s.title);
+                const metric = s.metric || s.badge;
+                const iconHTML = s.icon
+                    ? s.icon.includes('/') || s.icon.includes('.svg')
+                        ? `<span class='summary-icon'><img src='${escapeAttr(s.icon)}' alt='' loading='lazy' decoding='async' /></span>`
+                        : pickInlineIcon(s.icon)
+                          ? `<span class='summary-icon'>${pickInlineIcon(s.icon)}</span>`
+                          : ''
+                    : '';
+                const accentFrom = s.colorFrom || s.accentFrom || s.color || '#d92323';
+                const accentTo =
+                    s.colorTo || s.accentTo || (accentFrom === '#d92323' ? '#ff5858' : accentFrom);
+                const tilt = typeof s.tilt === 'number' ? s.tilt : 5;
+                const radial = hexToRgba(accentTo, 0.22);
+                return `\n            <div class="summary-card card-hover-effect group focus-within:outline-none" tabindex="0" data-index="${idx}" style="--card-accent-from:${escapeAttr(accentFrom)};--card-accent-to:${escapeAttr(accentTo)};--card-tilt-max:${tilt}deg;--card-accent-radial:${radial};">\n              <div class="summary-card-inner">\n                ${iconHTML}\n                <span class="summary-pill" aria-hidden="true">${escapeHTML(s.pillar || pillar)}</span>\n                <h3 class="summary-title">${escapeHTML(s.title)}</h3>\n                <p class="summary-body">${escapeHTML(s.body)}</p>\n                ${metric ? `<span class='summary-metric' aria-label='Key metric'>${escapeHTML(metric)}</span>` : ''}\n              </div>\n            </div>`;
+            })
             .join('');
     }
 
@@ -145,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 xp: it.xp
             };
         });
-
         // Deterministic simulated percentages for missing values (stable across loads)
         const base = 58;
         normalized.forEach((s, i) => {
@@ -663,58 +711,61 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!heroContainer || !gridContainer) return;
         if (!Array.isArray(items)) return;
 
-        // Sort newest first if date parse succeeds (expects published like '2025' or 'Jan 2025')
-        const parsed = [...items].map((p) => ({
-            raw: p,
-            dateVal: Date.parse(p.published) || Date.parse(p.updated || '') || 0
-        }));
-        parsed.sort((a, b) => b.dateVal - a.dateVal);
-
-        // Select up to 2 featured (explicit featured flag first, then newest)
-        const featuredExplicit = parsed.filter((p) => p.raw.featured).map((p) => p.raw);
-        const remainingForFeature = parsed
-            .filter((p) => !p.raw.featured)
-            .slice(0, Math.max(0, 2 - featuredExplicit.length))
-            .map((p) => p.raw);
-        const featuredSet = [...featuredExplicit, ...remainingForFeature].slice(0, 2);
-        const featuredIds = new Set(featuredSet.map((p) => p.title + '|' + p.published));
-        const rest = parsed
-            .filter((p) => !featuredIds.has(p.raw.title + '|' + p.raw.published))
-            .map((o) => o.raw);
-
-        function badgeHTML(pub) {
-            const badges = [];
-            const type = (pub.type || '').toLowerCase();
-            if (type)
-                badges.push(
-                    `<span class="pub-badge type-${escapeAttr(type)}">${escapeHTML(type)}</span>`
-                );
-            if (pub.updated && pub.updated !== pub.published)
-                badges.push('<span class="pub-badge type-updated">Updated</span>');
-            if (pub.year || pub.published) {
-                const yr = pub.year || (pub.published || '').match(/\d{4}/)?.[0];
-                if (yr) badges.push(`<span class="pub-badge">${escapeHTML(yr)}</span>`);
-            }
-            if (pub.domain) badges.push(`<span class="pub-badge">${escapeHTML(pub.domain)}</span>`);
-            return `<div class="pub-badges">${badges.join('')}</div>`;
-        }
-
-        function metaRow(pub) {
-            const reading = pub.readingTime || approxReading(pub.description);
-            return `<div class="pub-meta-row">${[
-                pub.published ? `<span>📅 <time>${escapeHTML(pub.published)}</time></span>` : '',
-                reading ? `<span>⏱ ${escapeHTML(reading)}</span>` : '',
-                pub.views ? `<span>👁 ${escapeHTML(String(pub.views))}</span>` : ''
-            ]
-                .filter(Boolean)
-                .join('')}</div>`;
-        }
-
+        // Normalize publication objects (expected keys: title, image, published, description, link, type, domain, featured, pdf)
+        const normalized = items
+            .map((it) => {
+                if (typeof it === 'string') {
+                    return { title: it };
+                }
+                return {
+                    title: it.title || it.name || 'Untitled',
+                    image: it.image || '',
+                    published: it.published || it.date || '',
+                    description: it.description || it.summary || '',
+                    link: it.link || it.url || '#',
+                    type: it.type || '',
+                    domain: it.domain || it.topic || '',
+                    featured: !!it.featured,
+                    pdf: it.pdf || null,
+                    readingTime: it.readingTime || null
+                };
+            })
+            .sort((a, b) => {
+                const da = Date.parse(a.published) || 0;
+                const db = Date.parse(b.published) || 0;
+                return db - da;
+            });
         function approxReading(text) {
             if (!text) return '';
             const words = String(text).trim().split(/\s+/).length;
             const mins = Math.max(1, Math.round(words / 200));
             return mins + ' min';
+        }
+
+        // --- Missing helper utilities (added) ---
+        function badgeHTML(pub) {
+            const pills = [];
+            if (pub.type) pills.push(`<span class="pub-pill type">${escapeHTML(pub.type)}</span>`);
+            if (pub.domain)
+                pills.push(`<span class="pub-pill domain">${escapeHTML(pub.domain)}</span>`);
+            if (pub.featured) pills.push('<span class="pub-pill featured">Featured</span>');
+            if (!pills.length) return '';
+            return `<div class="pub-badges" aria-label="Tags">${pills.join('')}</div>`;
+        }
+        function metaRow(pub) {
+            const rt = pub.readingTime || approxReading(pub.description);
+            let dateDisplay = '';
+            if (pub.published) {
+                // Try to parse; if invalid keep original string only
+                const ts = Date.parse(pub.published.replace(/,/g, '')); // tolerate comma
+                if (!isNaN(ts)) {
+                    const iso = new Date(ts).toISOString().split('T')[0];
+                    dateDisplay = `<time datetime="${iso}">${escapeHTML(pub.published)}</time>`;
+                } else {
+                    dateDisplay = `<span class="pub-date">${escapeHTML(pub.published)}</span>`;
+                }
+            }
+            return `<div class="pub-meta-row">${dateDisplay}${rt ? `<span class="reading-time">${escapeHTML(rt)}</span>` : ''}</div>`;
         }
 
         function summaryHTML(pub) {
@@ -756,6 +807,16 @@ document.addEventListener('DOMContentLoaded', () => {
             </article>`;
         }
 
+        // Parse + feature selection logic (wrap normalized list)
+        const parsed = normalized.map((raw) => ({ raw }));
+        const explicitFeatured = normalized.filter((p) => p.featured);
+        const fill = normalized
+            .filter((p) => !p.featured)
+            .slice(0, Math.max(0, 2 - explicitFeatured.length));
+        const featuredSet = [...explicitFeatured, ...fill].slice(0, 2);
+        const featIds = new Set(featuredSet.map((p) => p.title + '|' + p.published));
+        const rest = normalized.filter((p) => !featIds.has(p.title + '|' + p.published));
+
         // Build filter/search UI once
         if (controlsContainer && !controlsContainer.dataset.ready) {
             const types = Array.from(
@@ -770,11 +831,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 )
                 .join('');
             controlsContainer.innerHTML = `
-              <div class="pub-search-box">
-                <span class="icon">🔍</span>
-                <input id="pub-search" type="search" placeholder="Search guides & reports..." aria-label="Search publications" />
-              </div>
-              <div class="pub-filter-pills" role="toolbar" aria-label="Publication type filters">${pillsHTML}</div>`;
+                            <div class="pub-search-outer" data-enhanced>
+                                <div class="pub-search-box" role="search">
+                                    <span class="icon" aria-hidden="true">🔍</span>
+                                    <input id="pub-search" type="search" autocomplete="off" spellcheck="false" placeholder="Search guides & reports..." aria-label="Search publications" />
+                                    <button type="button" class="clear-btn" id="pub-search-clear" aria-label="Clear search" hidden>✕</button>
+                                    <div class="ring-anim" aria-hidden="true"></div>
+                                </div>
+                            </div>
+                            <div class="pub-filter-pills" role="toolbar" aria-label="Publication type filters">${pillsHTML}</div>`;
             controlsContainer.dataset.ready = 'true';
 
             controlsContainer.addEventListener('click', (e) => {
@@ -788,8 +853,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.setAttribute('aria-pressed', pressed ? 'false' : 'true');
                 applyFilters();
             });
-            controlsContainer.querySelector('#pub-search').addEventListener('input', () => {
+            const searchInput = controlsContainer.querySelector('#pub-search');
+            const clearBtn = controlsContainer.querySelector('#pub-search-clear');
+            searchInput.addEventListener('input', () => {
+                clearBtn.hidden = searchInput.value.length === 0;
                 applyFilters();
+            });
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && searchInput.value) {
+                    searchInput.value = '';
+                    clearBtn.hidden = true;
+                    applyFilters();
+                }
+            });
+            clearBtn.addEventListener('click', () => {
+                if (!searchInput.value) return;
+                searchInput.value = '';
+                clearBtn.hidden = true;
+                applyFilters();
+                searchInput.focus();
+            });
+        }
+
+        // Attach skeleton shimmer loaders to publication images
+        function attachPubImageSkeletons(scopeRoot = document) {
+            const imgs = scopeRoot.querySelectorAll(
+                '#publications-hero img.thumb:not([data-skel]), #publications-grid img.cover:not([data-skel])'
+            );
+            imgs.forEach((img) => {
+                img.dataset.skel = '1';
+                img.classList.add('pub-img-skel');
+                if (img.complete) {
+                    // If already cached
+                    requestAnimationFrame(() => img.classList.add('loaded'));
+                } else {
+                    img.addEventListener('load', () => img.classList.add('loaded'), {
+                        once: true
+                    });
+                    img.addEventListener(
+                        'error',
+                        () => {
+                            img.classList.add('loaded');
+                            img.classList.add('error');
+                        },
+                        { once: true }
+                    );
+                }
             });
         }
 
@@ -824,8 +933,25 @@ document.addEventListener('DOMContentLoaded', () => {
                       .map((p, i) => featureCardHTML(p, i))
                       .join('')}</div>`
                 : '';
-            gridContainer.innerHTML = remainder.map(cardHTML).join('');
+            if (reFeatured.length === 0 && remainder.length === 0) {
+                gridContainer.innerHTML = `<div class="pub-empty" role="status">No publications match your filters.<button type="button" class="pub-reset">Reset</button></div>`;
+            } else {
+                gridContainer.innerHTML = remainder.map(cardHTML).join('');
+            }
             requestAnimationFrame(equalizeHeights);
+            attachPubImageSkeletons(heroContainer);
+            attachPubImageSkeletons(gridContainer);
+            const resetBtn = gridContainer.querySelector('.pub-empty .pub-reset');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    // Clear filters & search
+                    controlsContainer
+                        ?.querySelectorAll('.pub-filter-pill[aria-pressed="true"]')
+                        .forEach((b) => b.setAttribute('aria-pressed', 'false'));
+                    if (searchEl) searchEl.value = '';
+                    applyFilters();
+                });
+            }
         }
 
         heroContainer.innerHTML = featuredSet.length
@@ -833,8 +959,14 @@ document.addEventListener('DOMContentLoaded', () => {
                   .map((p, i) => featureCardHTML(p, i))
                   .join('')}</div>`
             : '';
-        gridContainer.innerHTML = rest.map(cardHTML).join('');
+        if (featuredSet.length === 0 && rest.length === 0) {
+            gridContainer.innerHTML = `<div class="pub-empty" role="status">No publications available yet.</div>`;
+        } else {
+            gridContainer.innerHTML = rest.map(cardHTML).join('');
+        }
         requestAnimationFrame(equalizeHeights);
+        attachPubImageSkeletons(heroContainer);
+        attachPubImageSkeletons(gridContainer);
 
         function equalizeHeights() {
             // Equalize summary heights in feature cards for clean row
@@ -1056,6 +1188,460 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /* -------------------------------------------------- */
+    /* Hero Photo & Summary Cards Enhancements            */
+    /* -------------------------------------------------- */
+    (function initHeroPhotoAndSummary() {
+        const heroPhoto = document.querySelector('.hero-photo');
+        if (heroPhoto && !heroPhoto.dataset.enhanced) {
+            heroPhoto.dataset.enhanced = 'true';
+            // (Ring removed per request)
+            // 3D toggle button (added early so user can switch once loaded)
+            const toggle3D = document.createElement('button');
+            toggle3D.type = 'button';
+            toggle3D.className =
+                'absolute -bottom-5 left-1/2 -translate-x-1/2 z-10 text-xs px-3 py-1 rounded-md bg-brand-red/80 hover:bg-brand-red text-white shadow focus:outline-none focus-visible:ring ring-brand-red/60 transition';
+            toggle3D.textContent = '3D';
+            toggle3D.setAttribute('aria-pressed', 'false');
+            heroPhoto.appendChild(toggle3D);
+
+            // Particle layer (lightweight custom canvas; skips if prefers-reduced-motion)
+            const prMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!prMotion) {
+                const pCanvas = document.createElement('canvas');
+                pCanvas.className = 'hero-particles';
+                const ctx = pCanvas.getContext('2d');
+                heroPhoto.appendChild(pCanvas); // behind ring (z-index:-1 via CSS)
+                // Toggle control
+                const toggleBtn = document.createElement('button');
+                toggleBtn.type = 'button';
+                toggleBtn.className = 'hero-particles-toggle';
+                toggleBtn.setAttribute('aria-pressed', 'true');
+                toggleBtn.title = 'Toggle portrait particles';
+                toggleBtn.innerHTML = '<span>Particles</span>';
+                heroPhoto.appendChild(toggleBtn);
+                let enabled = true;
+                toggleBtn.addEventListener('click', () => {
+                    enabled = !enabled;
+                    toggleBtn.setAttribute('aria-pressed', String(enabled));
+                    if (enabled) requestAnimationFrame(tickParticles);
+                });
+                function resizeParticles() {
+                    const r = heroPhoto.getBoundingClientRect();
+                    const dpr = window.devicePixelRatio || 1;
+                    pCanvas.width = r.width * dpr;
+                    pCanvas.height = r.height * dpr;
+                    pCanvas.style.width = r.width + 'px';
+                    pCanvas.style.height = r.height + 'px';
+                }
+                resizeParticles();
+                window.addEventListener('resize', resizeParticles, { passive: true });
+                const BASE_COUNT = 32;
+                let PARTICLE_COUNT = BASE_COUNT;
+                let idle = false;
+                let idleTimer = null;
+                function armIdle() {
+                    if (idleTimer) clearTimeout(idleTimer);
+                    idleTimer = setTimeout(() => (idle = true), 5000);
+                    idle = false;
+                }
+                heroPhoto.addEventListener('pointermove', armIdle);
+                armIdle();
+                const particles = Array.from({ length: PARTICLE_COUNT }).map(() => {
+                    return {
+                        a: Math.random() * Math.PI * 2,
+                        r: 0.25 + Math.random() * 0.45, // relative radius (0..1) of circle
+                        spd: 0.0006 + Math.random() * 0.0012,
+                        size: 1 + Math.random() * 2,
+                        phase: Math.random() * Math.PI * 2
+                    };
+                });
+                function repopulate(targetCount) {
+                    if (targetCount === particles.length) return;
+                    if (targetCount < particles.length) {
+                        particles.length = targetCount;
+                        return;
+                    }
+                    while (particles.length < targetCount) {
+                        particles.push({
+                            a: Math.random() * Math.PI * 2,
+                            r: 0.25 + Math.random() * 0.45,
+                            spd: 0.0006 + Math.random() * 0.0012,
+                            size: 1 + Math.random() * 2,
+                            phase: Math.random() * Math.PI * 2
+                        });
+                    }
+                }
+                // Density shift on hover focus
+                heroPhoto.addEventListener('pointerenter', () => {
+                    PARTICLE_COUNT = (BASE_COUNT * 1.5) | 0;
+                    repopulate(PARTICLE_COUNT);
+                });
+                heroPhoto.addEventListener('pointerleave', () => {
+                    PARTICLE_COUNT = BASE_COUNT;
+                    repopulate(PARTICLE_COUNT);
+                });
+                // Observer to pause when off-screen
+                let visible = true;
+                if ('IntersectionObserver' in window) {
+                    const visObs = new IntersectionObserver(
+                        (entries) => {
+                            entries.forEach((e) => {
+                                visible = e.isIntersecting;
+                            });
+                        },
+                        { threshold: 0.1 }
+                    );
+                    visObs.observe(heroPhoto);
+                }
+                function tickParticles(ts) {
+                    if (!enabled || idle || !visible) {
+                        requestAnimationFrame(tickParticles);
+                        return;
+                    }
+                    const w = pCanvas.width;
+                    const h = pCanvas.height;
+                    ctx.clearRect(0, 0, w, h);
+                    const cx = w / 2;
+                    const cy = h / 2;
+                    particles.forEach((p) => {
+                        p.a += p.spd; // slow angular drift
+                        const wobble = Math.sin(ts * 0.0005 + p.phase) * 0.02;
+                        const rad = Math.min(cx, cy) * (p.r + wobble);
+                        const x = cx + Math.cos(p.a) * rad;
+                        const y = cy + Math.sin(p.a) * rad;
+                        const g = ctx.createRadialGradient(x, y, 0, x, y, p.size * 5);
+                        // Slightly dimmer for accessibility contrast
+                        g.addColorStop(0, 'rgba(255,140,110,0.42)');
+                        g.addColorStop(1, 'rgba(255,140,110,0)');
+                        ctx.fillStyle = g;
+                        ctx.beginPath();
+                        const dpr = window.devicePixelRatio || 1;
+                        ctx.arc(x, y, p.size * dpr, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(tickParticles);
+                }
+                requestAnimationFrame(tickParticles);
+            }
+
+            // Explicitly set background in case relative path in CSS fails after build
+            const imgPath = 'images/website-photo.png';
+            heroPhoto.style.setProperty('--hero-photo-url', `url('${imgPath}')`);
+            // If CSS failed to load ::after image, we can inline an <img> as fallback
+            setTimeout(() => {
+                // Check computed style to see if after content has size; if not, append fallback
+                if (!heroPhoto.querySelector('img')) {
+                    const fallbackImg = document.createElement('img');
+                    fallbackImg.src = imgPath;
+                    fallbackImg.alt = '';
+                    fallbackImg.setAttribute('aria-hidden', 'true');
+                    fallbackImg.style.cssText =
+                        'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%;';
+                    heroPhoto.appendChild(fallbackImg);
+                }
+            }, 400);
+
+            // Intersection observer for reveal
+            if (!heroPhoto.classList.contains('is-visible')) {
+                if ('IntersectionObserver' in window) {
+                    const obs = new IntersectionObserver(
+                        (entries, o) => {
+                            entries.forEach((e) => {
+                                if (e.isIntersecting) {
+                                    heroPhoto.classList.add('is-visible');
+                                    o.disconnect();
+                                }
+                            });
+                        },
+                        { threshold: 0.05 }
+                    );
+                    obs.observe(heroPhoto);
+                    // Fallback timeout in case observer never fires
+                    setTimeout(() => heroPhoto.classList.add('is-visible'), 1500);
+                } else {
+                    heroPhoto.classList.add('is-visible');
+                }
+            }
+
+            // Tilt interaction
+            const prefersReducedMotion = window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches;
+            if (!prefersReducedMotion) {
+                let raf = null;
+                let targetRX = 0,
+                    targetRY = 0;
+                const damp = 0.12;
+                function animateTilt() {
+                    const currentRX =
+                        parseFloat(getComputedStyle(heroPhoto).getPropertyValue('--tilt-rx')) || 0;
+                    const currentRY =
+                        parseFloat(getComputedStyle(heroPhoto).getPropertyValue('--tilt-ry')) || 0;
+                    const nextRX = currentRX + (targetRX - currentRX) * damp;
+                    const nextRY = currentRY + (targetRY - currentRY) * damp;
+                    heroPhoto.style.setProperty('--tilt-rx', nextRX + 'deg');
+                    heroPhoto.style.setProperty('--tilt-ry', nextRY + 'deg');
+                    if (Math.abs(nextRX - targetRX) > 0.01 || Math.abs(nextRY - targetRY) > 0.01) {
+                        raf = requestAnimationFrame(animateTilt);
+                    } else {
+                        raf = null;
+                    }
+                }
+                heroPhoto.addEventListener('pointermove', (e) => {
+                    const r = heroPhoto.getBoundingClientRect();
+                    const cx = r.left + r.width / 2;
+                    const cy = r.top + r.height / 2;
+                    const dx = (e.clientX - cx) / r.width; // -0.5..0.5 roughly
+                    const dy = (e.clientY - cy) / r.height;
+                    const max = 10; // deg
+                    targetRY = dx * max;
+                    targetRX = -dy * max;
+                    if (!raf) raf = requestAnimationFrame(animateTilt);
+                });
+                heroPhoto.addEventListener('pointerleave', () => {
+                    targetRX = 0;
+                    targetRY = 0;
+                    if (!raf) raf = requestAnimationFrame(animateTilt);
+                });
+            }
+
+            /* ---------------------- 3D PEDESTAL MODE ---------------------- */
+            let hero3DInitialized = false;
+            let threeCanvas = null;
+            let threeRenderer, threeScene, threeCamera, threeModel, threeFrameId;
+            const originalClasses = heroPhoto.className;
+            const prefersRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            function buildPedestalGeometry(THREE) {
+                // Simple pedestal: cylinder + top disk bevel (low poly for perf)
+                const group = new THREE.Group();
+                const cylGeo = new THREE.CylinderGeometry(1.05, 1.2, 0.4, 48, 1, true);
+                const cylMat = new THREE.MeshStandardMaterial({
+                    color: 0x1d1d1f,
+                    metalness: 0.55,
+                    roughness: 0.38,
+                    envMapIntensity: 0.8
+                });
+                const cyl = new THREE.Mesh(cylGeo, cylMat);
+                cyl.castShadow = false;
+                cyl.receiveShadow = true;
+                group.add(cyl);
+                const topGeo = new THREE.CircleGeometry(1.02, 48);
+                const topMat = new THREE.MeshStandardMaterial({
+                    color: 0x272729,
+                    metalness: 0.4,
+                    roughness: 0.32
+                });
+                const top = new THREE.Mesh(topGeo, topMat);
+                top.rotation.x = -Math.PI / 2;
+                top.position.y = 0.2 + 0.001;
+                top.receiveShadow = true;
+                group.add(top);
+                return group;
+            }
+
+            function buildPortraitPlane(THREE) {
+                const texLoader = new THREE.TextureLoader();
+                const tex = texLoader.load('images/website-photo.png');
+                tex.colorSpace =
+                    THREE.SRGBColorSpace ||
+                    (THREE.Texture && THREE.Texture.DEFAULT_COLOR_SPACE) ||
+                    undefined;
+                const planeGeo = new THREE.PlaneGeometry(2.0, 2.0, 1, 1);
+                const mat = new THREE.MeshStandardMaterial({
+                    map: tex,
+                    roughness: 0.9,
+                    metalness: 0.05
+                });
+                const plane = new THREE.Mesh(planeGeo, mat);
+                plane.position.y = 1.45; // stand above pedestal
+                plane.castShadow = false;
+                plane.receiveShadow = false;
+                return plane;
+            }
+
+            let resize3DHandler = null;
+            function initHero3D(auto = false) {
+                if (hero3DInitialized || typeof THREE === 'undefined') return;
+                hero3DInitialized = true;
+                heroPhoto.classList.add('mode-3d');
+                // Add pedestal shadow ellipse element for blending
+                const shadowEl = document.createElement('div');
+                shadowEl.className = 'hero-pedestal-shadow';
+                heroPhoto.appendChild(shadowEl);
+                threeCanvas = document.createElement('canvas');
+                threeCanvas.className = 'hero-3d';
+                heroPhoto.appendChild(threeCanvas);
+                const w = heroPhoto.clientWidth;
+                const h = heroPhoto.clientHeight;
+                threeRenderer = new THREE.WebGLRenderer({
+                    canvas: threeCanvas,
+                    antialias: true,
+                    alpha: true
+                });
+                threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                threeRenderer.setSize(w, h);
+                threeScene = new THREE.Scene();
+                threeCamera = new THREE.PerspectiveCamera(32, w / h, 0.1, 100);
+                threeCamera.position.set(0, 1.4, 4.5);
+                const hemi = new THREE.HemisphereLight(0xffffff, 0x202020, 0.9);
+                threeScene.add(hemi);
+                const dir = new THREE.DirectionalLight(0xffe0d0, 1.15);
+                dir.position.set(2.4, 3.2, 2.2);
+                threeScene.add(dir);
+                // Back rim light
+                const rim = new THREE.PointLight(0xff8855, 0.8, 8, 2);
+                rim.position.set(-2.2, 2.4, -2.5);
+                threeScene.add(rim);
+                // Subtle environment gradient background (optional)
+                const pedestal = buildPedestalGeometry(THREE);
+                pedestal.position.y = 0.2;
+                threeScene.add(pedestal);
+                const portrait = buildPortraitPlane(THREE);
+                threeScene.add(portrait);
+                threeModel = new THREE.Group();
+                threeModel.add(pedestal);
+                threeModel.add(portrait);
+                threeScene.add(threeModel);
+                // Auto slow oscillation
+                let t0 = window.performance ? performance.now() : Date.now();
+                let manualRotationY = 0; // declare before render to avoid TDZ issues
+                function render() {
+                    const now = window.performance ? performance.now() : Date.now();
+                    const t = now - t0;
+                    const base = Math.sin(t * 0.0004) * 0.35;
+                    threeModel.rotation.y = base + manualRotationY;
+                    if (!prefersRM) {
+                        threeModel.position.y = 0.05 + Math.sin(t * 0.0012) * 0.04;
+                    }
+                    threeRenderer.render(threeScene, threeCamera);
+                    threeFrameId = requestAnimationFrame(render);
+                }
+                render();
+                resize3DHandler = function onResize3D() {
+                    if (!threeRenderer) return;
+                    const w2 = heroPhoto.clientWidth;
+                    const h2 = heroPhoto.clientHeight;
+                    threeRenderer.setSize(w2, h2);
+                    threeCamera.aspect = w2 / h2;
+                    threeCamera.updateProjectionMatrix();
+                };
+                window.addEventListener('resize', resize3DHandler, { passive: true });
+                // Interactivity (drag rotate)
+                let isPointerDown = false;
+                let lastX = 0;
+                function onDown(e) {
+                    isPointerDown = true;
+                    lastX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+                }
+                function onMove(e) {
+                    if (!isPointerDown) return;
+                    const x = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+                    const dx = x - lastX;
+                    lastX = x;
+                    manualRotationY += dx * 0.005;
+                }
+                function onUp() {
+                    isPointerDown = false;
+                }
+                threeCanvas.addEventListener('pointerdown', onDown);
+                window.addEventListener('pointermove', onMove, { passive: true });
+                window.addEventListener('pointerup', onUp, { passive: true });
+                threeCanvas.addEventListener('touchstart', onDown, { passive: true });
+                window.addEventListener('touchmove', onMove, { passive: true });
+                window.addEventListener('touchend', onUp, { passive: true });
+                // If auto init hide toggle until ready
+                if (auto) toggle3D.setAttribute('aria-pressed', 'true');
+            }
+
+            function destroyHero3D() {
+                if (!hero3DInitialized) return;
+                hero3DInitialized = false;
+                heroPhoto.classList.remove('mode-3d');
+                if (typeof cancelAnimationFrame !== 'undefined' && threeFrameId) {
+                    cancelAnimationFrame(threeFrameId);
+                }
+                if (resize3DHandler) window.removeEventListener('resize', resize3DHandler);
+                if (threeCanvas) threeCanvas.remove();
+                const shadow = heroPhoto.querySelector('.hero-pedestal-shadow');
+                if (shadow) shadow.remove();
+                // restore ring etc (they remain in DOM, just re-show via CSS)
+            }
+
+            toggle3D.addEventListener('click', () => {
+                const active = heroPhoto.classList.contains('mode-3d');
+                if (active) {
+                    // turn OFF 3D
+                    destroyHero3D();
+                    toggle3D.setAttribute('aria-pressed', 'false');
+                } else {
+                    if (typeof THREE === 'undefined') {
+                        import('./vendor/three.min.js').then(() => initHero3D());
+                    } else {
+                        initHero3D();
+                    }
+                    toggle3D.setAttribute('aria-pressed', 'true');
+                }
+            });
+
+            // Auto-enable 3D pedestal after short delay (simulate museum idol)
+            setTimeout(() => {
+                if (!hero3DInitialized && typeof THREE !== 'undefined') {
+                    initHero3D(true);
+                }
+            }, 600);
+        }
+
+        // Summary cards reveal & pointer highlight tracking
+        const summaryContainer = document.getElementById('summary-cards');
+        if (summaryContainer && !summaryContainer.dataset.enhanced) {
+            summaryContainer.dataset.enhanced = 'true';
+            if ('IntersectionObserver' in window) {
+                const obs2 = new IntersectionObserver(
+                    (entries, o) => {
+                        entries.forEach((en) => {
+                            if (en.isIntersecting) {
+                                summaryContainer.classList.add('is-visible');
+                                o.disconnect();
+                            }
+                        });
+                    },
+                    { threshold: 0.2 }
+                );
+                obs2.observe(summaryContainer);
+            } else {
+                summaryContainer.classList.add('is-visible');
+            }
+            summaryContainer.addEventListener('pointermove', (e) => {
+                const card = e.target.closest('.card-hover-effect');
+                if (!card) return;
+                const r = card.getBoundingClientRect();
+                const mx = ((e.clientX - r.left) / r.width) * 100;
+                const my = ((e.clientY - r.top) / r.height) * 100;
+                card.style.setProperty('--mx', mx + '%');
+                card.style.setProperty('--my', my + '%');
+                // Calculate tilt relative to center (-0.5 .. 0.5) using per-card max tilt variable
+                const dx = mx / 100 - 0.5;
+                const dy = my / 100 - 0.5;
+                const declaredTilt = parseFloat(
+                    getComputedStyle(card).getPropertyValue('--card-tilt-max')
+                );
+                const maxTilt = isNaN(declaredTilt) ? 5 : declaredTilt;
+                card.style.setProperty('--rx', `${(-dy * maxTilt).toFixed(2)}deg`);
+                card.style.setProperty('--ry', `${(dx * maxTilt).toFixed(2)}deg`);
+            });
+
+            summaryContainer.addEventListener('pointerleave', (e) => {
+                const cards = summaryContainer.querySelectorAll('.card-hover-effect');
+                cards.forEach((c) => {
+                    c.style.removeProperty('--rx');
+                    c.style.removeProperty('--ry');
+                });
+            });
+        }
+    })();
+
     // Fade-in on scroll
     const faders = document.querySelectorAll('.fade-in-section');
     if ('IntersectionObserver' in window) {
@@ -1073,6 +1659,62 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Fallback
         faders.forEach((f) => f.classList.add('is-visible'));
+    }
+
+    // Section Headings observer (data-sh)
+    (function initSectionHeadings() {
+        const heads = document.querySelectorAll('.section-head[data-sh]');
+        if (!heads.length) return;
+        if ('IntersectionObserver' in window) {
+            const hObs = new IntersectionObserver(
+                (entries, o) => {
+                    entries.forEach((en) => {
+                        if (en.isIntersecting) {
+                            en.target.setAttribute('data-inview', 'true');
+                            o.unobserve(en.target);
+                            // Start rotating words once in view
+                            startAccentRotation(en.target);
+                        }
+                    });
+                },
+                { threshold: 0.35, rootMargin: '0px 0px -10%' }
+            );
+            heads.forEach((h) => hObs.observe(h));
+        } else {
+            heads.forEach((h) => {
+                h.setAttribute('data-inview', 'true');
+                startAccentRotation(h);
+            });
+        }
+    })();
+
+    function startAccentRotation(headEl) {
+        const accent = headEl.querySelector('.sh-accent[data-words]');
+        if (!accent) return;
+        const list = (accent.getAttribute('data-words') || '')
+            .split('|')
+            .map((w) => w.trim())
+            .filter(Boolean);
+        if (list.length <= 1) return;
+        let idx = 0;
+        accent.textContent = list[0];
+        accent.dataset.rotating = 'true';
+        const interval = 3400;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+        setTimeout(cycle, interval);
+        function cycle() {
+            accent.classList.remove('sh-rotate-in');
+            accent.classList.add('sh-rotate-out');
+            const next = list[(idx + 1) % list.length];
+            setTimeout(() => {
+                idx = (idx + 1) % list.length;
+                accent.textContent = next;
+                accent.classList.remove('sh-rotate-out');
+                accent.classList.add('sh-rotate-in');
+            }, 480);
+            setTimeout(cycle, interval);
+        }
     }
 
     // Three.js starfield (skipped if reduced motion OR no canvas)
