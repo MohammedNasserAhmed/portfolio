@@ -659,6 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderPublications(items) {
         const heroContainer = document.getElementById('publications-hero');
         const gridContainer = document.getElementById('publications-grid');
+        const controlsContainer = document.getElementById('publications-controls');
         if (!heroContainer || !gridContainer) return;
         if (!Array.isArray(items)) return;
 
@@ -755,12 +756,116 @@ document.addEventListener('DOMContentLoaded', () => {
             </article>`;
         }
 
+        // Build filter/search UI once
+        if (controlsContainer && !controlsContainer.dataset.ready) {
+            const types = Array.from(
+                new Set(items.map((p) => (p.type || '').trim().toLowerCase()).filter(Boolean))
+            );
+            const pillsHTML = types
+                .map(
+                    (t) =>
+                        `<button class="pub-filter-pill" data-type="${escapeAttr(
+                            t
+                        )}" aria-pressed="false">${escapeHTML(t)}</button>`
+                )
+                .join('');
+            controlsContainer.innerHTML = `
+              <div class="pub-search-box">
+                <span class="icon">🔍</span>
+                <input id="pub-search" type="search" placeholder="Search guides & reports..." aria-label="Search publications" />
+              </div>
+              <div class="pub-filter-pills" role="toolbar" aria-label="Publication type filters">${pillsHTML}</div>`;
+            controlsContainer.dataset.ready = 'true';
+
+            controlsContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('.pub-filter-pill');
+                if (!btn) return;
+                const pressed = btn.getAttribute('aria-pressed') === 'true';
+                // Single-select behavior; could be multi if desired
+                controlsContainer
+                    .querySelectorAll('.pub-filter-pill[aria-pressed="true"]')
+                    .forEach((b) => b.setAttribute('aria-pressed', 'false'));
+                btn.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+                applyFilters();
+            });
+            controlsContainer.querySelector('#pub-search').addEventListener('input', () => {
+                applyFilters();
+            });
+        }
+
+        function applyFilters() {
+            const searchEl = controlsContainer?.querySelector('#pub-search');
+            const q = (searchEl?.value || '').toLowerCase();
+            const activeType = controlsContainer?.querySelector(
+                '.pub-filter-pill[aria-pressed="true"]'
+            )?.dataset.type;
+            const predicate = (p) => {
+                const matchesType = activeType ? (p.type || '').toLowerCase() === activeType : true;
+                if (!matchesType) return false;
+                if (!q) return true;
+                const blob = [p.title, p.description, p.type, p.domain]
+                    .filter(Boolean)
+                    .join(' ') //
+                    .toLowerCase();
+                return blob.includes(q);
+            };
+
+            const filtered = parsed.filter((o) => predicate(o.raw)).map((o) => o.raw);
+            // Recompute featured subset for filtered set
+            const reFeatExplicit = filtered.filter((p) => p.featured);
+            const reFeatFill = filtered
+                .filter((p) => !p.featured)
+                .slice(0, Math.max(0, 2 - reFeatExplicit.length));
+            const reFeatured = [...reFeatExplicit, ...reFeatFill].slice(0, 2);
+            const reIds = new Set(reFeatured.map((p) => p.title + '|' + p.published));
+            const remainder = filtered.filter((p) => !reIds.has(p.title + '|' + p.published));
+            heroContainer.innerHTML = reFeatured.length
+                ? `<div class="pub-featured-row">${reFeatured
+                      .map((p, i) => featureCardHTML(p, i))
+                      .join('')}</div>`
+                : '';
+            gridContainer.innerHTML = remainder.map(cardHTML).join('');
+            requestAnimationFrame(equalizeHeights);
+        }
+
         heroContainer.innerHTML = featuredSet.length
             ? `<div class="pub-featured-row">${featuredSet
                   .map((p, i) => featureCardHTML(p, i))
                   .join('')}</div>`
             : '';
         gridContainer.innerHTML = rest.map(cardHTML).join('');
+        requestAnimationFrame(equalizeHeights);
+
+        function equalizeHeights() {
+            // Equalize summary heights in feature cards for clean row
+            const featureCards = heroContainer.querySelectorAll('.pub-feature-card');
+            let maxSummary = 0;
+            featureCards.forEach((card) => {
+                const sum = card.querySelector('.pub-summary');
+                if (sum) {
+                    sum.style.maxHeight = 'none';
+                    const h = sum.getBoundingClientRect().height;
+                    if (h > maxSummary) maxSummary = h;
+                }
+            });
+            featureCards.forEach((card) => {
+                const sum = card.querySelector('.pub-summary');
+                if (sum) sum.style.maxHeight = maxSummary + 'px';
+            });
+
+            // Grid card title balancing (optional minor tweak)
+            const titles = gridContainer.querySelectorAll('.pub-card .pub-title');
+            let maxTitle = 0;
+            titles.forEach((t) => {
+                t.style.maxHeight = 'none';
+                const h = t.getBoundingClientRect().height;
+                if (h > maxTitle) maxTitle = h;
+            });
+            titles.forEach((t) => (t.style.maxHeight = maxTitle + 'px'));
+        }
+
+        // Apply filters initially if controls exist
+        if (controlsContainer?.dataset.ready) applyFilters();
     }
 
     function escapeHTML(str) {
