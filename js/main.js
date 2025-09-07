@@ -1564,8 +1564,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!hero3DInitialized) return;
                 hero3DInitialized = false;
                 heroPhoto.classList.remove('mode-3d');
-                if (typeof cancelAnimationFrame !== 'undefined' && threeFrameId) {
-                    cancelAnimationFrame(threeFrameId);
+                if (
+                    typeof window !== 'undefined' &&
+                    typeof window.cancelAnimationFrame === 'function' &&
+                    threeFrameId
+                ) {
+                    window.cancelAnimationFrame(threeFrameId);
                 }
                 if (resize3DHandler) window.removeEventListener('resize', resize3DHandler);
                 if (threeCanvas) threeCanvas.remove();
@@ -1618,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 summaryContainer.classList.add('is-visible');
             }
-            summaryContainer.addEventListener('pointermove', (e) => {
+            summaryContainer.addEventListener('pointermove', (_e) => {
                 const card = e.target.closest('.card-hover-effect');
                 if (!card) return;
                 const r = card.getBoundingClientRect();
@@ -1640,7 +1644,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.setProperty('--ry', `${(dx * maxTilt).toFixed(2)}deg`);
             });
 
-            summaryContainer.addEventListener('pointerleave', (e) => {
+            summaryContainer.addEventListener('pointerleave', (_e) => {
                 const cards = summaryContainer.querySelectorAll('.card-hover-effect');
                 cards.forEach((c) => {
                     c.style.removeProperty('--rx');
