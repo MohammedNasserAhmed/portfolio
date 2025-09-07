@@ -1623,11 +1623,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 summaryContainer.classList.add('is-visible');
             }
             summaryContainer.addEventListener('pointermove', (_e) => {
-                const card = e.target.closest('.card-hover-effect');
+                const card = _e.target.closest('.card-hover-effect');
                 if (!card) return;
                 const r = card.getBoundingClientRect();
-                const mx = ((e.clientX - r.left) / r.width) * 100;
-                const my = ((e.clientY - r.top) / r.height) * 100;
+                const mx = ((_e.clientX - r.left) / r.width) * 100;
+                const my = ((_e.clientY - r.top) / r.height) * 100;
                 card.style.setProperty('--mx', mx + '%');
                 card.style.setProperty('--my', my + '%');
                 // Calculate tilt relative to center (-0.5 .. 0.5) using per-card max tilt variable
