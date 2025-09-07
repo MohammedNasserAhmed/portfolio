@@ -1,5 +1,5 @@
-// Bumped VERSION to v3 for cache busting (GitHub Pages update)
-const VERSION = 'v3';
+// Bumped VERSION to v4 to flush prior caches (explicit user request)
+const VERSION = 'v4';
 const STATIC_CACHE = `portfolio-static-${VERSION}`;
 const RUNTIME_CACHE = 'portfolio-runtime';
 const IMAGE_CACHE = 'portfolio-images';
