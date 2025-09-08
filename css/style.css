@@ -1875,6 +1875,15 @@ body {
         0 0 0 1px rgba(255, 88, 88, 0.22);
     border-radius: 50%;
 }
+/* Variant: for pure video container (no static photo overlay) */
+.hero-photo.video-only::before,
+.hero-photo.video-only::after,
+.hero-photo.video-only .hero-ring,
+.hero-photo.video-only .hero-flash,
+.hero-photo.video-only canvas.hero-particles {
+    display: none !important;
+}
+
 .hero-photo .hero-ring {
     position: absolute;
     inset: 0;
