@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderProjects(data.projects || []);
             renderSkills(data.skills || []);
             renderPublications(data.publications || []);
+            renderOutreach(data.outreach || []);
             window.__PORTFOLIO_DATA__ = data; // expose for simple admin edits
         })
         .catch((err) => {
@@ -631,7 +632,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const techBadges = Array.from(card.querySelectorAll('span')).map((s) =>
                 (s.textContent || '').toLowerCase()
             );
-            const show = !filtering || filters.some((f) => techBadges.includes(f.toLowerCase()));
+            // Base visibility: match at least one filter (OR logic) or show all when no filters
+            let show = !filtering || filters.some((f) => techBadges.includes(f.toLowerCase()));
+            // If we're filtering, suppress the duplicated carousel clones (data-dupe="true")
+            // so the user doesn't see repeated project cards.
+            if (filtering && card.dataset.dupe === 'true') {
+                show = false;
+            }
             card.dataset.hidden = show ? 'false' : 'true';
             if (!show) {
                 // delay hide to allow transition
@@ -1049,6 +1056,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Apply filters initially if controls exist
         if (controlsContainer?.dataset.ready) applyFilters();
+    }
+
+    /* ---------------- Outreach / Training / Conferences ---------------- */
+    function renderOutreach(items) {
+        const grid = document.getElementById('outreach-grid');
+        if (!grid) return;
+        if (!Array.isArray(items) || items.length === 0) {
+            grid.innerHTML =
+                '<div class="p-4 rounded-lg bg-brand-card border border-gray-700 text-center text-sm text-gray-400">No engagements yet.</div>';
+            return;
+        }
+        // Normalize + sort (newest first by date if ISO or fallback string)
+        const normalized = items
+            .map((o) => ({
+                title: o.title || 'Untitled',
+                type: o.type || 'Session',
+                date: o.date || '',
+                location: o.location || '',
+                audience: o.audience || '',
+                description: o.description || '',
+                link: o.link || o.slides || '',
+                slides: o.slides || '',
+                image: o.image || ''
+            }))
+            .sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0));
+
+        const typeSet = Array.from(new Set(normalized.map((n) => n.type))).sort();
+        const filterBar = document.getElementById('outreach-filters');
+        if (filterBar && !filterBar.dataset.ready) {
+            filterBar.innerHTML = typeSet
+                .map(
+                    (t) =>
+                        `<button class="px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700 transition text-gray-300" data-type="${escapeAttr(t)}" aria-pressed="false">${escapeHTML(t)}</button>`
+                )
+                .join('');
+            filterBar.dataset.ready = 'true';
+            filterBar.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-type]');
+                if (!btn) return;
+                const active = btn.getAttribute('aria-pressed') === 'true';
+                filterBar
+                    .querySelectorAll('button[aria-pressed="true"]')
+                    .forEach((b) => b.setAttribute('aria-pressed', 'false'));
+                btn.setAttribute('aria-pressed', active ? 'false' : 'true');
+                applyFilters();
+            });
+        }
+
+        function cardHTML(ev, i) {
+            const d = ev.date
+                ? `<time datetime="${escapeAttr(ev.date)}" class="block text-xs text-gray-400">${escapeHTML(ev.date)}</time>`
+                : '';
+            const loc = ev.location
+                ? `<span class="text-xs text-gray-400">${escapeHTML(ev.location)}</span>`
+                : '';
+            const aud = ev.audience
+                ? `<span class="text-xs text-gray-400">${escapeHTML(ev.audience)}</span>`
+                : '';
+            const linkBtn = ev.link
+                ? `<a href="${escapeAttr(ev.link)}" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-brand-red text-xs font-semibold hover:underline">Details →</a>`
+                : '';
+            const slidesBtn =
+                !ev.link && ev.slides
+                    ? `<a href="${escapeAttr(ev.slides)}" target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-brand-red text-xs font-semibold hover:underline">Slides →</a>`
+                    : '';
+            const img = ev.image
+                ? `<div class="h-32 -mx-4 -mt-4 mb-3 rounded-t-lg overflow-hidden bg-gray-800"><img src="${escapeAttr(ev.image)}" alt="" class="w-full h-full object-cover" loading="lazy"/></div>`
+                : '';
+            return `<article class="relative p-4 rounded-lg bg-brand-card border border-gray-700 flex flex-col min-h-[200px] hover:border-brand-red/60 transition group" data-type="${escapeAttr(ev.type)}">
+                ${img}
+                <div class="flex items-start justify-between gap-3 mb-1">
+                    <h3 class="text-sm font-semibold text-white leading-snug flex-1">${escapeHTML(ev.title)}</h3>
+                    <span class="text-[10px] uppercase tracking-wide px-2 py-0.5 rounded-full bg-gray-800 text-gray-300 group-hover:bg-brand-red/20 group-hover:text-brand-red transition">${escapeHTML(ev.type)}</span>
+                </div>
+                ${d}
+                <div class="flex gap-2 flex-wrap mt-1">${loc}${aud}</div>
+                <p class="mt-2 text-xs text-gray-300 leading-relaxed line-clamp-4">${escapeHTML(ev.description)}</p>
+                ${linkBtn || slidesBtn || ''}
+            </article>`;
+        }
+
+        function applyFilters() {
+            const activeBtn = filterBar?.querySelector('button[aria-pressed="true"]');
+            const activeType = activeBtn?.dataset.type || null;
+            const list = activeType ? normalized.filter((n) => n.type === activeType) : normalized;
+            grid.innerHTML = list.map(cardHTML).join('');
+        }
+        applyFilters();
     }
 
     // Helper added outside renderPublications so both initial & dynamic renders can use it

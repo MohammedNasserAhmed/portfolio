@@ -70,6 +70,26 @@
                     "link": { "type": "string", "minLength": 1 }
                 }
             }
+        },
+        "outreach": {
+            "type": "array",
+            "description": "Training / Conferences / Outreach engagements",
+            "items": {
+                "type": "object",
+                "required": ["title", "date", "type"],
+                "additionalProperties": false,
+                "properties": {
+                    "title": { "type": "string", "minLength": 1 },
+                    "type": { "type": "string", "minLength": 1 },
+                    "date": { "type": "string", "minLength": 1 },
+                    "location": { "type": "string" },
+                    "audience": { "type": "string" },
+                    "description": { "type": "string" },
+                    "link": { "type": "string" },
+                    "slides": { "type": "string" },
+                    "image": { "type": "string" }
+                }
+            }
         }
     }
 }
