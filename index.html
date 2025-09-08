@@ -238,7 +238,7 @@
                         reinforcement learning.
                     </p>
                     <div
-                        class="mt-8 flex items-center gap-4 justify-center md:justify-start flex-wrap"
+                        class="mt-8 flex items-center gap-5 justify-center md:justify-start flex-wrap relative"
                     >
                         <a
                             href="#contact"
@@ -250,11 +250,23 @@
                             class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
                             >View Work</a
                         >
-                        <img
-                            src="images/website-photo.png"
-                            alt="Portrait"
-                            class="w-14 h-14 rounded-full object-cover border border-gray-700 shadow-sm hidden sm:inline-block"
-                        />
+                        <div class="hidden sm:flex items-center">
+                            <div class="relative group">
+                                <div
+                                    class="w-24 h-24 rounded-full flex items-center justify-center"
+                                >
+                                    <div
+                                        class="relative w-full h-full rounded-full ring-4 ring-brand-red/90 bg-brand-red/10 overflow-hidden shadow-lg shadow-brand-red/30"
+                                    >
+                                        <img
+                                            src="images/website-photo.png"
+                                            alt="Portrait"
+                                            class="w-full h-full object-cover scale-105 transition-transform duration-500 group-hover:scale-110"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
