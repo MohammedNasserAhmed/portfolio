@@ -629,10 +629,6 @@ video {
     border-width: 0;
 }
 
-.pointer-events-none {
-    pointer-events: none;
-}
-
 .\!visible {
     visibility: visible !important;
 }
@@ -659,10 +655,6 @@ video {
 
 .sticky {
     position: sticky;
-}
-
-.inset-0 {
-    inset: 0px;
 }
 
 .-bottom-5 {
@@ -917,16 +909,6 @@ video {
         scaleY(var(--tw-scale-y));
 }
 
-@keyframes pulse {
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.animate-pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
 .resize-none {
     resize: none;
 }
@@ -1108,6 +1090,10 @@ video {
     background-color: rgb(217 35 35 / 0.1);
 }
 
+.bg-brand-red\/5 {
+    background-color: rgb(217 35 35 / 0.05);
+}
+
 .bg-brand-red\/80 {
     background-color: rgb(217 35 35 / 0.8);
 }
@@ -1125,20 +1111,6 @@ video {
 .bg-red-700 {
     --tw-bg-opacity: 1;
     background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
-}
-
-.bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
-.from-brand-red {
-    --tw-gradient-from: #d92323 var(--tw-gradient-from-position);
-    --tw-gradient-to: rgb(217 35 35 / 0) var(--tw-gradient-to-position);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.to-yellow-400 {
-    --tw-gradient-to: #facc15 var(--tw-gradient-to-position);
 }
 
 .object-cover {
@@ -1372,18 +1344,6 @@ video {
     color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.opacity-0 {
-    opacity: 0;
-}
-
-.opacity-100 {
-    opacity: 1;
-}
-
-.opacity-30 {
-    opacity: 0.3;
-}
-
 .opacity-60 {
     opacity: 0.6;
 }
@@ -1391,13 +1351,6 @@ video {
 .shadow {
     --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-    box-shadow:
-        var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-2xl {
-    --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-    --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
     box-shadow:
         var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
@@ -1420,11 +1373,6 @@ video {
 
 .shadow-black\/20 {
     --tw-shadow-color: rgb(0 0 0 / 0.2);
-    --tw-shadow: var(--tw-shadow-colored);
-}
-
-.shadow-brand-red\/20 {
-    --tw-shadow-color: rgb(217 35 35 / 0.2);
     --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -1464,13 +1412,6 @@ video {
 
 .ring-brand-red\/90 {
     --tw-ring-color: rgb(217 35 35 / 0.9);
-}
-
-.blur-2xl {
-    --tw-blur: blur(40px);
-    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale)
-        var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia)
-        var(--tw-drop-shadow);
 }
 
 .filter {
@@ -1525,10 +1466,6 @@ video {
 
 .duration-500 {
     transition-duration: 500ms;
-}
-
-.duration-700 {
-    transition-duration: 700ms;
 }
 
 /* Theme Variables */
@@ -3739,6 +3676,313 @@ body {
 .hero-photo.video-only .hero-flash,
 .hero-photo.video-only canvas.hero-particles {
     display: none !important;
+}
+
+/* Static hero photo container (post-video removal) */
+
+.hero-photo-static {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    isolation: isolate;
+}
+
+/* Animated hero section background (wraps entire headline + photo) */
+
+.hero-section-animated {
+    position: relative;
+    --hero-bg-accent: #d92323;
+    --hero-bg-accent-soft: #ff8052;
+    --hero-bg-dark: #0e0e0e;
+    background:
+        radial-gradient(circle at 14% 38%, rgba(217, 35, 35, 0.18), rgba(217, 35, 35, 0) 60%),
+        radial-gradient(circle at 86% 72%, rgba(255, 128, 82, 0.14), rgba(255, 128, 82, 0) 65%),
+        linear-gradient(160deg, rgba(217, 35, 35, 0.1), rgba(217, 35, 35, 0) 55%);
+    animation: heroBgShift 22s ease-in-out infinite;
+}
+
+@keyframes heroBgShift {
+    0% {
+        background-position:
+            14% 38%,
+            86% 72%,
+            0% 0%;
+    }
+
+    50% {
+        background-position:
+            20% 32%,
+            80% 68%,
+            40% 50%;
+    }
+
+    100% {
+        background-position:
+            14% 38%,
+            86% 72%,
+            0% 0%;
+    }
+}
+
+.hero-section-animated .hero-bg-layer {
+    position: absolute;
+    inset: -25% -15%;
+    z-index: -2;
+    background:
+        radial-gradient(circle at 18% 32%, rgba(217, 35, 35, 0.45), transparent 60%),
+        radial-gradient(circle at 82% 68%, rgba(255, 128, 82, 0.4), transparent 65%),
+        radial-gradient(circle at 50% 50%, rgba(217, 35, 35, 0.18), rgba(217, 35, 35, 0) 70%),
+        linear-gradient(145deg, rgba(217, 35, 35, 0.15), rgba(0, 0, 0, 0));
+    filter: saturate(140%) brightness(1.05);
+    animation: heroBgDrift 26s linear infinite;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.hero-section-animated .hero-bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 60% 40%, rgba(255, 255, 255, 0.08), transparent 70%),
+        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.05), transparent 65%);
+    mix-blend-mode: overlay;
+    animation: heroBgPulse 7.5s ease-in-out infinite;
+}
+
+.hero-section-animated .hero-bg-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    -webkit-mask: radial-gradient(circle at center, #000 60%, rgba(0, 0, 0, 0) 95%);
+    mask: radial-gradient(circle at center, #000 60%, rgba(0, 0, 0, 0) 95%);
+    z-index: -1;
+}
+
+.hero-section-animated .hero-bg-particles::before,
+.hero-section-animated .hero-bg-particles::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.55) 0.75px,
+        transparent 1.2px
+    );
+    background-size: 28px 28px;
+    opacity: 0.2;
+    animation: heroStarsDrift 60s linear infinite;
+}
+
+.hero-section-animated .hero-bg-particles::after {
+    background-size: 46px 46px;
+    opacity: 0.1;
+    animation-duration: 95s;
+    animation-direction: reverse;
+    filter: blur(0.5px);
+}
+
+@media (max-width: 768px) {
+    .hero-section-animated .hero-bg-layer {
+        opacity: 0.42;
+    }
+
+    .hero-section-animated .hero-bg-particles {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-section-animated .hero-bg-layer,
+    .hero-section-animated .hero-bg-layer::after,
+    .hero-section-animated .hero-bg-particles::before,
+    .hero-section-animated .hero-bg-particles::after {
+        animation: none;
+    }
+}
+
+@keyframes heroBgDrift {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.06);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes heroBgPulse {
+    0%,
+    100% {
+        opacity: 0.6;
+        filter: blur(0px) brightness(1);
+    }
+
+    50% {
+        opacity: 0.85;
+        filter: blur(2px) brightness(1.08);
+    }
+}
+
+@keyframes heroStarsDrift {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-120px, -80px, 0);
+    }
+}
+
+.hero-photo-static img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+/* Animated background + ambient effects for static hero photo */
+
+.hero-photo-static::before,
+.hero-photo-static::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.24;
+    /* stronger base glow */
+    animation: heroAmbientStatic 11s linear infinite;
+    /* slightly faster */
+    background:
+        radial-gradient(circle at 28% 32%, rgba(255, 95, 95, 0.55), rgba(255, 95, 95, 0) 60%),
+        radial-gradient(circle at 72% 68%, rgba(255, 180, 120, 0.45), rgba(255, 180, 120, 0) 65%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 70%);
+    filter: blur(8px) saturate(120%);
+    transition: opacity 0.6s ease;
+}
+
+.hero-photo-static::after {
+    animation-direction: reverse;
+    animation-duration: 15s;
+    /* keep counter layer slower for parallax */
+    opacity: 0.34;
+    /* stronger secondary glow */
+    filter: blur(16px) saturate(155%);
+}
+
+/* Subtle idle float & entrance */
+
+.hero-photo-static img {
+    animation:
+        heroPhotoIn 1.1s ease forwards,
+        heroFloat 7s ease-in-out infinite 1.1s;
+    /* faster float cycle */
+}
+
+/* Speed / glow modifier utilities */
+
+.hero-photo-static.speed-slower::before,
+.hero-photo-static.speed-slower::after {
+    animation-duration: 18s !important;
+}
+
+.hero-photo-static.speed-slower img {
+    animation:
+        heroPhotoIn 1.2s ease forwards,
+        heroFloat 11s ease-in-out infinite 1.2s !important;
+}
+
+.hero-photo-static.speed-faster::before {
+    animation-duration: 8s !important;
+}
+
+.hero-photo-static.speed-faster::after {
+    animation-duration: 11s !important;
+}
+
+.hero-photo-static.speed-faster img {
+    animation:
+        heroPhotoIn 0.95s ease forwards,
+        heroFloat 5.5s ease-in-out infinite 0.95s !important;
+}
+
+.hero-photo-static.glow-strong::before {
+    opacity: 0.35 !important;
+    filter: blur(10px) saturate(150%) brightness(1.1) !important;
+}
+
+.hero-photo-static.glow-strong::after {
+    opacity: 0.46 !important;
+    filter: blur(20px) saturate(170%) brightness(1.15) !important;
+}
+
+.hero-photo-static.glow-soft::before {
+    opacity: 0.14 !important;
+    filter: blur(6px) saturate(110%) brightness(1) !important;
+}
+
+.hero-photo-static.glow-soft::after {
+    opacity: 0.18 !important;
+    filter: blur(10px) saturate(120%) brightness(1) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-photo-static::before,
+    .hero-photo-static::after {
+        animation: none;
+        opacity: 0.12;
+    }
+
+    .hero-photo-static img {
+        animation: none;
+    }
+}
+
+@keyframes heroAmbientStatic {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.04);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes heroFloat {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+
+    25% {
+        transform: translateY(-6px) scale(1.01);
+    }
+
+    50% {
+        transform: translateY(0px) scale(1);
+    }
+
+    75% {
+        transform: translateY(5px) scale(1.005);
+    }
+
+    100% {
+        transform: translateY(0px) scale(1);
+    }
 }
 
 .hero-photo .hero-ring {
