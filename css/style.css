@@ -1891,6 +1891,113 @@ body {
     border-radius: 50%;
     isolation: isolate;
 }
+/* Animated hero section background (wraps entire headline + photo) */
+.hero-section-animated {
+    position: relative;
+    --hero-bg-accent: #d92323;
+    --hero-bg-accent-soft: #ff8052;
+    --hero-bg-dark: #0e0e0e;
+}
+.hero-section-animated .hero-bg-layer {
+    position: absolute;
+    inset: -25% -15%;
+    background:
+        radial-gradient(circle at 18% 32%, rgba(217, 35, 35, 0.45), transparent 60%),
+        radial-gradient(circle at 82% 68%, rgba(255, 128, 82, 0.4), transparent 65%),
+        radial-gradient(circle at 50% 50%, rgba(217, 35, 35, 0.18), rgba(217, 35, 35, 0) 70%),
+        linear-gradient(145deg, rgba(217, 35, 35, 0.15), rgba(0, 0, 0, 0));
+    filter: saturate(140%) brightness(1.05);
+    animation: heroBgDrift 26s linear infinite;
+    opacity: 0.55;
+    pointer-events: none;
+}
+.hero-section-animated .hero-bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 60% 40%, rgba(255, 255, 255, 0.08), transparent 70%),
+        radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.05), transparent 65%);
+    mix-blend-mode: overlay;
+    animation: heroBgPulse 7.5s ease-in-out infinite;
+}
+.hero-section-animated .hero-bg-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    mask: radial-gradient(circle at center, #000 60%, rgba(0, 0, 0, 0) 95%);
+}
+.hero-section-animated .hero-bg-particles::before,
+.hero-section-animated .hero-bg-particles::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.55) 0.75px,
+        transparent 1.2px
+    );
+    background-size: 28px 28px;
+    opacity: 0.2;
+    animation: heroStarsDrift 60s linear infinite;
+}
+.hero-section-animated .hero-bg-particles::after {
+    background-size: 46px 46px;
+    opacity: 0.1;
+    animation-duration: 95s;
+    animation-direction: reverse;
+    filter: blur(0.5px);
+}
+@media (max-width: 768px) {
+    .hero-section-animated .hero-bg-layer {
+        opacity: 0.42;
+    }
+    .hero-section-animated .hero-bg-particles {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-section-animated .hero-bg-layer,
+    .hero-section-animated .hero-bg-layer::after,
+    .hero-section-animated .hero-bg-particles::before,
+    .hero-section-animated .hero-bg-particles::after {
+        animation: none;
+    }
+}
+@keyframes heroBgDrift {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.06);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+@keyframes heroBgPulse {
+    0%,
+    100% {
+        opacity: 0.6;
+        filter: blur(0px) brightness(1);
+    }
+    50% {
+        opacity: 0.85;
+        filter: blur(2px) brightness(1.08);
+    }
+}
+@keyframes heroStarsDrift {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-120px, -80px, 0);
+    }
+}
 .hero-photo-static img {
     display: block;
     width: 100%;
