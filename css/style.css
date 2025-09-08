@@ -1901,6 +1901,7 @@ body {
 .hero-section-animated .hero-bg-layer {
     position: absolute;
     inset: -25% -15%;
+    z-index: -2;
     background:
         radial-gradient(circle at 18% 32%, rgba(217, 35, 35, 0.45), transparent 60%),
         radial-gradient(circle at 82% 68%, rgba(255, 128, 82, 0.4), transparent 65%),
@@ -1927,6 +1928,7 @@ body {
     pointer-events: none;
     overflow: hidden;
     mask: radial-gradient(circle at center, #000 60%, rgba(0, 0, 0, 0) 95%);
+    z-index: -1;
 }
 .hero-section-animated .hero-bg-particles::before,
 .hero-section-animated .hero-bg-particles::after {
