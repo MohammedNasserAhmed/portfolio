@@ -1884,6 +1884,20 @@ body {
     display: none !important;
 }
 
+/* Static hero photo container (post-video removal) */
+.hero-photo-static {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    isolation: isolate;
+}
+.hero-photo-static img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .hero-photo .hero-ring {
     position: absolute;
     inset: 0;

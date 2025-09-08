@@ -1376,21 +1376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (function initHeroPhotoAndSummary() {
         const heroPhoto = document.querySelector('.hero-photo');
         // Hero video progressive enhancement
-        const heroVid = document.getElementById(
-            document.documentElement.lang === 'ar' ? 'hero-video-ar' : 'hero-video'
-        );
-        if (heroVid) {
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (reduceMotion) {
-                // Show poster only
-                heroVid.removeAttribute('autoplay');
-                heroVid.pause();
-            } else {
-                heroVid.addEventListener('loadeddata', () => {
-                    heroVid.classList.add('opacity-100');
-                });
-            }
-        }
+        // Video removed per design update (fallback now static photo). Cleanup any legacy classes.
         if (heroPhoto && !heroPhoto.dataset.enhanced) {
             heroPhoto.dataset.enhanced = 'true';
             // (Ring removed per request)
