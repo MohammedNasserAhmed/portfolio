@@ -1898,6 +1898,33 @@ body {
     --hero-bg-accent-soft: #ff8052;
     --hero-bg-dark: #0e0e0e;
 }
+.hero-section-animated {
+    background:
+        radial-gradient(circle at 14% 38%, rgba(217, 35, 35, 0.18), rgba(217, 35, 35, 0) 60%),
+        radial-gradient(circle at 86% 72%, rgba(255, 128, 82, 0.14), rgba(255, 128, 82, 0) 65%),
+        linear-gradient(160deg, rgba(217, 35, 35, 0.1), rgba(217, 35, 35, 0) 55%);
+    animation: heroBgShift 22s ease-in-out infinite;
+}
+@keyframes heroBgShift {
+    0% {
+        background-position:
+            14% 38%,
+            86% 72%,
+            0% 0%;
+    }
+    50% {
+        background-position:
+            20% 32%,
+            80% 68%,
+            40% 50%;
+    }
+    100% {
+        background-position:
+            14% 38%,
+            86% 72%,
+            0% 0%;
+    }
+}
 .hero-section-animated .hero-bg-layer {
     position: absolute;
     inset: -25% -15%;
