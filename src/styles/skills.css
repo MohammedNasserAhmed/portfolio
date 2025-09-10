@@ -173,8 +173,13 @@
 }
 
 @keyframes logo-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
 }
 
 /* Skill Labels */
@@ -268,7 +273,9 @@
     pointer-events: none;
     opacity: 0;
     transform: translateY(4px) scale(0.96);
-    transition: opacity 0.16s ease, transform 0.16s ease;
+    transition:
+        opacity 0.16s ease,
+        transform 0.16s ease;
     max-width: 240px;
     font-weight: 500;
 }
@@ -309,17 +316,37 @@
 
 /* Halo Pulse Animations */
 @keyframes halo-pulse {
-    0% { opacity: 0; transform: scale(0.55); }
-    40% { opacity: 0.85; }
-    75% { opacity: 0.25; }
-    100% { opacity: 0; transform: scale(1.65); }
+    0% {
+        opacity: 0;
+        transform: scale(0.55);
+    }
+    40% {
+        opacity: 0.85;
+    }
+    75% {
+        opacity: 0.25;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.65);
+    }
 }
 
 @keyframes halo-pulse-selected {
-    0% { opacity: 0; transform: scale(0.55); }
-    30% { opacity: 0.95; }
-    60% { opacity: 0.35; }
-    100% { opacity: 0; transform: scale(1.9); }
+    0% {
+        opacity: 0;
+        transform: scale(0.55);
+    }
+    30% {
+        opacity: 0.95;
+    }
+    60% {
+        opacity: 0.35;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.9);
+    }
 }
 
 /* Responsive Design */
@@ -328,7 +355,7 @@
         --arc-cell: 96px;
         gap: 1.9rem 2rem;
     }
-    
+
     .arc-svg {
         width: 74px;
         height: 74px;
@@ -340,12 +367,12 @@
         --arc-cell: 86px;
         gap: 1.65rem 1.65rem;
     }
-    
+
     .skill-item {
         width: 54px;
         height: 54px;
     }
-    
+
     .arc-svg {
         width: 68px;
         height: 68px;
@@ -374,11 +401,11 @@
         transform: none !important;
         filter: none !important;
     }
-    
+
     .skill-item img {
         animation: none !important;
     }
-    
+
     .skill-arc.reveal::after {
         animation: none !important;
         opacity: 0 !important;
@@ -422,7 +449,7 @@
     transform: translateY(-2px);
 }
 
-.skill-arc[data-selected="true"] {
+.skill-arc[data-selected='true'] {
     background: rgba(217, 35, 35, 0.1);
     border: 1px solid rgba(217, 35, 35, 0.3);
 }
@@ -496,19 +523,19 @@
 }
 
 /* Performance bands */
-.skill-arc[data-band="low"] .ring-progress {
+.skill-arc[data-band='low'] .ring-progress {
     stroke: #ef4444;
 }
 
-.skill-arc[data-band="mid"] .ring-progress {
+.skill-arc[data-band='mid'] .ring-progress {
     stroke: #f59e0b;
 }
 
-.skill-arc[data-band="high"] .ring-progress {
+.skill-arc[data-band='high'] .ring-progress {
     stroke: #10b981;
 }
 
-.skill-arc[data-band="top"] .ring-progress {
+.skill-arc[data-band='top'] .ring-progress {
     stroke: url(#grad-accent);
 }
 
@@ -534,7 +561,7 @@
     border-color: var(--brand-red);
 }
 
-.skill-cat-pill[aria-pressed="true"] {
+.skill-cat-pill[aria-pressed='true'] {
     background: var(--brand-red);
     border-color: var(--brand-red);
 }
@@ -555,7 +582,8 @@
 
 /* Animations */
 @keyframes skillPulse {
-    0%, 100% {
+    0%,
+    100% {
         transform: scale(1);
     }
     50% {
@@ -563,7 +591,7 @@
     }
 }
 
-.skill-arc[data-selected="true"] .skill-item {
+.skill-arc[data-selected='true'] .skill-item {
     animation: skillPulse 2s ease-in-out infinite;
 }
 
@@ -573,17 +601,17 @@
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         gap: 1rem;
     }
-    
+
     .arc-svg {
         width: 70px;
         height: 70px;
     }
-    
+
     .skill-item {
         width: 40px;
         height: 40px;
     }
-    
+
     .skill-item img {
         width: 20px;
         height: 20px;
@@ -595,12 +623,12 @@
     .skill-arc {
         transition: none;
     }
-    
+
     .ring-progress {
         transition: none;
     }
-    
-    .skill-arc[data-selected="true"] .skill-item {
+
+    .skill-arc[data-selected='true'] .skill-item {
         animation: none;
     }
 }

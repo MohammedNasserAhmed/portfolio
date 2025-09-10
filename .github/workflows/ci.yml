@@ -1,54 +1,54 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [ main ]
-  push:
-    branches: [ main ]
+    pull_request:
+        branches: [main]
+    push:
+        branches: [main]
 
 jobs:
-  format-and-build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      - name: Install deps
-        run: npm ci
-      - name: Prettier check
-        run: npm run format:check
-      - name: ESLint
-        run: npm run lint
-      - name: Validate content JSON schema
-        run: npm run validate:content
-      - name: Build (production CSS + JS)
-        run: npm run build:prod
-      - name: Debug dist contents
-        run: |
-          echo "Listing dist/";
-          ls -al dist || dir dist
-          echo "Checking main.js head snippet:";
-          head -n 20 dist/main.js || sed -n '1,20p' dist/main.js
-      - name: Env info
-        run: |
-          node -v
-          npm -v
-          npx lighthouse --version || true
-      - name: Start static server
-        run: npx serve -l 5500 &
-      - name: Wait for server
-        run: npx wait-on http://localhost:5500
-      - name: Lighthouse (perf+accessibility+SEO)
-        run: npm run lighthouse
-        env:
-          LH_URL: http://localhost:5500/
-      - name: Upload dist artifact
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-dist
-          path: dist
+    format-and-build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: 'npm'
+            - name: Install deps
+              run: npm ci
+            - name: Prettier check
+              run: npm run format:check
+            - name: ESLint
+              run: npm run lint
+            - name: Validate content JSON schema
+              run: npm run validate:content
+            - name: Build (production CSS + JS)
+              run: npm run build:prod
+            - name: Debug dist contents
+              run: |
+                  echo "Listing dist/";
+                  ls -al dist || dir dist
+                  echo "Checking main.js head snippet:";
+                  head -n 20 dist/main.js || sed -n '1,20p' dist/main.js
+            - name: Env info
+              run: |
+                  node -v
+                  npm -v
+                  npx lighthouse --version || true
+            - name: Start static server
+              run: npx serve -l 5500 &
+            - name: Wait for server
+              run: npx wait-on http://localhost:5500
+            - name: Lighthouse (perf+accessibility+SEO)
+              run: npm run lighthouse
+              env:
+                  LH_URL: http://localhost:5500/
+            - name: Upload dist artifact
+              if: success()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: site-dist
+                  path: dist

@@ -8,36 +8,36 @@ class ThemeManager {
         this.toggleButton = null;
         this.toggleButtonMobile = null;
         this.iconElement = null;
-        
+
         this.init();
     }
-    
+
     init() {
         this.bindElements();
         this.initTheme();
         this.bindEvents();
     }
-    
+
     bindElements() {
         this.toggleButton = document.getElementById('theme-toggle');
         this.toggleButtonMobile = document.getElementById('theme-toggle-mobile');
         this.iconElement = document.getElementById('theme-toggle-icon');
     }
-    
+
     bindEvents() {
         if (this.toggleButton) {
             this.toggleButton.addEventListener('click', () => this.toggleTheme());
         }
-        
+
         if (this.toggleButtonMobile) {
             this.toggleButtonMobile.addEventListener('click', () => this.toggleTheme());
         }
     }
-    
+
     getCurrentMode() {
         return this.root.classList.contains('light') ? 'light' : 'dark';
     }
-    
+
     applyTheme(mode) {
         if (mode === 'light') {
             this.root.classList.add('light');
@@ -47,11 +47,11 @@ class ThemeManager {
             if (this.iconElement) this.iconElement.textContent = '🌙';
         }
     }
-    
+
     getSystemPreference() {
         return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
     }
-    
+
     getStoredTheme() {
         try {
             return localStorage.getItem(this.storageKey);
@@ -59,7 +59,7 @@ class ThemeManager {
             return null;
         }
     }
-    
+
     storeTheme(mode) {
         try {
             localStorage.setItem(this.storageKey, mode);
@@ -67,20 +67,20 @@ class ThemeManager {
             // Ignore storage errors
         }
     }
-    
+
     initTheme() {
         const stored = this.getStoredTheme();
         const mode = stored || this.getSystemPreference() || APP_CONFIG.theme.default;
         this.applyTheme(mode);
     }
-    
+
     toggleTheme() {
         const currentMode = this.getCurrentMode();
         const newMode = currentMode === 'light' ? 'dark' : 'light';
         this.applyTheme(newMode);
         this.storeTheme(newMode);
     }
-    
+
     setTheme(mode) {
         this.applyTheme(mode);
         this.storeTheme(mode);

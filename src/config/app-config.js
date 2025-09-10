@@ -5,7 +5,7 @@ export const APP_CONFIG = {
         storageKey: 'portfolio-theme',
         default: 'dark'
     },
-    
+
     // Content configuration
     content: {
         basePath: {
@@ -14,7 +14,7 @@ export const APP_CONFIG = {
         },
         cacheBustParam: true
     },
-    
+
     // Animation configuration
     animation: {
         typing: {
@@ -23,7 +23,7 @@ export const APP_CONFIG = {
             deleteSpeed: 80,
             delay: 1200
         },
-        
+
         // Starfield configuration
         starfield: {
             starCount: 4000,
@@ -31,7 +31,7 @@ export const APP_CONFIG = {
             rotationSpeed: 0.0001,
             mouseInfluence: 0.00005
         },
-        
+
         // Particles configuration
         particles: {
             baseCount: 32,
@@ -40,38 +40,42 @@ export const APP_CONFIG = {
             sizeRange: [1, 2]
         }
     },
-    
+
     // Skills configuration
     skills: {
         filterStorageKey: 'portfolio-skill-filters-v1',
         categoryColors: {
             'ML/AI': '#d92323',
-            'LLM': '#ff5858',
-            'Data': '#ff914d',
-            'DevOps': '#8a8a8a',
-            'VectorDB': '#ff6b6b',
-            'Retrieval': '#d92323',
-            'Orchestration': '#ff914d',
-            'Agents': '#8a8a8a',
+            LLM: '#ff5858',
+            Data: '#ff914d',
+            DevOps: '#8a8a8a',
+            VectorDB: '#ff6b6b',
+            Retrieval: '#d92323',
+            Orchestration: '#ff914d',
+            Agents: '#8a8a8a',
             'OCR/Parsing': '#ff5858',
-            'OCR': '#ff5858',
-            'MLOps': '#ff914d',
-            'Generative': '#d92323'
+            OCR: '#ff5858',
+            MLOps: '#ff914d',
+            Generative: '#d92323'
         }
     },
-    
+
     // Admin/Dev configuration
     admin: {
         token: 'dev',
         enabled: () => {
             const hash = window.location.hash;
-            const token = hash === '#admin' ? 'dev' : 
-                         hash.startsWith('#admin=') ? hash.split('=')[1] || '' : null;
+            const token =
+                hash === '#admin'
+                    ? 'dev'
+                    : hash.startsWith('#admin=')
+                      ? hash.split('=')[1] || ''
+                      : null;
             const isProduction = /github\.io$/i.test(window.location.hostname);
             return !isProduction && token === 'dev';
         }
     },
-    
+
     // Build configuration
     build: {
         version: window.BUILD_VERSION || '',
@@ -88,10 +92,10 @@ export const PERFORMANCE_CONFIG = {
         hero: { threshold: 0.05 },
         skills: { threshold: 0.25 }
     },
-    
+
     // Animation preferences
     prefersReducedMotion: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    
+
     // Debounce delays
     debounce: {
         search: 300,

@@ -6,14 +6,15 @@
             <span class="sh-accent" data-words="{{accentWords}}">{{defaultAccent}}</span>
         </span>
     </h2>
-    
+
     <!-- Summary Cards Container (Dynamic) -->
-    <div id="summary-cards" 
-         class="grid md:grid-cols-3 gap-8" 
-         data-dynamic="summary"
-         role="region"
-         aria-label="Professional summary highlights">
-        
+    <div
+        id="summary-cards"
+        class="grid md:grid-cols-3 gap-8"
+        data-dynamic="summary"
+        role="region"
+        aria-label="Professional summary highlights"
+    >
         <!-- Static Fallback Content -->
         {{#each fallbackItems}}
         <div class="summary-card card-hover-effect group" tabindex="0">

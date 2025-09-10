@@ -14,19 +14,19 @@ class AnimationManager {
     constructor() {
         /** @type {boolean} Whether user prefers reduced motion */
         this.prefersReducedMotion = PERFORMANCE_CONFIG.prefersReducedMotion();
-        
+
         /** @type {number|null} Current animation frame ID */
         this.animationFrameId = null;
-        
+
         /** @type {Map<string, Function>} Active animations and their cleanup functions */
         this.activeAnimations = new Map();
-        
+
         /** @type {boolean} Initialization state */
         this.isInitialized = false;
-        
+
         logInfo('AnimationManager created');
     }
-    
+
     /**
      * Initialize all animations
      * @returns {void}
@@ -37,25 +37,20 @@ class AnimationManager {
             logInfo('AnimationManager already initialized');
             return;
         }
-        
+
         try {
             this.initTypingAnimation();
             this.initStarfield();
             this.initFadeInAnimations();
             this.initSectionHeadings();
-            
+
             this.isInitialized = true;
             logInfo('AnimationManager initialized successfully');
-            
         } catch (error) {
-            throw handleError(
-                error,
-                'Failed to initialize AnimationManager',
-                ErrorTypes.ANIMATION
-            );
+            throw handleError(error, 'Failed to initialize AnimationManager', ErrorTypes.ANIMATION);
         }
     }
-    
+
     /**
      * Initialize typing animation for hero section
      * @private
@@ -64,15 +59,15 @@ class AnimationManager {
     initTypingAnimation() {
         const typingElement = document.querySelector('#hero-title .gradient-text');
         if (!typingElement) return;
-        
+
         const config = APP_CONFIG.animation.typing;
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-        
+
         const type = () => {
             const currentWord = config.words[wordIndex];
-            
+
             // Respect reduced motion preference
             if (this.prefersReducedMotion) {
                 if (!typingElement.textContent) {
@@ -80,10 +75,10 @@ class AnimationManager {
                 }
                 return;
             }
-            
+
             const displayText = currentWord.substring(0, charIndex);
             typingElement.innerHTML = `${displayText}<span class="typewriter-cursor" aria-hidden="true"></span>`;
-            
+
             if (!isDeleting && charIndex < currentWord.length) {
                 charIndex++;
                 setTimeout(type, config.typeSpeed);
@@ -98,19 +93,19 @@ class AnimationManager {
                 setTimeout(type, config.delay);
             }
         };
-        
+
         type();
     }
-    
+
     // Three.js starfield background
     initStarfield() {
         const canvas = document.getElementById('hero-canvas');
         if (!canvas || typeof THREE === 'undefined' || this.prefersReducedMotion) {
             return;
         }
-        
+
         const config = APP_CONFIG.animation.starfield;
-        
+
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(
             60,
@@ -120,11 +115,11 @@ class AnimationManager {
         );
         camera.position.z = 1;
         camera.rotation.x = Math.PI / 2;
-        
+
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
+
         // Create starfield
         const starGeo = new THREE.BufferGeometry();
         const posArray = new Float32Array(config.starCount * 3);
@@ -132,52 +127,52 @@ class AnimationManager {
             posArray[i] = (Math.random() - 0.5) * 5;
         }
         starGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        
+
         const starMaterial = new THREE.PointsMaterial({
             color: 0xaaaaaa,
             size: 0.005,
             transparent: true
         });
-        
+
         const stars = new THREE.Points(starGeo, starMaterial);
         scene.add(stars);
-        
+
         // Mouse interaction
         let mouseX = 0;
         let mouseY = 0;
-        
+
         const handleMouseMove = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         };
-        
+
         document.addEventListener('mousemove', handleMouseMove, { passive: true });
-        
+
         // Resize handler
         const handleResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         };
-        
+
         window.addEventListener('resize', handleResize, { passive: true });
-        
+
         // Animation loop
         const animate = () => {
             stars.position.y -= config.starSpeed;
             stars.rotation.y += config.rotationSpeed;
-            
+
             if (mouseX > 0) {
                 stars.rotation.x = -mouseY * config.mouseInfluence;
                 stars.rotation.y = -mouseX * config.mouseInfluence;
             }
-            
+
             renderer.render(scene, camera);
             this.animationFrameId = requestAnimationFrame(animate);
         };
-        
+
         animate();
-        
+
         // Store cleanup function
         this.activeAnimations.set('starfield', () => {
             if (this.animationFrameId) {
@@ -188,34 +183,34 @@ class AnimationManager {
             window.removeEventListener('resize', handleResize);
         });
     }
-    
+
     // Fade-in animation for sections
     initFadeInAnimations() {
         const elements = document.querySelectorAll('.fade-in-section');
-        
+
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
                 }
             });
         }, PERFORMANCE_CONFIG.observers.fadeIn);
-        
-        elements.forEach(element => observer.observe(element));
-        
+
+        elements.forEach((element) => observer.observe(element));
+
         // Fallback for browsers without IntersectionObserver
         if (!('IntersectionObserver' in window)) {
-            elements.forEach(element => element.classList.add('is-visible'));
+            elements.forEach((element) => element.classList.add('is-visible'));
         }
     }
-    
+
     // Section heading animations with word rotation
     initSectionHeadings() {
         const headings = document.querySelectorAll('.section-head[data-sh]');
-        
+
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.setAttribute('data-inview', 'true');
                     this.startAccentRotation(entry.target);
@@ -223,54 +218,55 @@ class AnimationManager {
                 }
             });
         }, PERFORMANCE_CONFIG.observers.sections);
-        
-        headings.forEach(heading => observer.observe(heading));
-        
+
+        headings.forEach((heading) => observer.observe(heading));
+
         // Fallback
         if (!('IntersectionObserver' in window)) {
-            headings.forEach(heading => {
+            headings.forEach((heading) => {
                 heading.setAttribute('data-inview', 'true');
                 this.startAccentRotation(heading);
             });
         }
     }
-    
+
     startAccentRotation(headElement) {
         const accent = headElement.querySelector('.sh-accent[data-words]');
         if (!accent) return;
-        
-        const words = accent.getAttribute('data-words')
+
+        const words = accent
+            .getAttribute('data-words')
             .split('|')
-            .map(w => w.trim())
+            .map((w) => w.trim())
             .filter(Boolean);
-            
+
         if (words.length <= 1 || this.prefersReducedMotion) return;
-        
+
         let index = 0;
         accent.textContent = words[0];
         accent.dataset.rotating = 'true';
-        
+
         const rotateWords = () => {
             accent.classList.add('sh-rotate-out');
-            
+
             setTimeout(() => {
                 index = (index + 1) % words.length;
                 accent.textContent = words[index];
                 accent.classList.remove('sh-rotate-out');
                 accent.classList.add('sh-rotate-in');
             }, 480);
-            
+
             setTimeout(rotateWords, 3400);
         };
-        
+
         setTimeout(rotateWords, 3400);
     }
-    
+
     // Cleanup all animations
     destroy() {
-        this.activeAnimations.forEach(cleanup => cleanup());
+        this.activeAnimations.forEach((cleanup) => cleanup());
         this.activeAnimations.clear();
-        
+
         if (this.animationFrameId) {
             cancelAnimationFrame(this.animationFrameId);
             this.animationFrameId = null;

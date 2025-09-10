@@ -12,18 +12,18 @@ class SimpleBuildSystem {
     constructor() {
         this.buildId = crypto.randomBytes(5).toString('hex');
     }
-    
+
     async init() {
         console.log('🚀 Starting simplified build...');
-        
+
         try {
             await fs.mkdir(DIST_DIR, { recursive: true });
-            
+
             // Always use the working legacy JS file that doesn't have ES6 imports
             const legacyJS = path.join(ROOT_DIR, 'js', 'main.js');
-            
+
             let jsContent;
-            
+
             if (await this.fileExists(legacyJS)) {
                 jsContent = await fs.readFile(legacyJS, 'utf8');
                 console.log('✅ Using legacy main.js (proven working version)');
@@ -32,31 +32,30 @@ class SimpleBuildSystem {
                 jsContent = await this.createWorkingJS();
                 console.log('✅ Created simplified working JS as fallback');
             }
-            
+
             // Process CSS
             const cssFilename = await this.processCSS();
-            
+
             // Save JS with hash
             const jsHash = this.generateHash(jsContent);
             const jsFilename = `main.${jsHash}.js`;
             await fs.writeFile(path.join(DIST_DIR, jsFilename), jsContent, 'utf8');
-            
+
             console.log(`📦 Generated: ${jsFilename} (${this.formatSize(jsContent.length)})`);
-            
+
             // Update HTML files
             await this.updateHTMLFiles(jsFilename);
-            
+
             // Run HTML reference fix to ensure consistency
             await this.fixHTMLReferences(jsFilename, cssFilename);
-            
+
             console.log('✅ Build completed successfully');
-            
         } catch (error) {
             console.error('❌ Build failed:', error);
             process.exit(1);
         }
     }
-    
+
     async createWorkingJS() {
         // Create a minimal working version that loads content
         return `
@@ -257,40 +256,37 @@ if (document.readyState === 'loading') {
 window.portfolioApp = app;
         `.trim();
     }
-    
+
     async processCSS() {
         const distCSS = path.join(DIST_DIR, 'style.css');
-        
+
         if (await this.fileExists(distCSS)) {
             const cssContent = await fs.readFile(distCSS, 'utf8');
             const cssHash = this.generateHash(cssContent);
             const cssFilename = `style.${cssHash}.css`;
-            
+
             await fs.writeFile(path.join(DIST_DIR, cssFilename), cssContent, 'utf8');
             console.log(`🎨 Generated: ${cssFilename} (${this.formatSize(cssContent.length)})`);
-            
+
             return cssFilename;
         }
-        
+
         return null;
     }
-    
+
     async updateHTMLFiles(jsFilename) {
         const htmlFiles = [
             path.join(ROOT_DIR, 'index.html'),
             path.join(ROOT_DIR, 'ar', 'index.html')
         ];
-        
+
         for (const htmlFile of htmlFiles) {
             if (await this.fileExists(htmlFile)) {
                 let html = await fs.readFile(htmlFile, 'utf8');
-                
+
                 // Update JS reference
-                html = html.replace(
-                    /dist\/main(?:\.[a-f0-9]{10})?\.js/g,
-                    `dist/${jsFilename}`
-                );
-                
+                html = html.replace(/dist\/main(?:\.[a-f0-9]{10})?\.js/g, `dist/${jsFilename}`);
+
                 // Update CSS reference if we have one
                 if (this.cssFilename) {
                     html = html.replace(
@@ -298,13 +294,13 @@ window.portfolioApp = app;
                         `dist/${this.cssFilename}`
                     );
                 }
-                
+
                 await fs.writeFile(htmlFile, html, 'utf8');
                 console.log(`📝 Updated: ${path.relative(ROOT_DIR, htmlFile)}`);
             }
         }
     }
-    
+
     async fileExists(filePath) {
         try {
             await fs.access(filePath);
@@ -313,22 +309,22 @@ window.portfolioApp = app;
             return false;
         }
     }
-    
+
     generateHash(content) {
         return crypto.createHash('sha256').update(content).digest('hex').slice(0, 10);
     }
-    
+
     formatSize(bytes) {
         const sizes = ['B', 'KB', 'MB'];
         if (bytes === 0) return '0 B';
         const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+        return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
     }
-    
+
     async fixHTMLReferences(jsFilename, cssFilename) {
         try {
             console.log('🔧 Updating HTML asset references...');
-            
+
             // Update main index.html
             await this.updateSingleHTMLFile(
                 path.join(ROOT_DIR, 'index.html'),
@@ -336,7 +332,7 @@ window.portfolioApp = app;
                 cssFilename,
                 'dist/'
             );
-            
+
             // Update Arabic index.html
             await this.updateSingleHTMLFile(
                 path.join(ROOT_DIR, 'ar', 'index.html'),
@@ -344,32 +340,30 @@ window.portfolioApp = app;
                 cssFilename,
                 '../dist/'
             );
-            
+
             console.log('✅ HTML asset references updated');
-            
         } catch (error) {
             console.error('❌ Failed to update HTML references:', error);
         }
     }
-    
+
     async updateSingleHTMLFile(htmlPath, jsFilename, cssFilename, distPrefix) {
         try {
             let content = await fs.readFile(htmlPath, 'utf8');
-            
+
             // Update CSS reference
             content = content.replace(
                 /href="[^"]*dist\/style\.[a-f0-9]+\.css"/g,
                 `href="${distPrefix}${cssFilename}"`
             );
-            
+
             // Update JS reference
             content = content.replace(
                 /src="[^"]*dist\/main\.[a-f0-9]+\.js"/g,
                 `src="${distPrefix}${jsFilename}"`
             );
-            
+
             await fs.writeFile(htmlPath, content, 'utf8');
-            
         } catch (error) {
             console.error(`❌ Failed to update ${htmlPath}:`, error);
         }

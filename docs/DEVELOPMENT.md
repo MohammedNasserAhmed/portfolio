@@ -21,28 +21,30 @@ This guide covers development practices, coding standards, and architectural dec
 - **Modern Browser** with ES6 module support
 - **Git** for version control
 - **VS Code** (Recommended) with extensions:
-  - ESLint
-  - Prettier
-  - JavaScript (ES6) code snippets
+    - ESLint
+    - Prettier
+    - JavaScript (ES6) code snippets
 
 ### Setup
 
 1. **Clone and install dependencies**
-   ```bash
-   git clone <repository-url>
-   cd portfolio
-   npm install
-   ```
+
+    ```bash
+    git clone <repository-url>
+    cd portfolio
+    npm install
+    ```
 
 2. **Start development server**
-   ```bash
-   npm run dev
-   ```
+
+    ```bash
+    npm run dev
+    ```
 
 3. **Build for production**
-   ```bash
-   npm run build:production
-   ```
+    ```bash
+    npm run build:production
+    ```
 
 ### Development Scripts
 
@@ -80,19 +82,19 @@ src/
 ### Module Types
 
 1. **Components** (`src/components/`)
-   - Self-contained UI components
-   - Manage their own state and DOM
-   - Follow component lifecycle pattern
+    - Self-contained UI components
+    - Manage their own state and DOM
+    - Follow component lifecycle pattern
 
 2. **Modules** (`src/modules/`)
-   - Core application functionality
-   - Shared services and managers
-   - Cross-cutting concerns
+    - Core application functionality
+    - Shared services and managers
+    - Cross-cutting concerns
 
 3. **Utils** (`src/utils/`)
-   - Pure functions
-   - No side effects
-   - Reusable across the application
+    - Pure functions
+    - No side effects
+    - Reusable across the application
 
 ### Import Conventions
 
@@ -130,7 +132,9 @@ const data = await loadContent();
 // Avoid
 var skillName = skill.name;
 var message = 'Processing ' + skillName + ' in ' + skill.category;
-loadContent().then(data => { /* ... */ });
+loadContent().then((data) => {
+    /* ... */
+});
 ```
 
 #### Naming Conventions
@@ -143,14 +147,16 @@ loadContent().then(data => { /* ... */ });
 ```javascript
 // Variables and functions
 const skillCount = 10;
-function calculateProgress() { }
+function calculateProgress() {}
 
 // Classes
-class SkillsComponent { }
+class SkillsComponent {}
 
 // Constants
 const MAX_SKILLS = 100;
-const ERROR_TYPES = { /* ... */ };
+const ERROR_TYPES = {
+    /* ... */
+};
 ```
 
 #### JSDoc Documentation
@@ -212,9 +218,9 @@ Use Tailwind CSS utilities for styling:
 ```html
 <!-- Good -->
 <div class="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-
-<!-- Avoid custom CSS when utilities exist -->
-<div class="custom-header">
+    <!-- Avoid custom CSS when utilities exist -->
+    <div class="custom-header"></div>
+</div>
 ```
 
 #### Custom CSS Organization
@@ -262,11 +268,11 @@ export class ComponentName {
     constructor() {
         /** @type {HTMLElement|null} Component container */
         this.container = null;
-        
+
         /** @type {boolean} Initialization state */
         this.isInitialized = false;
     }
-    
+
     /**
      * Initialize the component
      * @returns {void}
@@ -274,22 +280,21 @@ export class ComponentName {
      */
     init() {
         if (this.isInitialized) return;
-        
+
         try {
             this.container = document.getElementById('component-id');
-            
+
             if (!this.container) {
                 throw new Error('Component container not found');
             }
-            
+
             this.setupEventListeners();
             this.isInitialized = true;
-            
         } catch (error) {
             throw handleError(error, 'Component initialization failed', ErrorTypes.COMPONENT);
         }
     }
-    
+
     /**
      * Render component data
      * @param {Array} items - Data to render
@@ -297,18 +302,20 @@ export class ComponentName {
      */
     render(items) {
         try {
-            validateParams({ items }, {
-                items: { required: true, type: 'array' }
-            });
-            
+            validateParams(
+                { items },
+                {
+                    items: { required: true, type: 'array' }
+                }
+            );
+
             // Render implementation
-            
         } catch (error) {
             handleError(error, 'Render failed', ErrorTypes.COMPONENT);
             this.renderFallback();
         }
     }
-    
+
     /**
      * Setup event listeners
      * @private
@@ -316,7 +323,7 @@ export class ComponentName {
     setupEventListeners() {
         // Event listener setup
     }
-    
+
     /**
      * Render fallback content
      * @private
@@ -338,9 +345,11 @@ export class ComponentName {
 this.activeFilters = new Set();
 
 // Shared state via events
-document.dispatchEvent(new CustomEvent('filterChanged', {
-    detail: { filters: Array.from(this.activeFilters) }
-}));
+document.dispatchEvent(
+    new CustomEvent('filterChanged', {
+        detail: { filters: Array.from(this.activeFilters) }
+    })
+);
 
 // Persistent state
 try {
@@ -388,23 +397,23 @@ const KEEP_ASSET_VERSIONS = parseInt(process.env.KEEP_ASSET_VERSIONS || '3', 10)
 ### Manual Testing
 
 1. **Functionality Testing**
-   - All components render correctly
-   - Interactive features work
-   - Error states display properly
+    - All components render correctly
+    - Interactive features work
+    - Error states display properly
 
 2. **Accessibility Testing**
-   - Keyboard navigation
-   - Screen reader compatibility
-   - Color contrast ratios
+    - Keyboard navigation
+    - Screen reader compatibility
+    - Color contrast ratios
 
 3. **Performance Testing**
-   - Page load times
-   - Animation smoothness
-   - Memory usage
+    - Page load times
+    - Animation smoothness
+    - Memory usage
 
 4. **Cross-browser Testing**
-   - Chrome, Firefox, Safari, Edge
-   - Mobile browsers
+    - Chrome, Firefox, Safari, Edge
+    - Mobile browsers
 
 ### Automated Testing (Future)
 
@@ -414,17 +423,17 @@ Recommended testing framework setup:
 // Component testing with Jest
 describe('SkillsComponent', () => {
     let component;
-    
+
     beforeEach(() => {
         component = new SkillsComponent();
         document.body.innerHTML = '<div id="skills-track"></div>';
         component.init();
     });
-    
+
     test('renders skills correctly', () => {
         const skills = [{ name: 'Python', percent: 90 }];
         component.render(skills);
-        
+
         expect(component.container.children.length).toBe(1);
     });
 });
@@ -435,37 +444,39 @@ describe('SkillsComponent', () => {
 ### Core Principles
 
 1. **Minimize DOM Manipulation**
-   ```javascript
-   // Good: Batch DOM updates
-   const fragment = document.createDocumentFragment();
-   items.forEach(item => fragment.appendChild(createItem(item)));
-   container.appendChild(fragment);
-   
-   // Avoid: Individual DOM updates in loops
-   items.forEach(item => container.appendChild(createItem(item)));
-   ```
+
+    ```javascript
+    // Good: Batch DOM updates
+    const fragment = document.createDocumentFragment();
+    items.forEach((item) => fragment.appendChild(createItem(item)));
+    container.appendChild(fragment);
+
+    // Avoid: Individual DOM updates in loops
+    items.forEach((item) => container.appendChild(createItem(item)));
+    ```
 
 2. **Use Intersection Observer**
-   ```javascript
-   // Efficient animation triggering
-   const observer = new IntersectionObserver((entries) => {
-       entries.forEach(entry => {
-           if (entry.isIntersecting) {
-               entry.target.classList.add('animate');
-               observer.unobserve(entry.target);
-           }
-       });
-   });
-   ```
+
+    ```javascript
+    // Efficient animation triggering
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+    ```
 
 3. **Respect User Preferences**
-   ```javascript
-   // Reduced motion support
-   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-   if (!prefersReducedMotion) {
-       startAnimations();
-   }
-   ```
+    ```javascript
+    // Reduced motion support
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
+        startAnimations();
+    }
+    ```
 
 ### Image Optimization
 
@@ -486,35 +497,38 @@ describe('SkillsComponent', () => {
 ### Guidelines
 
 1. **Semantic HTML**
-   ```html
-   <button type="button" aria-label="Filter by Python skills">
-       <img src="python-icon.svg" alt="Python" />
-   </button>
-   ```
+
+    ```html
+    <button type="button" aria-label="Filter by Python skills">
+        <img src="python-icon.svg" alt="Python" />
+    </button>
+    ```
 
 2. **ARIA Attributes**
-   ```html
-   <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="85">
-       <div class="progress-bar" style="width: 85%"></div>
-   </div>
-   ```
+
+    ```html
+    <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="85">
+        <div class="progress-bar" style="width: 85%"></div>
+    </div>
+    ```
 
 3. **Keyboard Navigation**
-   ```javascript
-   element.addEventListener('keydown', (event) => {
-       if (event.key === 'Enter' || event.key === ' ') {
-           event.preventDefault();
-           handleClick();
-       }
-   });
-   ```
+
+    ```javascript
+    element.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleClick();
+        }
+    });
+    ```
 
 4. **Focus Management**
-   ```javascript
-   // Announce dynamic content changes
-   const announcer = document.getElementById('sr-announcer');
-   announcer.textContent = 'Content updated';
-   ```
+    ```javascript
+    // Announce dynamic content changes
+    const announcer = document.getElementById('sr-announcer');
+    announcer.textContent = 'Content updated';
+    ```
 
 ### Testing Tools
 

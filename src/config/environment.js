@@ -4,12 +4,12 @@ class Environment {
         this.cache = new Map();
         this.init();
     }
-    
+
     init() {
         // Detect environment early
         this.env = this.detectEnvironment();
         this.buildInfo = this.getBuildInfo();
-        
+
         // Setup global environment info
         if (typeof window !== 'undefined') {
             window.__PORTFOLIO_ENV__ = {
@@ -20,47 +20,55 @@ class Environment {
             };
         }
     }
-    
+
     detectEnvironment() {
         // Check various environment indicators
         const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
         const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
-        
+
         // Production indicators
         if (hostname.includes('github.io') || hostname.includes('githubusercontent.com')) {
             return 'production';
         }
-        
+
         // Development indicators
-        if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.')) {
+        if (
+            hostname === 'localhost' ||
+            hostname === '127.0.0.1' ||
+            hostname.startsWith('192.168.')
+        ) {
             return 'development';
         }
-        
+
         // Staging/preview indicators
-        if (hostname.includes('staging') || hostname.includes('preview') || hostname.includes('netlify')) {
+        if (
+            hostname.includes('staging') ||
+            hostname.includes('preview') ||
+            hostname.includes('netlify')
+        ) {
             return 'staging';
         }
-        
+
         // Check for development tools
         if (typeof window !== 'undefined' && window.location.search.includes('debug=true')) {
             return 'development';
         }
-        
+
         // Default based on protocol
         if (typeof window !== 'undefined' && window.location.protocol === 'file:') {
             return 'development';
         }
-        
+
         return 'production'; // Default to production for safety
     }
-    
+
     getBuildInfo() {
         const buildInfo = {
             version: this.getMetaContent('asset-version') || 'unknown',
             timestamp: null,
             hash: null
         };
-        
+
         // Try to get build info from various sources
         if (typeof window !== 'undefined') {
             // From build manifest if available
@@ -69,23 +77,23 @@ class Environment {
                 buildInfo.timestamp = manifest.timestamp;
                 buildInfo.hash = manifest.buildId;
             }
-            
+
             // From global build version
             if (window.BUILD_VERSION) {
                 buildInfo.version = window.BUILD_VERSION;
             }
         }
-        
+
         return buildInfo;
     }
-    
+
     getMetaContent(name) {
         if (typeof document === 'undefined') return null;
-        
+
         const meta = document.querySelector(`meta[name="${name}"]`);
         return meta ? meta.getAttribute('content') : null;
     }
-    
+
     getCapabilities() {
         if (typeof window === 'undefined') {
             return {
@@ -97,7 +105,7 @@ class Environment {
                 esModules: false
             };
         }
-        
+
         return {
             intersectionObserver: 'IntersectionObserver' in window,
             webGL: this.hasWebGL(),
@@ -111,7 +119,7 @@ class Environment {
             touchScreen: 'ontouchstart' in window || navigator.maxTouchPoints > 0
         };
     }
-    
+
     hasWebGL() {
         try {
             const canvas = document.createElement('canvas');
@@ -121,7 +129,7 @@ class Environment {
             return false;
         }
     }
-    
+
     hasLocalStorage() {
         try {
             const test = 'test';
@@ -132,19 +140,19 @@ class Environment {
             return false;
         }
     }
-    
+
     isDebugMode() {
         if (this.env === 'development') return true;
-        
+
         if (typeof window === 'undefined') return false;
-        
+
         // Check URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('debug') === 'true') return true;
-        
+
         // Check hash
         if (window.location.hash.includes('debug')) return true;
-        
+
         // Check local storage
         try {
             return localStorage.getItem('portfolio-debug') === 'true';
@@ -152,33 +160,33 @@ class Environment {
             return false;
         }
     }
-    
+
     // Public API
     isDevelopment() {
         return this.env === 'development';
     }
-    
+
     isProduction() {
         return this.env === 'production';
     }
-    
+
     isStaging() {
         return this.env === 'staging';
     }
-    
+
     getEnvironment() {
         return this.env;
     }
-    
+
     getBuildVersion() {
         return this.buildInfo.version;
     }
-    
+
     hasCapability(capability) {
         const capabilities = this.getCapabilities();
         return capabilities[capability] || false;
     }
-    
+
     getConfig(key, defaultValue = null) {
         // Environment-specific configuration
         const configs = {
@@ -207,26 +215,26 @@ class Environment {
                 enableDevOverlay: false
             }
         };
-        
+
         const envConfig = configs[this.env] || configs.production;
         return key ? (envConfig[key] ?? defaultValue) : envConfig;
     }
-    
+
     // Performance monitoring
     measurePerformance(name, fn) {
         if (!this.isDebugMode()) {
             return fn();
         }
-        
+
         const start = performance.now();
         const result = fn();
         const end = performance.now();
-        
+
         console.log(`⏱️ ${name}: ${(end - start).toFixed(2)}ms`);
-        
+
         return result;
     }
-    
+
     // Error reporting
     reportError(error, context = {}) {
         const errorReport = {
@@ -239,7 +247,7 @@ class Environment {
             url: typeof window !== 'undefined' ? window.location.href : 'unknown',
             context
         };
-        
+
         if (this.isDevelopment()) {
             console.error('🚨 Error Report:', errorReport);
         } else {
@@ -247,7 +255,7 @@ class Environment {
             console.error('Error:', error.message);
         }
     }
-    
+
     // Feature flags
     isFeatureEnabled(featureName) {
         const features = {
@@ -270,7 +278,7 @@ class Environment {
                 experimentalFeatures: false
             }
         };
-        
+
         const envFeatures = features[this.env] || features.production;
         return envFeatures[featureName] || false;
     }

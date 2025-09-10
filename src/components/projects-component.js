@@ -8,40 +8,41 @@ export class ProjectsComponent {
         this.scrollSpeed = 1;
         this.animationId = null;
         this.isPaused = false;
-        
+
         // Bind methods for event listeners
-        this.handleMouseEnter = () => { 
-            this.container.style.animationPlayState = 'paused'; 
+        this.handleMouseEnter = () => {
+            this.container.style.animationPlayState = 'paused';
         };
-        this.handleMouseLeave = () => { 
-            this.container.style.animationPlayState = 'running'; 
+        this.handleMouseLeave = () => {
+            this.container.style.animationPlayState = 'running';
         };
     }
-    
+
     init() {
         this.container = document.getElementById('projects-grid');
         this.wrapper = document.getElementById('projects-carousel');
     }
-    
+
     render(items) {
         if (!this.container || !Array.isArray(items)) return;
-        
+
         const isAutoCarousel = this.wrapper && this.wrapper.dataset.auto === 'true';
         // Duplicate the items for seamless loop - exactly 2 sets for translateX(-50%) animation
         const projectList = isAutoCarousel ? [...items, ...items] : items;
-        
-        this.container.innerHTML = projectList.map((project, index) => {
-            const isDuplicate = index >= items.length;
-            const baseIndex = index % items.length;
-            const altColors = ['#ff5858', '#2e2e2e', '#d92323', '#3a3a3a'];
-            
-            const backgroundStyle = project.image
-                ? `url('${escapeAttr(project.image)}') center/cover`
-                : altColors[baseIndex % altColors.length];
-                
-            const isDark = /#2e2e2e|#3a3a3a|var\(--color-card\)/i.test(backgroundStyle);
-            
-            return `
+
+        this.container.innerHTML = projectList
+            .map((project, index) => {
+                const isDuplicate = index >= items.length;
+                const baseIndex = index % items.length;
+                const altColors = ['#ff5858', '#2e2e2e', '#d92323', '#3a3a3a'];
+
+                const backgroundStyle = project.image
+                    ? `url('${escapeAttr(project.image)}') center/cover`
+                    : altColors[baseIndex % altColors.length];
+
+                const isDark = /#2e2e2e|#3a3a3a|var\(--color-card\)/i.test(backgroundStyle);
+
+                return `
                 <div class="project-card has-lid" 
                      role="listitem" 
                      data-dupe="${isDuplicate ? 'true' : 'false'}" 
@@ -52,24 +53,25 @@ export class ProjectsComponent {
                     <div class="project-body">
                         <p class="text-brand-gray">${escapeHTML(project.description)}</p>
                         <div class="tech-tags">
-                            ${(project.tech || []).map(tech => 
-                                `<span>${escapeHTML(tech)}</span>`
-                            ).join('')}
+                            ${(project.tech || [])
+                                .map((tech) => `<span>${escapeHTML(tech)}</span>`)
+                                .join('')}
                         </div>
                         ${this.renderProjectLink(project)}
                     </div>
                 </div>
             `;
-        }).join('');
-        
+            })
+            .join('');
+
         if (isAutoCarousel) {
             this.initAutoCarousel();
         }
     }
-    
+
     renderGitHubLink(project) {
         if (!project.githubUrl) return '';
-        
+
         return `
             <a href='${escapeAttr(project.githubUrl)}' 
                class='proj-gh' 
@@ -82,10 +84,10 @@ export class ProjectsComponent {
             </a>
         `;
     }
-    
+
     renderProjectLink(project) {
         if (!project.githubUrl) return '';
-        
+
         return `
             <div class='mt-2'>
                 <a href='${escapeAttr(project.githubUrl)}' 
@@ -97,21 +99,21 @@ export class ProjectsComponent {
             </div>
         `;
     }
-    
+
     initAutoCarousel() {
         // The CSS animation is already applied via the outreach-track class
         // Just need to add hover pause functionality
         this.wrapper.addEventListener('mouseenter', this.handleMouseEnter);
         this.wrapper.addEventListener('mouseleave', this.handleMouseLeave);
     }
-    
+
     stopInfiniteScroll() {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
             this.animationId = null;
         }
     }
-    
+
     destroy() {
         this.stopInfiniteScroll();
         if (this.wrapper) {
@@ -119,40 +121,40 @@ export class ProjectsComponent {
             this.wrapper.removeEventListener('mouseleave', this.handleMouseLeave);
         }
     }
-    
+
     // Filter projects based on active skill filters
     filterBySkills(activeFilters) {
         if (!this.container) return;
-        
+
         const cards = Array.from(this.container.children);
         const isFiltering = activeFilters.length > 0;
         let matchedCount = 0;
-        
+
         // Update carousel mode based on filtering state
         this.updateCarouselMode(isFiltering);
-        
+
         if (isFiltering) {
             this.container.classList.add('filtering');
         } else {
             this.container.classList.remove('filtering');
         }
-        
-        cards.forEach(card => {
-            const techBadges = Array.from(card.querySelectorAll('.tech-tags span'))
-                .map(span => (span.textContent || '').toLowerCase());
-            
-            let shouldShow = !isFiltering || 
-                activeFilters.some(filter => 
-                    techBadges.includes(filter.toLowerCase())
-                );
-            
+
+        cards.forEach((card) => {
+            const techBadges = Array.from(card.querySelectorAll('.tech-tags span')).map((span) =>
+                (span.textContent || '').toLowerCase()
+            );
+
+            let shouldShow =
+                !isFiltering ||
+                activeFilters.some((filter) => techBadges.includes(filter.toLowerCase()));
+
             // Hide duplicates when filtering
             if (isFiltering && card.dataset.dupe === 'true') {
                 shouldShow = false;
             }
-            
+
             card.dataset.hidden = shouldShow ? 'false' : 'true';
-            
+
             if (!shouldShow) {
                 setTimeout(() => {
                     if (card.dataset.hidden === 'true') {
@@ -164,21 +166,21 @@ export class ProjectsComponent {
                 matchedCount++;
             }
         });
-        
+
         if (!isFiltering) {
-            cards.forEach(card => {
+            cards.forEach((card) => {
                 card.style.display = '';
                 card.dataset.hidden = 'false';
             });
         }
-        
+
         return matchedCount;
     }
-    
+
     // Update carousel mode based on filtering state
     updateCarouselMode(isFiltering) {
         if (!this.wrapper || !this.container) return;
-        
+
         if (isFiltering) {
             // Filtered mode: stop animation and center content
             this.wrapper.classList.add('filtered-mode');

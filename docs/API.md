@@ -17,7 +17,7 @@ The main application class that orchestrates all components and modules.
 ### Constructor
 
 ```javascript
-new PortfolioApp()
+new PortfolioApp();
 ```
 
 Creates a new portfolio application instance.
@@ -41,6 +41,7 @@ Initializes the complete application including core systems, components, content
 **Throws:** `Error` when initialization fails
 
 **Example:**
+
 ```javascript
 const app = new PortfolioApp();
 await app.init();
@@ -55,6 +56,7 @@ handleInitializationError(error: Error): void
 Handles initialization errors with graceful degradation.
 
 **Parameters:**
+
 - `error: Error` - The initialization error
 
 ---
@@ -68,7 +70,7 @@ Interactive skills matrix with filtering and progressive arc animations.
 #### Constructor
 
 ```javascript
-new SkillsComponent()
+new SkillsComponent();
 ```
 
 #### Properties
@@ -98,20 +100,23 @@ render(items: SkillItem[]): void
 Renders skills data with validation and error handling.
 
 **Parameters:**
+
 - `items: SkillItem[]` - Array of skill objects
 
 **SkillItem Interface:**
+
 ```typescript
 interface SkillItem {
-    name: string;           // Required - skill name
-    percent?: number;       // Optional - proficiency (0-100)
-    category?: string;      // Optional - skill category
-    level?: string;         // Optional - skill level description
-    xp?: string;           // Optional - experience duration
+    name: string; // Required - skill name
+    percent?: number; // Optional - proficiency (0-100)
+    category?: string; // Optional - skill category
+    level?: string; // Optional - skill level description
+    xp?: string; // Optional - experience duration
 }
 ```
 
 **Example:**
+
 ```javascript
 const skills = [
     { name: 'Python', percent: 92, category: 'ML/AI', level: 'Expert', xp: '6y' },
@@ -130,6 +135,7 @@ setFilterChangeCallback(callback: (filters: string[]) => void): void
 Sets callback function for filter change events.
 
 **Parameters:**
+
 - `callback: Function` - Function called when filters change
 
 ##### clearFilters()
@@ -149,7 +155,7 @@ Project carousel with dynamic filtering and auto-scroll capabilities.
 #### Constructor
 
 ```javascript
-new ProjectsComponent()
+new ProjectsComponent();
 ```
 
 #### Methods
@@ -163,17 +169,19 @@ render(items: ProjectItem[]): void
 Renders project data with carousel functionality.
 
 **Parameters:**
+
 - `items: ProjectItem[]` - Array of project objects
 
 **ProjectItem Interface:**
+
 ```typescript
 interface ProjectItem {
-    title: string;          // Project title
-    description: string;    // Project description
-    image?: string;         // Project image URL
-    tech: string[];         // Technology stack
-    githubUrl?: string;     // GitHub repository URL
-    liveUrl?: string;       // Live demo URL
+    title: string; // Project title
+    description: string; // Project description
+    image?: string; // Project image URL
+    tech: string[]; // Technology stack
+    githubUrl?: string; // GitHub repository URL
+    liveUrl?: string; // Live demo URL
 }
 ```
 
@@ -186,6 +194,7 @@ filterBySkills(skillFilters: string[]): number
 Filters projects by skill tags.
 
 **Parameters:**
+
 - `skillFilters: string[]` - Array of skill names to filter by
 
 **Returns:** `number` - Count of matching projects
@@ -207,11 +216,12 @@ render(items: SummaryItem[]): void
 Renders summary cards with icons and descriptions.
 
 **SummaryItem Interface:**
+
 ```typescript
 interface SummaryItem {
-    title: string;          // Summary card title
-    body: string;           // Summary description
-    metric?: string;        // Optional metric/badge
+    title: string; // Summary card title
+    body: string; // Summary description
+    metric?: string; // Optional metric/badge
 }
 ```
 
@@ -232,13 +242,14 @@ render(items: PublicationItem[]): void
 Renders publications with search and filter controls.
 
 **PublicationItem Interface:**
+
 ```typescript
 interface PublicationItem {
-    title: string;          // Publication title
-    description: string;    // Publication description
-    published: string;      // Publication date
-    link: string;           // Publication URL
-    image?: string;         // Publication cover image
+    title: string; // Publication title
+    description: string; // Publication description
+    published: string; // Publication date
+    link: string; // Publication URL
+    image?: string; // Publication cover image
 }
 ```
 
@@ -253,7 +264,7 @@ Manages all animations and visual effects.
 #### Constructor
 
 ```javascript
-new AnimationManager()
+new AnimationManager();
 ```
 
 #### Properties
@@ -329,6 +340,7 @@ Loads content data with fallback mechanisms.
 **Returns:** `Promise<ContentData>` - Loaded content data
 
 **ContentData Interface:**
+
 ```typescript
 interface ContentData {
     summary: SummaryItem[];
@@ -357,6 +369,7 @@ handleError(
 Enhanced error handling with context and categorization.
 
 **Parameters:**
+
 - `error: Error | string` - Error instance or message
 - `context?: string` - Additional context information
 - `type?: ErrorType` - Error category
@@ -374,14 +387,18 @@ Validates function parameters with type checking.
 **Throws:** `Error` when validation fails
 
 **Example:**
+
 ```javascript
-validateParams({ items }, {
-    items: {
-        required: true,
-        type: 'array',
-        validate: (arr) => arr.length > 0
+validateParams(
+    { items },
+    {
+        items: {
+            required: true,
+            type: 'array',
+            validate: (arr) => arr.length > 0
+        }
     }
-});
+);
 ```
 
 #### safeAsync(asyncFn, timeout, context)
@@ -397,6 +414,7 @@ async safeAsync(
 Safe async execution with timeout and error handling.
 
 **Parameters:**
+
 - `asyncFn: Function` - Async function to execute
 - `timeout?: number` - Timeout in milliseconds (default: 5000)
 - `context?: string` - Error context description
@@ -412,6 +430,7 @@ createDOMElement(tag: string, options?: ElementOptions): HTMLElement
 Creates DOM element with options.
 
 **ElementOptions Interface:**
+
 ```typescript
 interface ElementOptions {
     className?: string;
@@ -511,6 +530,7 @@ Components emit custom events for inter-component communication:
 Fired when skill filters change.
 
 **Detail:**
+
 ```typescript
 {
     filters: string[];      // Active filter names
@@ -523,10 +543,11 @@ Fired when skill filters change.
 Fired when projects are filtered.
 
 **Detail:**
+
 ```typescript
 {
-    matches: number;        // Number of matching projects
-    total: number;          // Total number of projects
+    matches: number; // Number of matching projects
+    total: number; // Total number of projects
 }
 ```
 

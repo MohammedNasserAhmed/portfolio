@@ -1,123 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Infinite Scroll</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            background: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        
-        .projects-carousel-wrapper {
-            position: relative;
-            padding: 0 2.5rem;
-            overflow: hidden;
-            -webkit-mask-image: linear-gradient(to right, transparent, white 6%, white 94%, transparent);
-            mask-image: linear-gradient(to right, transparent, white 6%, white 94%, transparent);
-        }
-        
-        .projects-row {
-            display: flex;
-            gap: 1.25rem;
-            will-change: transform;
-            transition: none;
-        }
-        
-        .project-card {
-            flex: 0 0 300px;
-            height: 200px;
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <h1>Infinite Scroll Test</h1>
-    <div id="projects-carousel" class="projects-carousel-wrapper" data-auto="true">
-        <div id="projects-grid" class="projects-row" data-infinite-init="true">
-            <div class="project-card">Project 1</div>
-            <div class="project-card">Project 2</div>
-            <div class="project-card">Project 3</div>
-            <div class="project-card">Project 4</div>
-            <div class="project-card">Project 5</div>
-            <!-- Duplicates for seamless loop -->
-            <div class="project-card">Project 1</div>
-            <div class="project-card">Project 2</div>
-            <div class="project-card">Project 3</div>
-            <div class="project-card">Project 4</div>
-            <div class="project-card">Project 5</div>
-        </div>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test Infinite Scroll</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 20px;
+                background: #121212;
+                color: white;
+                font-family: Arial, sans-serif;
+            }
 
-    <script>
-        class TestProjectsComponent {
-            constructor() {
-                this.container = document.getElementById('projects-grid');
-                this.wrapper = document.getElementById('projects-carousel');
-                this.scrollSpeed = 1;
-                this.animationId = null;
-                this.isPaused = false;
-                
-                this.handleMouseEnter = () => { this.isPaused = true; };
-                this.handleMouseLeave = () => { this.isPaused = false; };
+            .projects-carousel-wrapper {
+                position: relative;
+                padding: 0 2.5rem;
+                overflow: hidden;
+                -webkit-mask-image: linear-gradient(
+                    to right,
+                    transparent,
+                    white 6%,
+                    white 94%,
+                    transparent
+                );
+                mask-image: linear-gradient(
+                    to right,
+                    transparent,
+                    white 6%,
+                    white 94%,
+                    transparent
+                );
             }
-            
-            init() {
-                this.startInfiniteScroll();
-                
-                // Pause on hover
-                this.wrapper.addEventListener('mouseenter', this.handleMouseEnter);
-                this.wrapper.addEventListener('mouseleave', this.handleMouseLeave);
+
+            .projects-row {
+                display: flex;
+                gap: 1.25rem;
+                will-change: transform;
+                transition: none;
             }
-            
-            startInfiniteScroll() {
-                if (this.animationId) {
-                    cancelAnimationFrame(this.animationId);
+
+            .project-card {
+                flex: 0 0 300px;
+                height: 200px;
+                background: #1e1e1e;
+                border: 1px solid #333;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Infinite Scroll Test</h1>
+        <div id="projects-carousel" class="projects-carousel-wrapper" data-auto="true">
+            <div id="projects-grid" class="projects-row" data-infinite-init="true">
+                <div class="project-card">Project 1</div>
+                <div class="project-card">Project 2</div>
+                <div class="project-card">Project 3</div>
+                <div class="project-card">Project 4</div>
+                <div class="project-card">Project 5</div>
+                <!-- Duplicates for seamless loop -->
+                <div class="project-card">Project 1</div>
+                <div class="project-card">Project 2</div>
+                <div class="project-card">Project 3</div>
+                <div class="project-card">Project 4</div>
+                <div class="project-card">Project 5</div>
+            </div>
+        </div>
+
+        <script>
+            class TestProjectsComponent {
+                constructor() {
+                    this.container = document.getElementById('projects-grid');
+                    this.wrapper = document.getElementById('projects-carousel');
+                    this.scrollSpeed = 1;
+                    this.animationId = null;
+                    this.isPaused = false;
+
+                    this.handleMouseEnter = () => {
+                        this.isPaused = true;
+                    };
+                    this.handleMouseLeave = () => {
+                        this.isPaused = false;
+                    };
                 }
-                
-                const cards = Array.from(this.container.children);
-                if (cards.length === 0) return;
-                
-                // Calculate total width of all cards including gaps
-                const cardWidth = cards[0].offsetWidth + 20; // 20px gap (1.25rem)
-                // Since we duplicate items for auto-carousel, we only need to scroll half the total width
-                const totalWidth = (cards.length / 2) * cardWidth;
-                let currentOffset = 0;
-                
-                const animate = () => {
-                    if (!this.isPaused) {
-                        currentOffset -= this.scrollSpeed;
-                        
-                        // Reset position when we've scrolled one full cycle
-                        if (Math.abs(currentOffset) >= totalWidth) {
-                            currentOffset = 0;
-                        }
-                        
-                        // Apply transform to the container
-                        this.container.style.transform = `translateX(${currentOffset}px)`;
+
+                init() {
+                    this.startInfiniteScroll();
+
+                    // Pause on hover
+                    this.wrapper.addEventListener('mouseenter', this.handleMouseEnter);
+                    this.wrapper.addEventListener('mouseleave', this.handleMouseLeave);
+                }
+
+                startInfiniteScroll() {
+                    if (this.animationId) {
+                        cancelAnimationFrame(this.animationId);
                     }
-                    
-                    this.animationId = requestAnimationFrame(animate);
-                };
-                
-                animate();
+
+                    const cards = Array.from(this.container.children);
+                    if (cards.length === 0) return;
+
+                    // Calculate total width of all cards including gaps
+                    const cardWidth = cards[0].offsetWidth + 20; // 20px gap (1.25rem)
+                    // Since we duplicate items for auto-carousel, we only need to scroll half the total width
+                    const totalWidth = (cards.length / 2) * cardWidth;
+                    let currentOffset = 0;
+
+                    const animate = () => {
+                        if (!this.isPaused) {
+                            currentOffset -= this.scrollSpeed;
+
+                            // Reset position when we've scrolled one full cycle
+                            if (Math.abs(currentOffset) >= totalWidth) {
+                                currentOffset = 0;
+                            }
+
+                            // Apply transform to the container
+                            this.container.style.transform = `translateX(${currentOffset}px)`;
+                        }
+
+                        this.animationId = requestAnimationFrame(animate);
+                    };
+
+                    animate();
+                }
             }
-        }
-        
-        // Initialize the test
-        const testComponent = new TestProjectsComponent();
-        testComponent.init();
-    </script>
-</body>
+
+            // Initialize the test
+            const testComponent = new TestProjectsComponent();
+            testComponent.init();
+        </script>
+    </body>
 </html>

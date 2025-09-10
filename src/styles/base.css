@@ -2,16 +2,16 @@
 
 :root {
     /* Brand colors */
-    --brand-red: #D92323;
+    --brand-red: #d92323;
     --brand-dark: #121212;
-    --brand-gray: #A0A0A0;
-    --brand-light-gray: #F5F5F5;
-    --brand-card: #1E1E1E;
-    
+    --brand-gray: #a0a0a0;
+    --brand-light-gray: #f5f5f5;
+    --brand-card: #1e1e1e;
+
     /* Animation variables */
     --transition-speed: 0.3s;
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     /* Layout variables */
     --container-padding: 1.5rem;
     --section-spacing: 6rem;
@@ -33,7 +33,7 @@ html {
     html {
         scroll-behavior: auto;
     }
-    
+
     *,
     *::before,
     *::after {
@@ -121,7 +121,7 @@ html {
     position: relative;
 }
 
-.sh-accent[data-rotating="true"] {
+.sh-accent[data-rotating='true'] {
     min-width: 200px;
     display: inline-block;
 }

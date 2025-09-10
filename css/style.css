@@ -937,7 +937,7 @@ body {
     .outreach-track .project-card.has-lid {
         height: 280px;
     }
-    
+
     /* Filtered mode mobile adjustments */
     .filtered-mode .outreach-track .project-card {
         flex: 0 0 clamp(250px, 80vw, 320px);

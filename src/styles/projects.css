@@ -186,12 +186,12 @@
 }
 
 /* Project states */
-.project-card[data-filtered="false"] {
+.project-card[data-filtered='false'] {
     opacity: 0.3;
     transform: scale(0.95);
 }
 
-.project-card[data-featured="true"] {
+.project-card[data-featured='true'] {
     border-color: var(--brand-red);
     box-shadow: 0 0 0 1px rgba(217, 35, 35, 0.2);
 }
@@ -201,16 +201,16 @@
     .projects-row {
         gap: 1rem;
     }
-    
+
     .project-card {
         flex: 0 0 250px;
         height: 280px;
     }
-    
+
     .project-body {
         padding: 1rem;
     }
-    
+
     /* Filtered mode mobile adjustments */
     .filtered-mode .project-card {
         flex: 0 0 clamp(250px, 80vw, 320px);

@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initProjectsInfiniteLoop(wrapper, track) {
         if (!wrapper || !track) return;
         if (track.dataset.infiniteInit === 'true') return; // idempotent
-    track.dataset.infiniteInit = 'true';
+        track.dataset.infiniteInit = 'true';
         const speedPxPerSec = 40; // base speed (tweakable)
         let pxPerMs = speedPxPerSec / 1000;
         let lastTs = null;
@@ -258,7 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // While the first element is completely left of wrapper, move it to end
             let first = lane.firstElementChild;
             if (!first) return;
-            const firstWidth = first.getBoundingClientRect().width + parseFloat(getComputedStyle(lane).gap || 0);
+            const firstWidth =
+                first.getBoundingClientRect().width + parseFloat(getComputedStyle(lane).gap || 0);
             while (Math.abs(offset) >= firstWidth) {
                 offset += firstWidth; // shift offset forward
                 lane.appendChild(first); // move first to end

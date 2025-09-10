@@ -1,14 +1,19 @@
 {
-  "name": "M. N. Jaber Portfolio",
-  "short_name": "JaberAI",
-  "lang": "en",
-  "start_url": "/portfolio/",
-  "scope": "/portfolio/",
-  "display": "standalone",
-  "theme_color": "#121212",
-  "background_color": "#121212",
-  "description": "AI Engineer portfolio focused on LLM systems and ML engineering.",
-  "icons": [
-    { "src": "images/website-photo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ]
+    "name": "M. N. Jaber Portfolio",
+    "short_name": "JaberAI",
+    "lang": "en",
+    "start_url": "/portfolio/",
+    "scope": "/portfolio/",
+    "display": "standalone",
+    "theme_color": "#121212",
+    "background_color": "#121212",
+    "description": "AI Engineer portfolio focused on LLM systems and ML engineering.",
+    "icons": [
+        {
+            "src": "images/website-photo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
 }

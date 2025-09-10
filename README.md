@@ -90,25 +90,28 @@ NODE_ENV=production npm run build
 ### Getting Started
 
 1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd portfolio
-   ```
+
+    ```bash
+    git clone <repository-url>
+    cd portfolio
+    ```
 
 2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. **Start development server**
-   ```bash
-   npm run dev
-   ```
+
+    ```bash
+    npm run dev
+    ```
 
 4. **Build for production**
-   ```bash
-   npm run build:production
-   ```
+    ```bash
+    npm run build:production
+    ```
 
 ### Development Scripts
 
@@ -123,6 +126,7 @@ NODE_ENV=production npm run build
 ### Core Modules
 
 #### PortfolioApp (main.js)
+
 Main application orchestrator that manages component lifecycle and inter-component communication.
 
 ```javascript
@@ -131,26 +135,35 @@ Main application orchestrator that manages component lifecycle and inter-compone
  * @class PortfolioApp
  */
 class PortfolioApp {
-    async init() { /* ... */ }
-    initializeComponents() { /* ... */ }
-    loadContent() { /* ... */ }
+    async init() {
+        /* ... */
+    }
+    initializeComponents() {
+        /* ... */
+    }
+    loadContent() {
+        /* ... */
+    }
 }
 ```
 
 #### Component System
 
 **SkillsComponent**: Interactive skill matrix with filtering and animations
+
 - Progressive arc visualizations
 - Category-based filtering
 - Keyboard accessibility
 - Performance-aware animations
 
 **ProjectsComponent**: Project carousel with dynamic filtering
+
 - Auto-scrolling carousel
 - Project filtering by skills
 - Fallback image handling
 
 **AnimationManager**: Centralized animation control
+
 - Three.js starfield background
 - Typing animations
 - Intersection Observer-based triggers
@@ -159,6 +172,7 @@ class PortfolioApp {
 ### Error Handling
 
 Comprehensive error handling with:
+
 - Type validation with JSDoc
 - Graceful degradation
 - Error categorization
@@ -168,9 +182,12 @@ Comprehensive error handling with:
 import { handleError, ErrorTypes, validateParams } from './utils/helpers.js';
 
 // Parameter validation
-validateParams({ items }, {
-    items: { required: true, type: 'array' }
-});
+validateParams(
+    { items },
+    {
+        items: { required: true, type: 'array' }
+    }
+);
 
 // Error handling with context
 throw handleError(error, 'Context description', ErrorTypes.COMPONENT);
@@ -179,6 +196,7 @@ throw handleError(error, 'Context description', ErrorTypes.COMPONENT);
 ### Configuration Management
 
 Centralized configuration in `app-config.js`:
+
 - Animation settings
 - Performance thresholds
 - Feature toggles
@@ -200,6 +218,7 @@ src/styles/
 ### Tailwind CSS Integration
 
 The project uses Tailwind CSS for utility-first styling:
+
 - Custom brand colors
 - Responsive design utilities
 - Dark mode support
@@ -317,16 +336,19 @@ export const APP_CONFIG = {
 ### Common Issues
 
 **Build Fails with Module Errors**
+
 - Ensure Node.js 16+ is installed
 - Check ES module syntax in source files
 - Verify import/export statements
 
 **Animations Not Working**
+
 - Check browser support for IntersectionObserver
 - Verify reduced motion preferences
 - Check console for JavaScript errors
 
 **Content Not Loading**
+
 - Verify JSON syntax in content files
 - Check network requests in browser dev tools
 - Ensure proper CORS headers in development
@@ -334,6 +356,7 @@ export const APP_CONFIG = {
 ### Debug Mode
 
 Enable debug logging by setting:
+
 ```javascript
 window.DEBUG = true;
 ```
@@ -353,6 +376,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 For issues or questions:
+
 - Create an issue on GitHub
 - Check the troubleshooting section
 - Review the documentation

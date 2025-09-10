@@ -205,13 +205,25 @@
 }
 
 @keyframes shWordOut {
-    0% { opacity: 1; transform: translateY(0) rotateX(0); }
-    100% { opacity: 0; transform: translateY(-55%) rotateX(55deg); }
+    0% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-55%) rotateX(55deg);
+    }
 }
 
 @keyframes shWordIn {
-    0% { opacity: 0; transform: translateY(55%) rotateX(-55deg); }
-    100% { opacity: 1; transform: translateY(0) rotateX(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(55%) rotateX(-55deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
 }
 
 /* Summary Cards */
@@ -279,7 +291,9 @@
 .fade-in-section {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
 }
 
 .fade-in-section.is-visible {
@@ -305,7 +319,9 @@
 }
 
 @keyframes blink {
-    50% { opacity: 0; }
+    50% {
+        opacity: 0;
+    }
 }
 
 /* Button Styles */
@@ -358,18 +374,17 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     animation: shimmer 1.5s infinite;
 }
 
 @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
 }
 
 /* Light theme adjustments */
@@ -388,7 +403,7 @@
         padding: 0.75rem 1rem;
         margin-bottom: 1rem;
     }
-    
+
     .summary-card {
         padding: 1.25rem;
     }
@@ -399,7 +414,7 @@
     .card-hover-effect:hover {
         box-shadow: 0 0 0 2px var(--color-accent);
     }
-    
+
     .summary-pill {
         border: 1px solid currentColor;
     }

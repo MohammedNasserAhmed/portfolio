@@ -27,28 +27,28 @@ export const ErrorTypes = {
  */
 export function handleError(error, context = '', type = ErrorTypes.COMPONENT) {
     const errorObj = error instanceof Error ? error : new Error(String(error));
-    
+
     // Enhance error with context
     if (context) {
         errorObj.message = `${context}: ${errorObj.message}`;
     }
-    
+
     // Add error type
     errorObj.type = type;
     errorObj.timestamp = new Date().toISOString();
-    
+
     // Log error with appropriate level
     if (type === ErrorTypes.NETWORK || type === ErrorTypes.TIMEOUT) {
         logWarn(`[${type.toUpperCase()}] ${errorObj.message}`, errorObj);
     } else {
         console.error(`[${type.toUpperCase()}] ${errorObj.message}`, errorObj);
     }
-    
+
     // Send to error tracking service in production
     if (typeof window !== 'undefined' && window.trackError) {
         window.trackError(errorObj);
     }
-    
+
     return errorObj;
 }
 
@@ -61,7 +61,7 @@ export function handleError(error, context = '', type = ErrorTypes.COMPONENT) {
 export function validateParams(params, schema) {
     for (const [key, config] of Object.entries(schema)) {
         const value = params[key];
-        
+
         // Check required parameters
         if (config.required && (value === undefined || value === null)) {
             throw handleError(
@@ -70,10 +70,10 @@ export function validateParams(params, schema) {
                 ErrorTypes.INITIALIZATION
             );
         }
-        
+
         // Skip type checking for optional missing values
         if (value === undefined || value === null) continue;
-        
+
         // Type checking
         if (config.type) {
             const actualType = Array.isArray(value) ? 'array' : typeof value;
@@ -85,7 +85,7 @@ export function validateParams(params, schema) {
                 );
             }
         }
-        
+
         // Custom validation function
         if (config.validate && !config.validate(value)) {
             throw handleError(
@@ -107,20 +107,22 @@ export function validateParams(params, schema) {
 export async function safeAsync(asyncFn, timeout = 5000, context = 'async operation') {
     return new Promise((resolve, reject) => {
         const timeoutId = setTimeout(() => {
-            reject(handleError(
-                new Error(`Operation timed out after ${timeout}ms`),
-                context,
-                ErrorTypes.TIMEOUT
-            ));
+            reject(
+                handleError(
+                    new Error(`Operation timed out after ${timeout}ms`),
+                    context,
+                    ErrorTypes.TIMEOUT
+                )
+            );
         }, timeout);
-        
+
         // Execute async function and handle result
         asyncFn()
-            .then(result => {
+            .then((result) => {
                 clearTimeout(timeoutId);
                 resolve(result);
             })
-            .catch(error => {
+            .catch((error) => {
                 clearTimeout(timeoutId);
                 reject(handleError(error, context));
             });
@@ -159,13 +161,13 @@ export function debounce(func, wait) {
 
 export function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
             func.apply(context, args);
             inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
+            setTimeout(() => (inThrottle = false), limit);
         }
     };
 }
@@ -174,15 +176,19 @@ export function hexToRgba(hex, alpha) {
     if (!hex || typeof hex !== 'string') return `rgba(255,88,88,${alpha})`;
     const h = hex.replace('#', '');
     if (![3, 6].includes(h.length)) return `rgba(255,88,88,${alpha})`;
-    
-    const full = h.length === 3 
-        ? h.split('').map(c => c + c).join('') 
-        : h;
-    
+
+    const full =
+        h.length === 3
+            ? h
+                  .split('')
+                  .map((c) => c + c)
+                  .join('')
+            : h;
+
     const r = parseInt(full.slice(0, 2), 16);
     const g = parseInt(full.slice(2, 4), 16);
     const b = parseInt(full.slice(4, 6), 16);
-    
+
     return `rgba(${r},${g},${b},${alpha})`;
 }
 
@@ -197,7 +203,7 @@ export function createIntersectionObserver(callback, options = {}) {
             disconnect: () => {}
         };
     }
-    
+
     return new IntersectionObserver(callback, options);
 }
 
@@ -208,7 +214,7 @@ export function getCurrentLanguage() {
 export function getContentPath(basePath) {
     const lang = getCurrentLanguage();
     const path = lang === 'ar' ? basePath.ar : basePath.en;
-    
+
     // Add cache busting if enabled
     const buildVersion = window.BUILD_VERSION;
     return buildVersion ? `${path}?v=${buildVersion}` : path;
@@ -228,25 +234,25 @@ export function logWarn(message, ...args) {
 
 export function createDOMElement(tag, options = {}) {
     const element = document.createElement(tag);
-    
+
     if (options.className) {
         element.className = options.className;
     }
-    
+
     if (options.attributes) {
         Object.entries(options.attributes).forEach(([key, value]) => {
             element.setAttribute(key, value);
         });
     }
-    
+
     if (options.innerHTML) {
         element.innerHTML = options.innerHTML;
     }
-    
+
     if (options.textContent) {
         element.textContent = options.textContent;
     }
-    
+
     return element;
 }
 
@@ -257,7 +263,7 @@ export function waitForElement(selector, timeout = 5000) {
             resolve(element);
             return;
         }
-        
+
         const observer = new MutationObserver((mutations, obs) => {
             const element = document.querySelector(selector);
             if (element) {
@@ -265,12 +271,12 @@ export function waitForElement(selector, timeout = 5000) {
                 resolve(element);
             }
         });
-        
+
         observer.observe(document.body, {
             childList: true,
             subtree: true
         });
-        
+
         setTimeout(() => {
             observer.disconnect();
             reject(new Error(`Element ${selector} not found within ${timeout}ms`));
@@ -291,10 +297,10 @@ export function isElementInViewport(element) {
 export function smoothScrollTo(target, offset = 0) {
     const element = typeof target === 'string' ? document.querySelector(target) : target;
     if (!element) return;
-    
+
     const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
     const offsetPosition = elementPosition - offset;
-    
+
     window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'

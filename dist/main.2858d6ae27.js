@@ -191,9 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="project-body">
               <p class="text-brand-gray">${escapeHTML(p.description)}</p>
-              <div class="tech-tags">${(
-                  p.tech || []
-              )
+              <div class="tech-tags">${(p.tech || [])
                   .map((t) => `<span>${escapeHTML(t)}</span>`)
                   .join('')}
               </div>
@@ -217,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function initProjectsSection() {
         const wrapper = document.getElementById('projects-carousel');
         const track = document.getElementById('projects-grid');
-        
+
         if (wrapper && track && wrapper.dataset.auto === 'true') {
             // For auto-carousel, pause animation on hover/focus
             wrapper.addEventListener('mouseenter', () => {
