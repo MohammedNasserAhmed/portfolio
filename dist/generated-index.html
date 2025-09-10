@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Primary Meta Tags -->
+        <title></title>
+        <meta name="title" content="" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta name="keywords" content="" />
+        <meta name="theme-color" content="" />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href="" />
+
+        <!-- Language alternates -->
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="" />
+        <meta property="og:description" content="" />
+        <meta property="og:image" content="" />
+        <meta property="og:image:alt" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:site_name" content="" />
+        <meta property="og:locale" content="" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="" />
+        <meta name="twitter:description" content="" />
+        <meta name="twitter:image" content="" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Preload critical resources -->
+        <link rel="preload" as="image" href="" imagesrcset=" 1x" />
+
+        <!-- PWA Meta -->
+        <link rel="manifest" href="" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="apple-touch-icon" href="" />
+
+        <!-- Asset version for cache busting -->
+        <meta name="asset-version" content="25f6635e05" />
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="" />
+
+        <!-- Scripts -->
+        <script defer src=""></script>
+
+        <!-- Service Worker Registration -->
+
+        <!-- Structured Data -->
+        <script type="application/ld+json"></script>
+
+        <!-- Environment-specific head content -->
+    </head>
+
+    <body class="bg-brand-dark text-brand-light-gray font-sans" data-env="">
+        <!-- Skip to content link for accessibility -->
+        <a
+            href="#main-content"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-red text-white px-4 py-2 rounded z-50"
+        >
+        </a>
+
+        <!-- Environment indicator (development only) -->
+
+        <!-- Header -->
+        <header
+            class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-40 shadow-lg shadow-black/20"
+        >
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-white">
+                    <span class="text-brand-red"></span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <!-- Theme toggle -->
+
+                    <!-- Language switcher -->
+                </div>
+
+                <!-- Mobile menu button -->
+                <button
+                    id="mobile-menu-button"
+                    class="md:hidden text-white p-2"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
+                    aria-label="Toggle mobile menu"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
+            </nav>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden px-6 pb-4"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="main-content" class="container mx-auto px-6 py-12">
+            <!-- Hero Section -->
+            <section
+                id="hero"
+                class="hero-section-animated relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
+            >
+                <!-- Background Effects -->
+                <div class="hero-bg-layer" aria-hidden="true"></div>
+                <div class="hero-bg-particles" aria-hidden="true"></div>
+                <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+                <!-- Hero Content -->
+                <div class="hero-content md:w-2/3 text-center md:text-left">
+                    <h1
+                        id="hero-title"
+                        class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
+                    >
+                        {{heroTitle}} <span class="gradient-text"></span>
+                    </h1>
+
+                    <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
+                        {{heroDescription}}
+                    </p>
+
+                    <div
+                        class="mt-8 flex items-center gap-5 justify-center md:justify-start flex-wrap relative"
+                    >
+                        <!-- Primary CTA -->
+                        <a
+                            href="#contact"
+                            class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                        >
+                            {{primaryCTA}}
+                        </a>
+
+                        <!-- Secondary CTA -->
+                        <a
+                            href="#projects"
+                            class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                        >
+                            {{secondaryCTA}}
+                        </a>
+
+                        <!-- Profile Image (small) -->
+                        <div class="hidden sm:flex items-center">
+                            <div class="relative group">
+                                <div
+                                    class="w-24 h-24 rounded-full flex items-center justify-center"
+                                >
+                                    <div
+                                        class="relative w-full h-full rounded-full ring-4 ring-brand-red/90 bg-brand-red/10 overflow-hidden shadow-lg shadow-brand-red/30"
+                                    >
+                                        <img
+                                            src="{{profileImageSmall}}"
+                                            alt="{{profileImageAlt}}"
+                                            class="w-full h-full object-cover scale-105 transition-transform duration-500 group-hover:scale-110"
+                                            loading="eager"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Profile Image (large) -->
+                <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
+                    <div
+                        class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center"
+                    >
+                        <img
+                            src="{{profileImageLarge}}"
+                            alt="{{profileImageAlt}}"
+                            class="w-full h-full object-cover"
+                            loading="eager"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <!-- Professional Summary Section -->
+            <section id="summary" class="my-24 fade-in-section">
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core">
+                        {{sectionTitle}}
+                        <span class="sh-accent" data-words="{{accentWords}}"
+                            >{{defaultAccent}}</span
+                        >
+                    </span>
+                </h2>
+
+                <!-- Summary Cards Container (Dynamic) -->
+                <div
+                    id="summary-cards"
+                    class="grid md:grid-cols-3 gap-8"
+                    data-dynamic="summary"
+                    role="region"
+                    aria-label="Professional summary highlights"
+                >
+                    <!-- Static Fallback Content -->
+                    {{#each fallbackItems}}
+                    <div class="summary-card card-hover-effect group" tabindex="0">
+                        <div class="summary-card-inner">
+                            <span class="summary-pill" aria-hidden="true">{{category}}</span>
+                            <h3 class="summary-title">{{title}}</h3>
+                            <p class="summary-body">{{description}}</p>
+                            {{#if metric}}
+                            <span class="summary-metric" aria-label="Key metric">{{metric}}</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="my-24 fade-in-section">
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core">
+                        {{sectionTitle}}
+                        <span class="sh-accent" data-words="{{accentWords}}"
+                            >{{defaultAccent}}</span
+                        >
+                    </span>
+                </h2>
+
+                <!-- Filter Controls -->
+                {{#if enableFiltering}}
+                <div class="mb-8 text-center">
+                    <div
+                        id="active-skill-filters"
+                        class="hidden mb-4 flex flex-wrap gap-2 justify-center"
+                    ></div>
+                    <button
+                        id="clear-skill-filters"
+                        class="hidden bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors"
+                    >
+                        Clear Filters
+                    </button>
+                </div>
+                {{/if}}
+
+                <!-- Projects Carousel/Grid -->
+                <div
+                    class="projects-carousel-wrapper relative"
+                    id="projects-carousel"
+                    data-auto="{{autoScroll}}"
+                >
+                    <div
+                        id="projects-grid"
+                        class="projects-row {{#if autoScroll}}auto-scroll-track{{/if}}"
+                        data-dynamic="projects"
+                        role="list"
+                        aria-label="{{ariaLabel}}"
+                    >
+                        <!-- Static Fallback Projects -->
+                        {{#each fallbackProjects}}
+                        <div
+                            class="project-card has-lid"
+                            role="listitem"
+                            style="--lid-bg: {{backgroundColor}};"
+                        >
+                            <div class="project-lid{{#if isDark}} is-dark{{/if}}" tabindex="0">
+                                {{#if githubUrl}}
+                                <a
+                                    href="{{githubUrl}}"
+                                    class="proj-gh"
+                                    target="_blank"
+                                    rel="noopener"
+                                    aria-label="GitHub: {{title}}"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.11.79-.25.79-.56 0-.27-.01-1.17-.02-2.13-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.79 2.76 1.27 3.43.97.11-.76.41-1.27.75-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.19a11.1 11.1 0 0 1 2.9-.39 11.1 11.1 0 0 1 2.9.39c2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.76.12 3.05.75.81 1.2 1.84 1.2 3.1 0 4.43-2.69 5.41-5.25 5.69.42.37.8 1.1.8 2.22 0 1.6-.02 2.88-.02 3.27 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
+                                        />
+                                    </svg>
+                                </a>
+                                {{/if}}
+                            </div>
+
+                            <div class="project-body">
+                                <p class="text-brand-gray">{{description}}</p>
+                                <div class="tech-tags">
+                                    {{#each technologies}}
+                                    <span>{{this}}</span>
+                                    {{/each}}
+                                </div>
+                                {{#if githubUrl}}
+                                <div class="mt-2">
+                                    <a
+                                        href="{{githubUrl}}"
+                                        class="text-brand-red text-xs font-semibold hover:underline"
+                                        target="_blank"
+                                        rel="noopener"
+                                    >
+                                        GitHub →
+                                    </a>
+                                </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+
+                    <!-- Navigation Arrows (if not auto-scroll) -->
+                    {{#unless autoScroll}}
+                    <button
+                        class="proj-nav-btn left-0"
+                        id="projects-prev"
+                        aria-label="Previous projects"
+                    >
+                        ←
+                    </button>
+                    <button
+                        class="proj-nav-btn right-0"
+                        id="projects-next"
+                        aria-label="Next projects"
+                    >
+                        →
+                    </button>
+                    {{/unless}}
+                </div>
+            </section>
+
+            <section id="skills" class="my-24 fade-in-section overflow-hidden">
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core">
+                        Core
+                        <span class="sh-accent" data-words="Technologies|Stack|Toolkit"
+                            >Technologies</span
+                        >
+                    </span>
+                </h2>
+                <div class="skills-container">
+                    <div
+                        class="skills-pills-wrapper mb-8 flex flex-wrap gap-2 justify-center"
+                        id="skill-category-pills"
+                        aria-label="Skill categories"
+                        role="toolbar"
+                    ></div>
+                    <svg width="0" height="0" aria-hidden="true" focusable="false">
+                        <defs>
+                            <linearGradient id="grad-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#d92323">
+                                    <animate
+                                        attributeName="offset"
+                                        values="0;1;0"
+                                        dur="6s"
+                                        repeatCount="indefinite"
+                                    />
+                                </stop>
+                                <stop offset="100%" stop-color="#ff5858">
+                                    <animate
+                                        attributeName="offset"
+                                        values="1;0;1"
+                                        dur="6s"
+                                        repeatCount="indefinite"
+                                    />
+                                </stop>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div
+                        id="skills-track"
+                        class="skills-timeline"
+                        data-dynamic="skills"
+                        aria-label="Skill proficiency matrix"
+                    ></div>
+                </div>
+            </section>
+
+            <section id="publications" class="my-24 fade-in-section">
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core">
+                        Guides &
+                        <span class="sh-accent" data-words="Reports|Guides|Insights">Reports</span>
+                    </span>
+                </h2>
+                <div id="publications-wrapper" class="pub-wrapper" data-dynamic="publications">
+                    <!-- Dynamic controls (search & filters) injected here -->
+                    <div id="publications-controls" class="mb-8"></div>
+                    <div id="publications-hero" class="mb-12"></div>
+                    <div id="publications-grid" class="pub-grid"></div>
+                </div>
+            </section>
+
+            <section id="education" class="my-24 fade-in-section">
+                <div class="grid md:grid-cols-5 gap-8">
+                    <div class="md:col-span-3">
+                        <h2 class="section-head mb-8" data-sh>
+                            <span class="sh-core">
+                                <span class="sh-accent" data-words="Education|Learning|Growth"
+                                    >Education</span
+                                >
+                            </span>
+                        </h2>
+                        <div
+                            class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full"
+                        >
+                            <ol class="timeline" aria-label="Academic degrees timeline">
+                                <li
+                                    class="timeline-item"
+                                    aria-label="PhD in Computer Science and Engineering at VGU, Rajasthan India. 2021 to Present."
+                                >
+                                    <div class="timeline-node level-phd" aria-hidden="true"></div>
+                                    <div class="timeline-content">
+                                        <div class="flex items-center gap-3 flex-wrap mb-1">
+                                            <span class="text-sm text-gray-400"
+                                                >2021 – Present</span
+                                            >
+                                            <span
+                                                class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold badge badge-live"
+                                                aria-label="In progress"
+                                                >Present</span
+                                            >
+                                            <span class="degree-badge degree-phd" aria-hidden="true"
+                                                >PhD</span
+                                            >
+                                        </div>
+                                        <h3 class="text-lg font-bold text-white">
+                                            Computer Science &amp; Engineering
+                                        </h3>
+                                        <p class="text-brand-gray text-sm mb-2">
+                                            VGU • Rajasthan, India
+                                        </p>
+                                        <div class="meta-chips" aria-hidden="true">
+                                            <span>Research</span><span>AI / ML</span
+                                            ><span>Full‑time</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="timeline-item"
+                                    aria-label="Master of Information Systems at Osmania University Hyderabad India. 2016 to 2019 duration three years."
+                                >
+                                    <div
+                                        class="timeline-node level-masters"
+                                        aria-hidden="true"
+                                    ></div>
+                                    <div class="timeline-content">
+                                        <div class="flex items-center gap-3 flex-wrap mb-1">
+                                            <span class="text-sm text-gray-400"
+                                                >2016 – 2019
+                                                <span class="opacity-60">(3 yrs)</span></span
+                                            >
+                                            <span class="degree-badge degree-msc" aria-hidden="true"
+                                                >MSc</span
+                                            >
+                                        </div>
+                                        <h3 class="text-lg font-bold text-white">
+                                            Information Systems
+                                        </h3>
+                                        <p class="text-brand-gray text-sm mb-2">
+                                            Osmania University • Hyderabad, India
+                                        </p>
+                                        <div class="meta-chips" aria-hidden="true">
+                                            <span>Systems</span><span>Data</span
+                                            ><span>Full‑time</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li
+                                    class="timeline-item"
+                                    aria-label="Bachelor of Computer Science at Al-Ahgaff University Yemen. 2010 to 2014 duration four years."
+                                >
+                                    <div
+                                        class="timeline-node level-bachelors"
+                                        aria-hidden="true"
+                                    ></div>
+                                    <div class="timeline-content">
+                                        <div class="flex items-center gap-3 flex-wrap mb-1">
+                                            <span class="text-sm text-gray-400"
+                                                >2010 – 2014
+                                                <span class="opacity-60">(4 yrs)</span></span
+                                            >
+                                            <span class="degree-badge degree-bsc" aria-hidden="true"
+                                                >BSc</span
+                                            >
+                                        </div>
+                                        <h3 class="text-lg font-bold text-white">
+                                            Computer Science
+                                        </h3>
+                                        <p class="text-brand-gray text-sm mb-2">
+                                            Al‑Ahgaff University • Yemen
+                                        </p>
+                                        <div class="meta-chips" aria-hidden="true">
+                                            <span>Foundations</span><span>Algorithms</span
+                                            ><span>Full‑time</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h2 class="section-head mb-8" data-sh>
+                            <span class="sh-core">
+                                <span class="sh-accent" data-words="Outreach|Community|Reach"
+                                    >Outreach</span
+                                >
+                            </span>
+                        </h2>
+                        <div
+                            class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full flex flex-col"
+                        >
+                            <div
+                                class="outreach-stats mb-6"
+                                aria-label="Aggregated outreach impact"
+                            >
+                                <div class="stat">
+                                    <span class="stat-value" aria-hidden="true">25+</span
+                                    ><span class="stat-label">Workshops</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value" aria-hidden="true">1200+</span
+                                    ><span class="stat-label">Learners</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value" aria-hidden="true">6</span
+                                    ><span class="stat-label">Bootcamps</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value" aria-hidden="true">8</span
+                                    ><span class="stat-label">Conferences</span>
+                                </div>
+                            </div>
+                            <div
+                                class="grid gap-4 sm:grid-cols-2 outreach-cards flex-1"
+                                aria-label="Key outreach activities"
+                            >
+                                <div
+                                    class="outreach-card"
+                                    tabindex="0"
+                                    aria-label="Hands-on AI technical camps delivered impacting learners with practical experience"
+                                >
+                                    <div class="icon-wrap" aria-hidden="true">🧪</div>
+                                    <h3 class="card-title">Hands‑On Camps</h3>
+                                    <p class="card-desc">
+                                        Designed immersive AI labs accelerating real skill adoption.
+                                    </p>
+                                </div>
+                                <div
+                                    class="outreach-card"
+                                    tabindex="0"
+                                    aria-label="Private training delivered for government and academia"
+                                >
+                                    <div class="icon-wrap" aria-hidden="true">🏛️</div>
+                                    <h3 class="card-title">Gov &amp; Academia</h3>
+                                    <p class="card-desc">
+                                        Custom curriculum for agencies & universities.
+                                    </p>
+                                </div>
+                                <div
+                                    class="outreach-card"
+                                    tabindex="0"
+                                    aria-label="AI bootcamps organized for students"
+                                >
+                                    <div class="icon-wrap" aria-hidden="true">🎓</div>
+                                    <h3 class="card-title">Student Bootcamps</h3>
+                                    <p class="card-desc">
+                                        Multi‑week accelerators guiding end‑to‑end ML builds.
+                                    </p>
+                                </div>
+                                <div
+                                    class="outreach-card"
+                                    tabindex="0"
+                                    aria-label="Public AI conferences led to promote AI literacy"
+                                >
+                                    <div class="icon-wrap" aria-hidden="true">🌍</div>
+                                    <h3 class="card-title">Public Conferences</h3>
+                                    <p class="card-desc">
+                                        Talks & panels raising broader AI literacy & adoption.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="outreach" class="my-24 fade-in-section overflow-hidden">
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core">
+                        Training, Conferencing &
+                        <span class="sh-accent" data-words="Outreach|Community|Impact"
+                            >Outreach</span
+                        >
+                    </span>
+                </h2>
+                <div class="outreach-scroller">
+                    <div class="outreach-track">
+                        <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image" />
+                        <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image" />
+                        <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image" />
+                        <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image" />
+                        <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image" />
+                        <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image" />
+                        <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image" />
+                        <!-- Duplicate images for seamless scroll -->
+                        <img src="images/cf1.png" alt="Outreach Event 1" class="outreach-image" />
+                        <img src="images/cf3.png" alt="Outreach Event 2" class="outreach-image" />
+                        <img src="images/cf4.png" alt="Outreach Event 3" class="outreach-image" />
+                        <img src="images/cf5.png" alt="Outreach Event 4" class="outreach-image" />
+                        <img src="images/cf6.png" alt="Outreach Event 5" class="outreach-image" />
+                        <img src="images/cf7.png" alt="Outreach Event 6" class="outreach-image" />
+                        <img src="images/cf8.png" alt="Outreach Event 7" class="outreach-image" />
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer id="contact" class="bg-black text-white border-t border-gray-800">
+            <div class="container mx-auto px-6 py-12">
+                <div class="text-center">
+                    <h2 class="section-head" data-sh>
+                        <span class="sh-core">
+                            <span class="sh-accent" data-words=""></span>
+                        </span>
+                    </h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-brand-gray"></p>
+                    <a
+                        href="mailto:"
+                        class="mt-8 inline-block bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                    >
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="mt-12 flex justify-center space-x-6"></div>
+
+                <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
+                    <p></p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Loading indicator -->
+        <div id="loading-indicator" class="fixed top-4 right-4 hidden">
+            <div class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="animate-spin h-4 w-4 border-2 border-brand-red border-t-transparent rounded-full"
+                    ></div>
+                    <span>Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility announcements -->
+        <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+        <div id="filter-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+        <!-- No JavaScript fallback -->
+        <noscript>
+            <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                <div class="bg-white text-black p-8 rounded-lg max-w-md mx-4 text-center">
+                    <h2 class="text-xl font-bold mb-4">JavaScript Required</h2>
+                    <p class="mb-4">
+                        This website requires JavaScript to function properly. Please enable
+                        JavaScript in your browser settings.
+                    </p>
+                    <p class="text-sm text-gray-600">Basic content is still visible below.</p>
+                </div>
+            </div>
+        </noscript>
+    </body>
+</html>

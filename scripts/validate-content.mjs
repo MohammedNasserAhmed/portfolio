@@ -15,23 +15,23 @@ const validate = ajv.compile(schema);
 let failed = false;
 
 for (const fname of ['content.json', 'content.ar.json']) {
-  const fp = path.join(dataDir, fname);
-  const json = JSON.parse(fs.readFileSync(fp, 'utf8'));
-  const ok = validate(json);
-  if (!ok) {
-    failed = true;
-    console.error(`\n❌ ${fname} failed validation:`);
-    for (const err of validate.errors) {
-      console.error(`  - ${err.instancePath || '(root)'} ${err.message}`);
+    const fp = path.join(dataDir, fname);
+    const json = JSON.parse(fs.readFileSync(fp, 'utf8'));
+    const ok = validate(json);
+    if (!ok) {
+        failed = true;
+        console.error(`\n❌ ${fname} failed validation:`);
+        for (const err of validate.errors) {
+            console.error(`  - ${err.instancePath || '(root)'} ${err.message}`);
+        }
+    } else {
+        console.log(`✅ ${fname} valid.`);
     }
-  } else {
-    console.log(`✅ ${fname} valid.`);
-  }
 }
 
 if (failed) {
-  console.error('\nSchema validation failed.');
-  process.exit(1);
+    console.error('\nSchema validation failed.');
+    process.exit(1);
 } else {
-  console.log('\nAll content files valid.');
+    console.log('\nAll content files valid.');
 }

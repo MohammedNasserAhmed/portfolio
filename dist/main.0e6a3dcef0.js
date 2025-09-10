@@ -166,12 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('projects-grid');
         if (!container) return;
         const wrapper = document.getElementById('projects-carousel');
-        const auto = wrapper && wrapper.dataset.auto === 'true';
-        const list = auto ? [...items, ...items] : items; // duplicate for seamless loop
+        const auto = !!wrapper; // auto-scroll enabled when wrapper present and data-auto true
+        const list = items; // no duplication; we'll implement a true circular loop via DOM recycling
         container.innerHTML = list
             .map((p, i) => {
                 // Determine lid background: if image provided use it, else color based on index for variety.
-                const isDuped = i >= items.length;
+                const isDuped = false; // no longer duplicating
                 const baseIdx = i % items.length;
                 const altPalette = ['#ff5858', '#2e2e2e', '#d92323', '#3a3a3a'];
                 const rawBg = p.image
@@ -194,22 +194,98 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .join('');
         if (auto) {
-            if (!container.classList.contains('auto-scroll-track')) {
-                container.classList.add('auto-scroll-track');
-            }
-            wrapper.addEventListener('mouseenter', () => {
-                container.style.animationPlayState = 'paused';
-            });
-            wrapper.addEventListener('mouseleave', () => {
-                container.style.animationPlayState = 'running';
-            });
-            const prefersReducedMotion = window.matchMedia(
-                '(prefers-reduced-motion: reduce)'
-            ).matches;
-            if (prefersReducedMotion) {
-                container.style.animation = 'none';
+            // Remove legacy CSS keyframe class if present
+            container.classList.remove('auto-scroll-track');
+            // Initialize JS driven infinite loop
+            initProjectsInfiniteLoop(wrapper, container);
+        }
+    }
+
+    // True circular infinite carousel using rAF + DOM recycling
+    function initProjectsInfiniteLoop(wrapper, track) {
+        if (!wrapper || !track) return;
+        if (track.dataset.infiniteInit === 'true') return; // idempotent
+        track.dataset.infiniteInit = 'true';
+        const speedPxPerSec = 40; // base speed (tweakable)
+        let pxPerMs = speedPxPerSec / 1000;
+        let lastTs = null;
+        let paused = false;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return; // respect user preference
+
+        // Clone first few cards to guarantee there are always enough to scroll smoothly (optional)
+        // Not duplicating entire set; just ensure a minimum of 6 cards for flow
+        const minVisual = 6;
+        if (track.children.length > 0 && track.children.length < minVisual) {
+            const needed = minVisual - track.children.length;
+            const originals = Array.from(track.children);
+            for (let i = 0; i < needed; i++) {
+                const clone = originals[i % originals.length].cloneNode(true);
+                clone.dataset.clone = 'true';
+                track.appendChild(clone);
             }
         }
+
+        // Wrap cards in an inner moving lane element
+        let lane = document.createElement('div');
+        lane.className = 'projects-lane flex';
+        // Move existing children into lane
+        while (track.firstChild) lane.appendChild(track.firstChild);
+        track.appendChild(lane);
+
+        let offset = 0; // negative translateX accumulating
+
+        function laneWidth() {
+            return lane.scrollWidth;
+        }
+        function step(ts) {
+            if (paused) {
+                lastTs = ts;
+                requestAnimationFrame(step);
+                return;
+            }
+            if (lastTs == null) lastTs = ts;
+            const dt = ts - lastTs;
+            lastTs = ts;
+            offset -= dt * pxPerMs;
+            // When the first child is fully out of view, move it to the end and adjust offset
+            recycle();
+            lane.style.transform = `translateX(${offset}px)`;
+            requestAnimationFrame(step);
+        }
+
+        function recycle() {
+            // While the first element is completely left of wrapper, move it to end
+            let first = lane.firstElementChild;
+            if (!first) return;
+            const firstWidth =
+                first.getBoundingClientRect().width + parseFloat(getComputedStyle(lane).gap || 0);
+            while (Math.abs(offset) >= firstWidth) {
+                offset += firstWidth; // shift offset forward
+                lane.appendChild(first); // move first to end
+                first = lane.firstElementChild;
+                if (!first) break;
+            }
+        }
+
+        function recalcSpeed() {
+            // Could adapt speed based on total width; keep constant for now
+        }
+
+        // Pause/resume on hover & focus in wrapper
+        wrapper.addEventListener('mouseenter', () => (paused = true));
+        wrapper.addEventListener('mouseleave', () => (paused = false));
+        wrapper.addEventListener('focusin', () => (paused = true));
+        wrapper.addEventListener('focusout', () => (paused = false));
+
+        // Provide public API for potential future controls
+        track._projectsInfinite = {
+            setSpeed(newSpeed) {
+                pxPerMs = Math.max(5, newSpeed) / 1000;
+            }
+        };
+
+        requestAnimationFrame(step);
     }
 
     // Progressive Arc Matrix Renderer (elevated version of prior timeline)
@@ -1104,7 +1180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        function cardHTML(ev, i) {
+        function cardHTML(ev, _i) {
             const d = ev.date
                 ? `<time datetime="${escapeAttr(ev.date)}" class="block text-xs text-gray-400">${escapeHTML(ev.date)}</time>`
                 : '';
@@ -1193,9 +1269,143 @@ document.addEventListener('DOMContentLoaded', () => {
     function escapeAttr(str) {
         return escapeHTML(str).replace(/`/g, '&#96;');
     }
+    /* DEV-OVERLAY-START */
+    // Dev-only content editing overlay with schema validation & warning banner
+    (function devOverlay() {
+        const ADMIN_TOKEN = 'dev';
+        function isProductionHost() {
+            return /github\.io$/i.test(window.location.hostname);
+        }
+        function adminHashToken() {
+            const h = window.location.hash;
+            if (h === '#admin') return ADMIN_TOKEN; // legacy shortcut
+            if (h.startsWith('#admin=')) return h.split('=')[1] || '';
+            return null;
+        }
+        const candidateToken = adminHashToken();
+        if (isProductionHost() || candidateToken !== ADMIN_TOKEN) return; // exit if not allowed
 
-    // overlay stripped for production
+        injectAdminPanel();
 
+        function injectAdminPanel() {
+            // Visual banner
+            const banner = document.createElement('div');
+            banner.id = 'admin-dev-banner';
+            banner.className =
+                'fixed top-0 left-0 right-0 bg-red-700 text-white text-center text-xs md:text-sm py-1 px-4 font-semibold tracking-wide shadow-lg z-[60]';
+            banner.textContent = 'DEV MODE ACTIVE: Admin Overlay Enabled – Edits are local only';
+            document.body.appendChild(banner);
+
+            const panel = document.createElement('div');
+            panel.innerHTML = `\n          <div id="admin-panel" class="fixed bottom-4 right-4 w-96 max-h-[80vh] bg-brand-card border border-gray-700 rounded-lg shadow-xl flex flex-col text-sm z-50">\n            <div class="flex items-center justify-between px-3 py-2 bg-gray-800 rounded-t">\n              <strong class="text-white">Content Admin (ephemeral)</strong>\n              <button id="admin-close" class="text-gray-400 hover:text-white" aria-label="Close admin panel">×</button>\n            </div>\n            <textarea id="admin-json" class="flex-1 p-3 bg-black text-gray-200 font-mono resize-none outline-none" aria-label="Editable JSON content"></textarea>\n            <div class="p-2 flex gap-2 flex-wrap">\n              <button id="admin-apply" class="bg-brand-red text-white px-3 py-1 rounded">Apply</button>\n              <button id="admin-copy" class="bg-gray-700 text-white px-3 py-1 rounded">Copy JSON</button>\n              <button id="admin-pretty" class="bg-gray-700 text-white px-3 py-1 rounded">Format</button>\n            </div>\n            <div id="admin-msg" class="px-3 pb-2 text-xs font-mono text-gray-400" aria-live="polite"></div>\n          </div>`;
+            document.body.appendChild(panel);
+            const ta = document.getElementById('admin-json');
+            ta.value = JSON.stringify(window.__PORTFOLIO_DATA__ || {}, null, 2);
+            const msgEl = document.getElementById('admin-msg');
+            document.getElementById('admin-close').onclick = () => {
+                panel.remove();
+                banner.remove();
+            };
+            document.getElementById('admin-copy').onclick = () => {
+                navigator.clipboard.writeText(ta.value).catch(() => {});
+            };
+            document.getElementById('admin-pretty').onclick = () => {
+                try {
+                    const parsed = JSON.parse(ta.value);
+                    ta.value = JSON.stringify(parsed, null, 2);
+                } catch (__e) {
+                    /* ignore */
+                }
+            };
+
+            function validateContent(data) {
+                const errors = [];
+                const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
+                const assert = (cond, path, exp) => {
+                    if (!cond) errors.push(`${path}: expected ${exp}`);
+                };
+                if ('summary' in data) assert(Array.isArray(data.summary), 'summary', 'array');
+                if (Array.isArray(data.summary)) {
+                    data.summary.forEach((s, i) => {
+                        assert(isObj(s), `summary[${i}]`, 'object');
+                        if (isObj(s)) {
+                            assert(typeof s.title === 'string', `summary[${i}].title`, 'string');
+                            assert(typeof s.body === 'string', `summary[${i}].body`, 'string');
+                        }
+                    });
+                }
+                if ('projects' in data) assert(Array.isArray(data.projects), 'projects', 'array');
+                if (Array.isArray(data.projects)) {
+                    data.projects.forEach((p, i) => {
+                        assert(isObj(p), `projects[${i}]`, 'object');
+                        if (isObj(p)) {
+                            ['title', 'image', 'description'].forEach((k) =>
+                                assert(typeof p[k] === 'string', `projects[${i}].${k}`, 'string')
+                            );
+                            if (p.tech !== undefined)
+                                assert(
+                                    Array.isArray(p.tech) &&
+                                        p.tech.every((t) => typeof t === 'string'),
+                                    `projects[${i}].tech`,
+                                    'string[]'
+                                );
+                        }
+                    });
+                }
+                if ('skills' in data)
+                    assert(
+                        Array.isArray(data.skills) &&
+                            data.skills.every((s) => typeof s === 'string'),
+                        'skills',
+                        'string[]'
+                    );
+                if ('publications' in data)
+                    assert(Array.isArray(data.publications), 'publications', 'array');
+                if (Array.isArray(data.publications)) {
+                    data.publications.forEach((p, i) => {
+                        assert(isObj(p), `publications[${i}]`, 'object');
+                        if (isObj(p)) {
+                            ['title', 'image', 'published', 'description', 'link'].forEach((k) =>
+                                assert(
+                                    typeof p[k] === 'string',
+                                    `publications[${i}].${k}`,
+                                    'string'
+                                )
+                            );
+                        }
+                    });
+                }
+                return { valid: errors.length === 0, errors };
+            }
+
+            document.getElementById('admin-apply').onclick = () => {
+                try {
+                    const parsed = JSON.parse(ta.value);
+                    const { valid, errors } = validateContent(parsed);
+                    if (!valid) {
+                        msgEl.textContent = 'Validation failed: ' + errors[0];
+                        msgEl.classList.remove('text-green-400');
+                        msgEl.classList.add('text-red-400');
+                        ta.style.borderColor = 'red';
+                        setTimeout(() => (ta.style.borderColor = ''), 1500);
+                        return;
+                    }
+                    window.__PORTFOLIO_DATA__ = parsed;
+                    renderSummary(parsed.summary || []);
+                    renderProjects(parsed.projects || []);
+                    renderSkills(parsed.skills || []);
+                    renderPublications(parsed.publications || []);
+                    msgEl.textContent = 'Applied successfully';
+                    msgEl.classList.remove('text-red-400');
+                    msgEl.classList.add('text-green-400');
+                } catch (__e) {
+                    ta.style.borderColor = 'red';
+                    setTimeout(() => (ta.style.borderColor = ''), 1200);
+                }
+            };
+        }
+    })();
+    /* DEV-OVERLAY-END */
     // Mobile menu
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -1241,6 +1451,8 @@ document.addEventListener('DOMContentLoaded', () => {
     /* -------------------------------------------------- */
     (function initHeroPhotoAndSummary() {
         const heroPhoto = document.querySelector('.hero-photo');
+        // Hero video progressive enhancement
+        // Video removed per design update (fallback now static photo). Cleanup any legacy classes.
         if (heroPhoto && !heroPhoto.dataset.enhanced) {
             heroPhoto.dataset.enhanced = 'true';
             // (Ring removed per request)

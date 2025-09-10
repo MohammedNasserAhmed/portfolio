@@ -40,11 +40,11 @@
         <link rel="manifest" href="../manifest.webmanifest" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="asset-version" content="546cbb4a16" />
+        <meta name="asset-version" content="4c8a32699b" />
         <link rel="apple-touch-icon" href="../images/website-photo.png" />
-        <link rel="stylesheet" href="../dist/style.9569bf1312.css" />
+        <link rel="stylesheet" href="../dist/style.2da63c4194.css" />
         <script type="module" src="../js/vendor/three.min.js"></script>
-        <script src="../dist/main.fd4bd437db.js" defer></script>
+        <script src="../dist/main.6e3edaccf9.js" defer></script>
         <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -183,7 +183,7 @@
                 class="relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
             >
                 <canvas id="hero-canvas"></canvas>
-                <div class="hero-content md:w-2/3 text-center md:text-right">
+                <div class="hero-content md:w-2/3 text-center md:text-right md:pr-24">
                     <h1
                         id="hero-title"
                         class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
@@ -195,7 +195,7 @@
                         تشمل التعلم الخاضع، غير الخاضع، والتعلم المعزز.
                     </p>
                     <div
-                        class="mt-8 flex gap-4 justify-center md:justify-start md:flex-row-reverse"
+                        class="mt-8 flex items-center gap-5 justify-center md:justify-start md:flex-row-reverse flex-wrap relative"
                     >
                         <a
                             href="#contact"
@@ -209,16 +209,15 @@
                         >
                     </div>
                 </div>
-                <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
-                    <div class="relative w-64 h-64 md:w-80 md:h-80">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-brand-red to-yellow-400 rounded-full blur-2xl opacity-30 animate-pulse"
-                        ></div>
+                <div class="hero-content md:w-1/3 flex justify-center md:justify-center">
+                    <div
+                        class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center"
+                        style="z-index: 10; position: relative"
+                    >
                         <img
                             src="../images/website-photo.png"
-                            alt="صورة شخصية"
-                            class="relative w-full h-full object-cover rounded-full shadow-2xl shadow-brand-red/20 border-4 border-gray-800"
-                            onerror="this.onerror=null;this.src='https://placehold.co/320x320/1E1E1E/FFFFFF?text=AI'"
+                            alt="صورة"
+                            class="w-full h-full object-cover"
                         />
                     </div>
                 </div>
@@ -233,11 +232,9 @@
             </section>
             <section id="projects" class="my-24 fade-in-section">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">مشاريع مختارة</h2>
-                <div
-                    id="projects-grid"
-                    class="grid md:grid-cols-2 gap-8"
-                    data-dynamic="projects"
-                ></div>
+                <div class="outreach-scroller">
+                    <div id="projects-grid" class="outreach-track" data-dynamic="projects"></div>
+                </div>
             </section>
             <section id="skills" class="my-24 fade-in-section overflow-hidden">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">التقنيات الأساسية</h2>

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="{{lang}}" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>{{title}}</title>
+    <meta name="title" content="{{title}}" />
+    <meta name="description" content="{{description}}" />
+    <meta name="author" content="{{author}}" />
+    <meta name="keywords" content="{{keywords}}" />
+    <meta name="theme-color" content="{{themeColor}}" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{canonicalUrl}}" />
+    
+    <!-- Language alternates -->
+    {{#each languageAlternates}}
+    <link rel="alternate" hreflang="{{hreflang}}" href="{{href}}" />
+    {{/each}}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ogTitle}}" />
+    <meta property="og:description" content="{{ogDescription}}" />
+    <meta property="og:image" content="{{ogImage}}" />
+    <meta property="og:image:alt" content="{{ogImageAlt}}" />
+    <meta property="og:url" content="{{ogUrl}}" />
+    <meta property="og:site_name" content="{{ogSiteName}}" />
+    <meta property="og:locale" content="{{ogLocale}}" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{twitterTitle}}" />
+    <meta name="twitter:description" content="{{twitterDescription}}" />
+    <meta name="twitter:image" content="{{twitterImage}}" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="image" href="{{heroImage}}" imagesrcset="{{heroImage}} 1x" />
+    
+    <!-- PWA Meta -->
+    <link rel="manifest" href="{{manifestPath}}" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="{{appleIcon}}" />
+    
+    <!-- Asset version for cache busting -->
+    <meta name="asset-version" content="{{assetVersion}}" />
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{cssPath}}" />
+    
+    <!-- Scripts -->
+    <script defer src="{{jsPath}}"></script>
+    
+    <!-- Service Worker Registration -->
+    {{#if enableServiceWorker}}
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker
+                    .register('{{serviceWorkerPath}}')
+                    .catch((e) => console.warn('SW registration failed', e));
+            });
+        }
+    </script>
+    {{/if}}
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {{{structuredData}}}
+    </script>
+    
+    <!-- Environment-specific head content -->
+    {{#if isDevelopment}}
+    <!-- Development mode indicators -->
+    <meta name="robots" content="noindex, nofollow" />
+    {{/if}}
+</head>
+
+<body class="bg-brand-dark text-brand-light-gray font-sans" data-env="{{environment}}">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" 
+       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-red text-white px-4 py-2 rounded z-50">
+        {{skipToContentText}}
+    </a>
+    
+    <!-- Environment indicator (development only) -->
+    {{#if isDevelopment}}
+    <div id="dev-indicator" 
+         class="fixed top-0 left-0 right-0 bg-yellow-600 text-black text-center text-sm py-1 px-4 font-semibold z-50">
+        🚧 Development Mode - {{buildVersion}}
+    </div>
+    {{/if}}
+    
+    <!-- Header -->
+    <header class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-40 shadow-lg shadow-black/20"
+            {{#if isDevelopment}}style="top: 2rem;"{{/if}}>
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                {{siteName}} <span class="text-brand-red">{{siteNameAccent}}</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                {{#each navigationItems}}
+                <a href="{{href}}" 
+                   class="text-gray-300 hover:text-brand-red transition-colors"
+                   {{#if external}}target="_blank" rel="noopener"{{/if}}>
+                    {{text}}
+                </a>
+                {{/each}}
+                
+                <!-- Theme toggle -->
+                {{#if enableThemeToggle}}
+                <button id="theme-toggle" 
+                        class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
+                        aria-label="Toggle theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                {{/if}}
+                
+                <!-- Language switcher -->
+                {{#if enableLanguageSwitcher}}
+                <div class="relative">
+                    <button id="language-toggle" 
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
+                            aria-label="Switch language">
+                        <span>{{currentLanguage}}</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div id="language-menu" class="hidden absolute right-0 mt-2 py-2 w-32 bg-gray-800 rounded-lg shadow-lg">
+                        {{#each availableLanguages}}
+                        <a href="{{href}}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">{{name}}</a>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-button" 
+                    class="md:hidden text-white p-2"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
+                    aria-label="Toggle mobile menu">
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                     width="24" height="24" 
+                     viewBox="0 0 24 24" 
+                     fill="none" 
+                     stroke="currentColor" 
+                     stroke-width="2" 
+                     stroke-linecap="round" 
+                     stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            {{#each navigationItems}}
+            <a href="{{href}}" 
+               class="block py-2 text-gray-300 hover:text-brand-red transition-colors"
+               {{#if external}}target="_blank" rel="noopener"{{/if}}>
+                {{text}}
+            </a>
+            {{/each}}
+            
+            {{#if enableThemeToggle}}
+            <button id="theme-toggle-mobile" 
+                    class="block mt-2 text-left text-gray-300 hover:text-brand-red transition-colors"
+                    aria-label="Toggle theme">
+                Toggle Theme
+            </button>
+            {{/if}}
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="container mx-auto px-6 py-12">
+        {{{content}}}
+    </main>
+    
+    <!-- Footer -->
+    <footer id="contact" class="bg-black text-white border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12">
+            <div class="text-center">
+                <h2 class="section-head" data-sh>
+                    <span class="sh-core">
+                        {{footerTitle}}
+                        <span class="sh-accent" data-words="{{footerAccentWords}}">{{footerAccent}}</span>
+                    </span>
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-brand-gray">
+                    {{footerDescription}}
+                </p>
+                <a href="mailto:{{contactEmail}}" 
+                   class="mt-8 inline-block bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                    {{contactEmail}}
+                </a>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="mt-12 flex justify-center space-x-6">
+                {{#each socialLinks}}
+                <a href="{{url}}" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="text-gray-400 hover:text-white transition-colors"
+                   aria-label="{{name}}">
+                    {{{icon}}}
+                </a>
+                {{/each}}
+            </div>
+            
+            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>{{copyright}}</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Loading indicator -->
+    <div id="loading-indicator" class="fixed top-4 right-4 hidden">
+        <div class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg">
+            <div class="flex items-center gap-2">
+                <div class="animate-spin h-4 w-4 border-2 border-brand-red border-t-transparent rounded-full"></div>
+                <span>Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Accessibility announcements -->
+    <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    <div id="filter-announcer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    
+    <!-- No JavaScript fallback -->
+    <noscript>
+        <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div class="bg-white text-black p-8 rounded-lg max-w-md mx-4 text-center">
+                <h2 class="text-xl font-bold mb-4">JavaScript Required</h2>
+                <p class="mb-4">This website requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
+                <p class="text-sm text-gray-600">Basic content is still visible below.</p>
+            </div>
+        </div>
+    </noscript>
+</body>
+</html>
