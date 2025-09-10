@@ -1,0 +1,31 @@
+<!-- Professional Summary Section -->
+<section id="summary" class="my-24 fade-in-section">
+    <h2 class="section-head text-center mb-12" data-sh>
+        <span class="sh-core">
+            {{sectionTitle}}
+            <span class="sh-accent" data-words="{{accentWords}}">{{defaultAccent}}</span>
+        </span>
+    </h2>
+    
+    <!-- Summary Cards Container (Dynamic) -->
+    <div id="summary-cards" 
+         class="grid md:grid-cols-3 gap-8" 
+         data-dynamic="summary"
+         role="region"
+         aria-label="Professional summary highlights">
+        
+        <!-- Static Fallback Content -->
+        {{#each fallbackItems}}
+        <div class="summary-card card-hover-effect group" tabindex="0">
+            <div class="summary-card-inner">
+                <span class="summary-pill" aria-hidden="true">{{category}}</span>
+                <h3 class="summary-title">{{title}}</h3>
+                <p class="summary-body">{{description}}</p>
+                {{#if metric}}
+                <span class="summary-metric" aria-label="Key metric">{{metric}}</span>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</section>

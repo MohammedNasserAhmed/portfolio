@@ -8,7 +8,7 @@ export default [
     js.configs.recommended,
     // Generic JS / MJS (browser – site scripts)
     {
-        files: ['js/**/*.js', 'ar/**/*.js', 'index.js', 'sw-register.js', 'sw.js'],
+        files: ['js/**/*.js', 'ar/**/*.js', 'index.js', 'sw-register.js', 'sw.js', 'src/**/*.js'],
         ignores: ['js/vendor/**'],
         plugins: { import: pluginImport },
         languageOptions: {
@@ -17,7 +17,9 @@ export default [
                 document: 'readonly',
                 localStorage: 'readonly',
                 IntersectionObserver: 'readonly',
+                MutationObserver: 'readonly',
                 requestAnimationFrame: 'readonly',
+                cancelAnimationFrame: 'readonly',
                 requestIdleCallback: 'readonly',
                 setTimeout: 'readonly',
                 setInterval: 'readonly',
@@ -26,7 +28,12 @@ export default [
                 console: 'readonly',
                 fetch: 'readonly',
                 navigator: 'readonly',
-                THREE: 'readonly'
+                THREE: 'readonly',
+                URL: 'readonly',
+                URLSearchParams: 'readonly',
+                Buffer: 'readonly',
+                HTMLScriptElement: 'readonly',
+                performance: 'readonly'
             }
         },
         rules: {
@@ -65,7 +72,10 @@ export default [
                 require: 'readonly',
                 process: 'readonly',
                 __dirname: 'readonly',
-                console: 'readonly'
+                console: 'readonly',
+                URL: 'readonly',
+                Buffer: 'readonly',
+                setTimeout: 'readonly'
             }
         },
         rules: {

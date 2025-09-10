@@ -49,7 +49,7 @@
             content="AI Engineer (PhD) building impactful LLM & ML solutions."
         />
         <meta name="twitter:image" content="images/website-photo.png" />
-        <!-- Tailwind is built locally into dist/style.c74f2f311e.css; CDN script removed -->
+        <!-- Tailwind CSS built locally -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -73,12 +73,12 @@
         <link rel="manifest" href="manifest.webmanifest" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="asset-version" content="12c39441f9" />
+        <meta name="asset-version" content="b0df0c55f3">
         <link rel="apple-touch-icon" href="images/website-photo.png" />
         <!-- Cache-busting query string appended; update BUILD_VERSION via build script if desired -->
-        <link rel="stylesheet" href="dist/style.c74f2f311e.css" />
+        <link rel="stylesheet" href="dist/style.699240263e.css" />
         <!-- cache-bust v=static2 -->
-        <script defer src="dist/main.0fc3bfab92.js"></script>
+        <script defer src="dist/main.072772c0ab.js"></script>
         <!-- Temporarily disable SW registration to avoid stale caches while debugging -->
         <!-- <script>
             if ('serviceWorker' in navigator) {
@@ -218,72 +218,57 @@
             </div>
         </header>
 
-        <main class="container mx-auto px-6 py-12">
-            <!-- Hero Section -->
-            <section
-                id="hero"
-                class="hero-section-animated relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
-            >
-                <div class="hero-bg-layer" aria-hidden="true"></div>
-                <div class="hero-bg-particles" aria-hidden="true"></div>
-                <canvas id="hero-canvas"></canvas>
-                <div class="hero-content md:w-2/3 text-center md:text-left">
-                    <h1
-                        id="hero-title"
-                        class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
+        <!-- Hero Section -->
+        <section
+            id="hero"
+            class="hero-section-animated relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
+        >
+            <div class="hero-bg-layer" aria-hidden="true"></div>
+            <div class="hero-bg-particles" aria-hidden="true"></div>
+            <canvas id="hero-canvas"></canvas>
+            <div class="hero-content md:w-2/3 text-center md:text-left md:pl-24">
+                <h1
+                    id="hero-title"
+                    class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
+                >
+                    AI Engineer & <span class="gradient-text"></span>
+                </h1>
+                <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
+                    PhD-level AI Engineer with deep expertise in AI and ML, specializing in
+                    scalable, real-world solutions across supervised, unsupervised, and
+                    reinforcement learning.
+                </p>
+                <div
+                    class="mt-8 flex items-center gap-5 justify-center md:justify-start flex-wrap relative"
+                >
+                    <a
+                        href="#contact"
+                        class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                        >Get In Touch</a
                     >
-                        AI Engineer & <span class="gradient-text"></span>
-                    </h1>
-                    <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
-                        PhD-level AI Engineer with deep expertise in AI and ML, specializing in
-                        scalable, real-world solutions across supervised, unsupervised, and
-                        reinforcement learning.
-                    </p>
-                    <div
-                        class="mt-8 flex items-center gap-5 justify-center md:justify-start flex-wrap relative"
+                    <a
+                        href="#projects"
+                        class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                        >View Work</a
                     >
-                        <a
-                            href="#contact"
-                            class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
-                            >Get In Touch</a
-                        >
-                        <a
-                            href="#projects"
-                            class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
-                            >View Work</a
-                        >
-                        <div class="hidden sm:flex items-center">
-                            <div class="relative group">
-                                <div
-                                    class="w-24 h-24 rounded-full flex items-center justify-center"
-                                >
-                                    <div
-                                        class="relative w-full h-full rounded-full ring-4 ring-brand-red/90 bg-brand-red/10 overflow-hidden shadow-lg shadow-brand-red/30"
-                                    >
-                                        <img
-                                            src="images/website-photo.png"
-                                            alt="Portrait"
-                                            class="w-full h-full object-cover scale-105 transition-transform duration-500 group-hover:scale-110"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
-                    <div
-                        class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center"
-                    >
-                        <img
-                            src="images/website-photo.png"
-                            alt="Portrait"
-                            class="w-full h-full object-cover"
-                        />
-                    </div>
+            </div>
+            <div class="hero-content md:w-1/3 flex justify-center md:justify-center">
+                <div
+                    class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center"
+                    style="z-index: 10; position: relative;"
+                >
+                    <img
+                        src="images/website-photo.png"
+                        alt="Portrait"
+                        class="w-full h-full object-cover"
+                    />
                 </div>
-            </section>
+            </div>
+        </section>
 
+        <!-- Main Content -->
+        <main class="container mx-auto px-6">
             <!-- Professional Summary Section (dynamic) -->
             <section id="summary" class="my-24 fade-in-section">
                 <h2 class="section-head text-center mb-12" data-sh>
@@ -339,14 +324,21 @@
                         ></span
                     >
                 </h2>
-                <div
-                    class="projects-carousel-wrapper relative"
-                    id="projects-carousel"
-                    data-auto="true"
-                >
+                
+                <!-- Filter Controls -->
+                <div class="mb-8 text-center">
+                    <div id="active-skill-filters" class="hidden mb-4 flex flex-wrap gap-2 justify-center"></div>
+                    <button id="clear-skill-filters" 
+                            class="hidden bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition-colors">
+                        Clear Filters
+                    </button>
+                    <div id="filter-announcer" class="sr-only" aria-live="polite"></div>
+                </div>
+                
+                <div id="projects-carousel" class="outreach-scroller" data-auto="true">
                     <div
                         id="projects-grid"
-                        class="projects-row auto-scroll-track"
+                        class="outreach-track"
                         data-dynamic="projects"
                         role="list"
                         aria-label="Featured projects rolling list"

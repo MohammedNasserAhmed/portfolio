@@ -1,0 +1,58 @@
+<!-- Hero Section -->
+<section id="hero" 
+         class="hero-section-animated relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden">
+    
+    <!-- Background Effects -->
+    <div class="hero-bg-layer" aria-hidden="true"></div>
+    <div class="hero-bg-particles" aria-hidden="true"></div>
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    
+    <!-- Hero Content -->
+    <div class="hero-content md:w-2/3 text-center md:text-left">
+        <h1 id="hero-title" class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+            {{heroTitle}} <span class="gradient-text"></span>
+        </h1>
+        
+        <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
+            {{heroDescription}}
+        </p>
+        
+        <div class="mt-8 flex items-center gap-5 justify-center md:justify-start flex-wrap relative">
+            <!-- Primary CTA -->
+            <a href="#contact" 
+               class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                {{primaryCTA}}
+            </a>
+            
+            <!-- Secondary CTA -->
+            <a href="#projects" 
+               class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
+                {{secondaryCTA}}
+            </a>
+            
+            <!-- Profile Image (small) -->
+            <div class="hidden sm:flex items-center">
+                <div class="relative group">
+                    <div class="w-24 h-24 rounded-full flex items-center justify-center">
+                        <div class="relative w-full h-full rounded-full ring-4 ring-brand-red/90 bg-brand-red/10 overflow-hidden shadow-lg shadow-brand-red/30">
+                            <img src="{{profileImageSmall}}" 
+                                 alt="{{profileImageAlt}}" 
+                                 class="w-full h-full object-cover scale-105 transition-transform duration-500 group-hover:scale-110" 
+                                 loading="eager" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Profile Image (large) -->
+    <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
+        <div class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center">
+            <img src="{{profileImageLarge}}" 
+                 alt="{{profileImageAlt}}" 
+                 class="w-full h-full object-cover" 
+                 loading="eager" />
+        </div>
+    </div>
+</section>

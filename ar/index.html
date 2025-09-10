@@ -40,11 +40,11 @@
         <link rel="manifest" href="../manifest.webmanifest" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="asset-version" content="12c39441f9" />
+        <meta name="asset-version" content="4c8a32699b">
         <link rel="apple-touch-icon" href="../images/website-photo.png" />
-        <link rel="stylesheet" href="../dist/style.c74f2f311e.css" />
+        <link rel="stylesheet" href="../dist/style.699240263e.css" />
         <script type="module" src="../js/vendor/three.min.js"></script>
-        <script src="../dist/main.0fc3bfab92.js" defer></script>
+        <script src="../dist/main.072772c0ab.js" defer></script>
         <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
@@ -183,7 +183,7 @@
                 class="relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
             >
                 <canvas id="hero-canvas"></canvas>
-                <div class="hero-content md:w-2/3 text-center md:text-right">
+                <div class="hero-content md:w-2/3 text-center md:text-right md:pr-24">
                     <h1
                         id="hero-title"
                         class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
@@ -207,28 +207,12 @@
                             class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
                             >عرض الأعمال</a
                         >
-                        <div class="hidden sm:flex items-center">
-                            <div class="relative group">
-                                <div
-                                    class="w-24 h-24 rounded-full flex items-center justify-center"
-                                >
-                                    <div
-                                        class="relative w-full h-full rounded-full ring-4 ring-brand-red/90 bg-brand-red/10 overflow-hidden shadow-lg shadow-brand-red/30"
-                                    >
-                                        <img
-                                            src="../images/website-photo.png"
-                                            alt="صورة"
-                                            class="w-full h-full object-cover scale-105 transition-transform duration-500 group-hover:scale-110"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <div class="hero-content md:w-1/3 flex justify-center md:justify-end">
+                <div class="hero-content md:w-1/3 flex justify-center md:justify-center">
                     <div
                         class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center"
+                        style="z-index: 10; position: relative;"
                     >
                         <img
                             src="../images/website-photo.png"
@@ -248,11 +232,13 @@
             </section>
             <section id="projects" class="my-24 fade-in-section">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">مشاريع مختارة</h2>
-                <div
-                    id="projects-grid"
-                    class="grid md:grid-cols-2 gap-8"
-                    data-dynamic="projects"
-                ></div>
+                <div class="outreach-scroller">
+                    <div
+                        id="projects-grid"
+                        class="outreach-track"
+                        data-dynamic="projects"
+                    ></div>
+                </div>
             </section>
             <section id="skills" class="my-24 fade-in-section overflow-hidden">
                 <h2 class="text-3xl font-bold text-center mb-12 text-white">التقنيات الأساسية</h2>

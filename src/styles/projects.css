@@ -1,0 +1,241 @@
+/* Projects section styles */
+
+.projects-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 1rem 0;
+    transition: all 0.6s ease;
+}
+
+/* Filtered mode: adjust wrapper for centered content */
+.projects-carousel-wrapper.filtered-mode {
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.projects-row {
+    display: flex;
+    gap: 0.75rem;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Filtered mode: center and wrap content */
+.filtered-mode .projects-row {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    transform: none !important;
+}
+
+.auto-scroll-track {
+    animation: outreach-scroll 60s linear infinite;
+}
+
+/* Filtered mode: disable animation */
+.filtered-mode .auto-scroll-track,
+.filtered-mode .projects-row {
+    animation: none !important;
+}
+
+@keyframes outreach-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.auto-scroll-track:hover {
+    animation-play-state: paused;
+}
+
+.project-card {
+    flex: 0 0 280px;
+    background: var(--brand-card);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    position: relative;
+    transition: all var(--transition-speed) var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Filtered mode: responsive card sizing */
+.filtered-mode .project-card {
+    flex: 0 0 clamp(280px, 45vw, 400px);
+    margin-bottom: 1rem;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.project-card.has-lid {
+    height: 320px;
+}
+
+.project-lid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    background: var(--lid-bg);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 1rem;
+    transition: all var(--transition-speed);
+}
+
+.project-card:hover .project-lid {
+    height: 120px;
+}
+
+.proj-gh {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all var(--transition-speed);
+}
+
+.proj-gh:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+.proj-gh svg {
+    width: 20px;
+    height: 20px;
+}
+
+.project-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, var(--brand-card));
+    transition: all var(--transition-speed);
+}
+
+.project-card:hover .project-body {
+    background: var(--brand-card);
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+}
+
+.tech-tags span {
+    background: rgba(217, 35, 35, 0.2);
+    color: var(--brand-red);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Project filtering */
+.project-filter {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.filter-badge {
+    background: var(--brand-red);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.clear-filter-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.clear-filter-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Project states */
+.project-card[data-filtered="false"] {
+    opacity: 0.3;
+    transform: scale(0.95);
+}
+
+.project-card[data-featured="true"] {
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 1px rgba(217, 35, 35, 0.2);
+}
+
+/* Mobile adaptations */
+@media (max-width: 768px) {
+    .projects-row {
+        gap: 1rem;
+    }
+    
+    .project-card {
+        flex: 0 0 250px;
+        height: 280px;
+    }
+    
+    .project-body {
+        padding: 1rem;
+    }
+    
+    /* Filtered mode mobile adjustments */
+    .filtered-mode .project-card {
+        flex: 0 0 clamp(250px, 80vw, 320px);
+    }
+}
+
+/* Performance optimizations for smooth animations */
+.projects-carousel-wrapper,
+.projects-row,
+.project-card {
+    transform: translateZ(0);
+    will-change: auto;
+    backface-visibility: hidden;
+    isolation: isolate;
+}
+
+/* Smooth mode transitions */
+.projects-carousel-wrapper.filtered-mode {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filtered-mode .projects-row {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filtered-mode .project-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -167,48 +167,71 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!container) return;
         const wrapper = document.getElementById('projects-carousel');
         const auto = wrapper && wrapper.dataset.auto === 'true';
-        const list = auto ? [...items, ...items] : items; // duplicate for seamless loop
+        // Duplicate items for seamless loop when auto-carousel is enabled
+        const list = auto ? [...items, ...items] : items;
         container.innerHTML = list
             .map((p, i) => {
-                // Determine lid background: if image provided use it, else color based on index for variety.
-                const isDuped = i >= items.length;
+                const isDuped = auto && i >= items.length;
                 const baseIdx = i % items.length;
                 const altPalette = ['#ff5858', '#2e2e2e', '#d92323', '#3a3a3a'];
                 const rawBg = p.image
                     ? `url('${escapeAttr(p.image)}') center/cover`
                     : altPalette[baseIdx % altPalette.length];
                 const dark = /#2e2e2e|#3a3a3a|var\(--color-card\)/i.test(rawBg);
-                return `\n          <div class="project-card has-lid" role="listitem" data-dupe="${isDuped ? 'true' : 'false'}" style="--lid-bg:${rawBg};">\n            <div class="project-lid${dark ? ' is-dark' : ''}" tabindex="0">\n              ${
-                    p.githubUrl
-                        ? `<a href='${escapeAttr(p.githubUrl)}' class='proj-gh' target='_blank' rel='noopener' aria-label='GitHub: ${escapeAttr(p.title)}'>\n                          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'><path d='M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.11.79-.25.79-.56 0-.27-.01-1.17-.02-2.13-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.79 2.76 1.27 3.43.97.11-.76.41-1.27.75-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.19a11.1 11.1 0 0 1 2.9-.39 11.1 11.1 0 0 1 2.9.39c2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.76.12 3.05.75.81 1.2 1.84 1.2 3.1 0 4.43-2.69 5.41-5.25 5.69.42.37.8 1.1.8 2.22 0 1.6-.02 2.88-.02 3.27 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z'/></svg>\n                        </a>`
-                        : ''
-                }\n            </div>\n            <div class="project-body">\n              <p class="text-brand-gray">${escapeHTML(p.description)}</p>\n              <div class="tech-tags">${(
-                    p.tech || []
-                )
-                    .map((t) => `<span>${escapeHTML(t)}</span>`)
-                    .join('')}\n              </div>\n              ${
-                    p.githubUrl
-                        ? `<div class='mt-2'><a href='${escapeAttr(p.githubUrl)}' class='text-brand-red text-xs font-semibold hover:underline' target='_blank' rel='noopener'>GitHub →</a></div>`
-                        : ''
-                }\n            </div>\n          </div>`;
+                return `
+          <div class="project-card has-lid" role="listitem" data-dupe="${isDuped ? 'true' : 'false'}" style="--lid-bg:${rawBg};">
+            <div class="project-lid${dark ? ' is-dark' : ''}" tabindex="0">
+              ${
+                  p.githubUrl
+                      ? `<a href='${escapeAttr(p.githubUrl)}' class='proj-gh' target='_blank' rel='noopener' aria-label='GitHub: ${escapeAttr(p.title)}'>
+                          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'><path d='M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.93c.58.11.79-.25.79-.56 0-.27-.01-1.17-.02-2.13-3.2.7-3.88-1.36-3.88-1.36-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.79 2.76 1.27 3.43.97.11-.76.41-1.27.75-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.2-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.19a11.1 11.1 0 0 1 2.9-.39 11.1 11.1 0 0 1 2.9.39c2.2-1.5 3.17-1.19 3.17-1.19.63 1.59.24 2.76.12 3.05.75.81 1.2 1.84 1.2 3.1 0 4.43-2.69 5.41-5.25 5.69.42.37.8 1.1.8 2.22 0 1.6-.02 2.88-.02 3.27 0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z'/></svg>
+                        </a>`
+                      : ''
+              }
+            </div>
+            <div class="project-body">
+              <p class="text-brand-gray">${escapeHTML(p.description)}</p>
+              <div class="tech-tags">${(
+                  p.tech || []
+              )
+                  .map((t) => `<span>${escapeHTML(t)}</span>`)
+                  .join('')}
+              </div>
+              ${
+                  p.githubUrl
+                      ? `<div class='mt-2'><a href='${escapeAttr(p.githubUrl)}' class='text-brand-red text-xs font-semibold hover:underline' target='_blank' rel='noopener'>GitHub →</a></div>`
+                      : ''
+              }
+            </div>
+          </div>`;
             })
             .join('');
+
+        // Initialize auto-carousel if enabled
         if (auto) {
-            if (!container.classList.contains('auto-scroll-track')) {
-                container.classList.add('auto-scroll-track');
-            }
+            initProjectsSection();
+        }
+    }
+
+    // Initialize Projects section
+    function initProjectsSection() {
+        const wrapper = document.getElementById('projects-carousel');
+        const track = document.getElementById('projects-grid');
+        
+        if (wrapper && track && wrapper.dataset.auto === 'true') {
+            // For auto-carousel, pause animation on hover/focus
             wrapper.addEventListener('mouseenter', () => {
-                container.style.animationPlayState = 'paused';
+                track.style.animationPlayState = 'paused';
             });
             wrapper.addEventListener('mouseleave', () => {
-                container.style.animationPlayState = 'running';
+                track.style.animationPlayState = 'running';
             });
-            const prefersReducedMotion = window.matchMedia(
-                '(prefers-reduced-motion: reduce)'
-            ).matches;
-            if (prefersReducedMotion) {
-                container.style.animation = 'none';
-            }
+            wrapper.addEventListener('focusin', () => {
+                track.style.animationPlayState = 'paused';
+            });
+            wrapper.addEventListener('focusout', () => {
+                track.style.animationPlayState = 'running';
+            });
         }
     }
 
@@ -1104,7 +1127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        function cardHTML(ev, i) {
+        function cardHTML(ev, _i) {
             const d = ev.date
                 ? `<time datetime="${escapeAttr(ev.date)}" class="block text-xs text-gray-400">${escapeHTML(ev.date)}</time>`
                 : '';
@@ -1193,9 +1216,143 @@ document.addEventListener('DOMContentLoaded', () => {
     function escapeAttr(str) {
         return escapeHTML(str).replace(/`/g, '&#96;');
     }
+    /* DEV-OVERLAY-START */
+    // Dev-only content editing overlay with schema validation & warning banner
+    (function devOverlay() {
+        const ADMIN_TOKEN = 'dev';
+        function isProductionHost() {
+            return /github\.io$/i.test(window.location.hostname);
+        }
+        function adminHashToken() {
+            const h = window.location.hash;
+            if (h === '#admin') return ADMIN_TOKEN; // legacy shortcut
+            if (h.startsWith('#admin=')) return h.split('=')[1] || '';
+            return null;
+        }
+        const candidateToken = adminHashToken();
+        if (isProductionHost() || candidateToken !== ADMIN_TOKEN) return; // exit if not allowed
 
-    // overlay stripped for production
+        injectAdminPanel();
 
+        function injectAdminPanel() {
+            // Visual banner
+            const banner = document.createElement('div');
+            banner.id = 'admin-dev-banner';
+            banner.className =
+                'fixed top-0 left-0 right-0 bg-red-700 text-white text-center text-xs md:text-sm py-1 px-4 font-semibold tracking-wide shadow-lg z-[60]';
+            banner.textContent = 'DEV MODE ACTIVE: Admin Overlay Enabled – Edits are local only';
+            document.body.appendChild(banner);
+
+            const panel = document.createElement('div');
+            panel.innerHTML = `\n          <div id="admin-panel" class="fixed bottom-4 right-4 w-96 max-h-[80vh] bg-brand-card border border-gray-700 rounded-lg shadow-xl flex flex-col text-sm z-50">\n            <div class="flex items-center justify-between px-3 py-2 bg-gray-800 rounded-t">\n              <strong class="text-white">Content Admin (ephemeral)</strong>\n              <button id="admin-close" class="text-gray-400 hover:text-white" aria-label="Close admin panel">×</button>\n            </div>\n            <textarea id="admin-json" class="flex-1 p-3 bg-black text-gray-200 font-mono resize-none outline-none" aria-label="Editable JSON content"></textarea>\n            <div class="p-2 flex gap-2 flex-wrap">\n              <button id="admin-apply" class="bg-brand-red text-white px-3 py-1 rounded">Apply</button>\n              <button id="admin-copy" class="bg-gray-700 text-white px-3 py-1 rounded">Copy JSON</button>\n              <button id="admin-pretty" class="bg-gray-700 text-white px-3 py-1 rounded">Format</button>\n            </div>\n            <div id="admin-msg" class="px-3 pb-2 text-xs font-mono text-gray-400" aria-live="polite"></div>\n          </div>`;
+            document.body.appendChild(panel);
+            const ta = document.getElementById('admin-json');
+            ta.value = JSON.stringify(window.__PORTFOLIO_DATA__ || {}, null, 2);
+            const msgEl = document.getElementById('admin-msg');
+            document.getElementById('admin-close').onclick = () => {
+                panel.remove();
+                banner.remove();
+            };
+            document.getElementById('admin-copy').onclick = () => {
+                navigator.clipboard.writeText(ta.value).catch(() => {});
+            };
+            document.getElementById('admin-pretty').onclick = () => {
+                try {
+                    const parsed = JSON.parse(ta.value);
+                    ta.value = JSON.stringify(parsed, null, 2);
+                } catch (__e) {
+                    /* ignore */
+                }
+            };
+
+            function validateContent(data) {
+                const errors = [];
+                const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
+                const assert = (cond, path, exp) => {
+                    if (!cond) errors.push(`${path}: expected ${exp}`);
+                };
+                if ('summary' in data) assert(Array.isArray(data.summary), 'summary', 'array');
+                if (Array.isArray(data.summary)) {
+                    data.summary.forEach((s, i) => {
+                        assert(isObj(s), `summary[${i}]`, 'object');
+                        if (isObj(s)) {
+                            assert(typeof s.title === 'string', `summary[${i}].title`, 'string');
+                            assert(typeof s.body === 'string', `summary[${i}].body`, 'string');
+                        }
+                    });
+                }
+                if ('projects' in data) assert(Array.isArray(data.projects), 'projects', 'array');
+                if (Array.isArray(data.projects)) {
+                    data.projects.forEach((p, i) => {
+                        assert(isObj(p), `projects[${i}]`, 'object');
+                        if (isObj(p)) {
+                            ['title', 'image', 'description'].forEach((k) =>
+                                assert(typeof p[k] === 'string', `projects[${i}].${k}`, 'string')
+                            );
+                            if (p.tech !== undefined)
+                                assert(
+                                    Array.isArray(p.tech) &&
+                                        p.tech.every((t) => typeof t === 'string'),
+                                    `projects[${i}].tech`,
+                                    'string[]'
+                                );
+                        }
+                    });
+                }
+                if ('skills' in data)
+                    assert(
+                        Array.isArray(data.skills) &&
+                            data.skills.every((s) => typeof s === 'string'),
+                        'skills',
+                        'string[]'
+                    );
+                if ('publications' in data)
+                    assert(Array.isArray(data.publications), 'publications', 'array');
+                if (Array.isArray(data.publications)) {
+                    data.publications.forEach((p, i) => {
+                        assert(isObj(p), `publications[${i}]`, 'object');
+                        if (isObj(p)) {
+                            ['title', 'image', 'published', 'description', 'link'].forEach((k) =>
+                                assert(
+                                    typeof p[k] === 'string',
+                                    `publications[${i}].${k}`,
+                                    'string'
+                                )
+                            );
+                        }
+                    });
+                }
+                return { valid: errors.length === 0, errors };
+            }
+
+            document.getElementById('admin-apply').onclick = () => {
+                try {
+                    const parsed = JSON.parse(ta.value);
+                    const { valid, errors } = validateContent(parsed);
+                    if (!valid) {
+                        msgEl.textContent = 'Validation failed: ' + errors[0];
+                        msgEl.classList.remove('text-green-400');
+                        msgEl.classList.add('text-red-400');
+                        ta.style.borderColor = 'red';
+                        setTimeout(() => (ta.style.borderColor = ''), 1500);
+                        return;
+                    }
+                    window.__PORTFOLIO_DATA__ = parsed;
+                    renderSummary(parsed.summary || []);
+                    renderProjects(parsed.projects || []);
+                    renderSkills(parsed.skills || []);
+                    renderPublications(parsed.publications || []);
+                    msgEl.textContent = 'Applied successfully';
+                    msgEl.classList.remove('text-red-400');
+                    msgEl.classList.add('text-green-400');
+                } catch (__e) {
+                    ta.style.borderColor = 'red';
+                    setTimeout(() => (ta.style.borderColor = ''), 1200);
+                }
+            };
+        }
+    })();
+    /* DEV-OVERLAY-END */
     // Mobile menu
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -1242,21 +1399,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (function initHeroPhotoAndSummary() {
         const heroPhoto = document.querySelector('.hero-photo');
         // Hero video progressive enhancement
-        const heroVid = document.getElementById(
-            document.documentElement.lang === 'ar' ? 'hero-video-ar' : 'hero-video'
-        );
-        if (heroVid) {
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (reduceMotion) {
-                // Show poster only
-                heroVid.removeAttribute('autoplay');
-                heroVid.pause();
-            } else {
-                heroVid.addEventListener('loadeddata', () => {
-                    heroVid.classList.add('opacity-100');
-                });
-            }
-        }
+        // Video removed per design update (fallback now static photo). Cleanup any legacy classes.
         if (heroPhoto && !heroPhoto.dataset.enhanced) {
             heroPhoto.dataset.enhanced = 'true';
             // (Ring removed per request)

@@ -1,0 +1,17 @@
+{
+  "buildId": "dd2d32dec1",
+  "version": "e967237d0d",
+  "timestamp": "2025-09-10T08:16:46.077Z",
+  "assets": {
+    "js": {
+      "filename": "main.072772c0ab.js",
+      "hash": "072772c0ab"
+    },
+    "css": {
+      "filename": "style.699240263e.css",
+      "hash": "699240263e"
+    }
+  },
+  "environment": "development",
+  "note": "Built with ultra-reliable system - no ES6 imports"
+}
