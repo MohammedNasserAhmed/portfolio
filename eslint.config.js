@@ -16,6 +16,7 @@ export default [
                 window: 'readonly',
                 document: 'readonly',
                 localStorage: 'readonly',
+                sessionStorage: 'readonly',
                 IntersectionObserver: 'readonly',
                 MutationObserver: 'readonly',
                 requestAnimationFrame: 'readonly',

@@ -1,15 +1,15 @@
 {
-  "buildId": "ab981f581d",
-  "version": "356a4446cd",
-  "timestamp": "2025-09-10T08:52:51.104Z",
+  "buildId": "14702e1d20",
+  "version": "861ae3e2d5",
+  "timestamp": "2025-09-12T14:35:08.931Z",
   "assets": {
     "js": {
-      "filename": "main.6e3edaccf9.js",
-      "hash": "6e3edaccf9"
+      "filename": "main.827682d4bb.js",
+      "hash": "827682d4bb"
     },
     "css": {
-      "filename": "style.2da63c4194.css",
-      "hash": "2da63c4194"
+      "filename": "style.b164a671bb.css",
+      "hash": "b164a671bb"
     }
   },
   "environment": "development",

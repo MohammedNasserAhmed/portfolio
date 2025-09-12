@@ -419,3 +419,91 @@
         border: 1px solid currentColor;
     }
 }
+
+/* Visitor Statistics Component Styles */
+.visitor-stats {
+    font-weight: 500;
+    user-select: none;
+}
+
+.visitor-stats svg {
+    flex-shrink: 0;
+}
+
+.star-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.star-button:hover {
+    transform: scale(1.1);
+}
+
+.star-button:focus {
+    outline: 2px solid var(--brand-red);
+    outline-offset: 2px;
+}
+
+.star-button:active {
+    transform: scale(0.95);
+}
+
+.star-button svg {
+    transition: all 0.2s ease;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .visitor-stats {
+        font-size: 0.875rem;
+        gap: 0.75rem;
+    }
+
+    .visitor-stats svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .star-button:focus {
+        outline: 3px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .star-button,
+    .star-button svg {
+        transition: none;
+    }
+
+    .star-button:hover {
+        transform: none;
+    }
+}
+
+/* Animation for star state changes */
+@keyframes starPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.star-button.animate-pulse {
+    animation: starPulse 0.3s ease-in-out;
+}

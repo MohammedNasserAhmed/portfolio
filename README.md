@@ -2,7 +2,7 @@
   <h1>🤖 AI Engineer Portfolio</h1>
   <p><strong>A cutting-edge, high-performance portfolio showcasing AI engineering expertise</strong></p>
   
-  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+  [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
   [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
   [![Performance](https://img.shields.io/badge/Lighthouse-100%2F100-brightgreen.svg)](audit.json)
   
@@ -664,7 +664,7 @@ We welcome contributions! Please follow these guidelines:
 
 ## 📜 **License**
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the **Apache 2.0 License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
