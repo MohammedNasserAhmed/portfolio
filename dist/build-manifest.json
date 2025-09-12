@@ -1,11 +1,11 @@
 {
-  "buildId": "14702e1d20",
-  "version": "861ae3e2d5",
-  "timestamp": "2025-09-12T14:35:08.931Z",
+  "buildId": "6ac3d641c0",
+  "version": "ccb0d4cd14",
+  "timestamp": "2025-09-12T15:44:59.309Z",
   "assets": {
     "js": {
-      "filename": "main.827682d4bb.js",
-      "hash": "827682d4bb"
+      "filename": "main.1182e4e7d8.js",
+      "hash": "1182e4e7d8"
     },
     "css": {
       "filename": "style.b164a671bb.css",

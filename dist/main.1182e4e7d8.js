@@ -2053,7 +2053,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initVisitorStats(contentData) {
     // Read stats from content.json as the authoritative baseline
     const globalStats = contentData && contentData.stats ? contentData.stats : null;
-
+    
     // Storage keys
     const USER_STAR_KEY = 'portfolio_user_starred';
     const SESSION_KEY = 'portfolio_session_visited';
@@ -2062,24 +2062,20 @@ function initVisitorStats(contentData) {
     // Use content.json values as the current totals (simulating server-side persistence)
     const baselineVisitors = globalStats ? globalStats.visitors : 109;
     const baselineStars = globalStats ? globalStats.stars : 89;
-
+    
     // Generate a small random increment to simulate activity since content.json was last updated
     // This creates the illusion of ongoing activity while keeping numbers reasonable
-    const timeSinceBaseline =
-        globalStats && globalStats.lastUpdated
-            ? Math.floor(
-                  (Date.now() - new Date(globalStats.lastUpdated).getTime()) / (1000 * 60 * 60 * 24)
-              ) // days
-            : Math.floor(Math.random() * 30); // random 0-30 days if no lastUpdated
-
+    const timeSinceBaseline = globalStats && globalStats.lastUpdated 
+        ? Math.floor((Date.now() - new Date(globalStats.lastUpdated).getTime()) / (1000 * 60 * 60 * 24)) // days
+        : Math.floor(Math.random() * 30); // random 0-30 days if no lastUpdated
+    
     const activityMultiplier = Math.max(1, Math.floor(timeSinceBaseline / 7)); // weekly activity
     const visitorIncrement = Math.floor(Math.random() * 3) * activityMultiplier; // 0-2 visitors per week
-    const starIncrement =
-        Math.floor(Math.random() * 2) * Math.max(1, Math.floor(activityMultiplier / 2)); // fewer stars than visitors
-
+    const starIncrement = Math.floor(Math.random() * 2) * Math.max(1, Math.floor(activityMultiplier / 2)); // fewer stars than visitors
+    
     let totalVisitors = baselineVisitors + visitorIncrement;
     let totalStars = baselineStars + starIncrement;
-
+    
     // Check user's personal star status
     let hasUserStarred = localStorage.getItem(USER_STAR_KEY) === 'true';
 
@@ -2093,8 +2089,7 @@ function initVisitorStats(contentData) {
     // 1. Never visited this session, AND
     // 2. Last visit was more than 6 hours ago (reasonable session timeout)
     const sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000);
-    const shouldCountVisit =
-        !hasVisitedThisSession && (!lastVisitDate || lastVisitDate < sixHoursAgo);
+    const shouldCountVisit = !hasVisitedThisSession && (!lastVisitDate || lastVisitDate < sixHoursAgo);
 
     if (shouldCountVisit) {
         totalVisitors++;

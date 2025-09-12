@@ -2051,63 +2051,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Visitor Statistics Functionality
 function initVisitorStats(contentData) {
-    // Read stats from content.json as the authoritative baseline
+    // Read stats from content.json and use as authoritative source
     const globalStats = contentData && contentData.stats ? contentData.stats : null;
-
-    // Storage keys
+    
+    // Storage keys for collective/cumulative data
+    const VISITOR_KEY = 'portfolio_total_visitors';
+    const STAR_KEY = 'portfolio_total_stars';
     const USER_STAR_KEY = 'portfolio_user_starred';
+    const INIT_KEY = 'portfolio_stats_initialized';
     const SESSION_KEY = 'portfolio_session_visited';
     const LAST_VISIT_KEY = 'portfolio_last_visit_date';
 
-    // Use content.json values as the current totals (simulating server-side persistence)
-    const baselineVisitors = globalStats ? globalStats.visitors : 109;
-    const baselineStars = globalStats ? globalStats.stars : 89;
+    // Initial baseline values from content.json or fallback
+    const INITIAL_VISITORS = globalStats ? globalStats.visitors : 109;
+    const INITIAL_STARS = globalStats ? globalStats.stars : 89;
 
-    // Generate a small random increment to simulate activity since content.json was last updated
-    // This creates the illusion of ongoing activity while keeping numbers reasonable
-    const timeSinceBaseline =
-        globalStats && globalStats.lastUpdated
-            ? Math.floor(
-                  (Date.now() - new Date(globalStats.lastUpdated).getTime()) / (1000 * 60 * 60 * 24)
-              ) // days
-            : Math.floor(Math.random() * 30); // random 0-30 days if no lastUpdated
+    // Load collective totals (these accumulate across all users)
+    let totalVisitors, totalStars, hasUserStarred;
 
-    const activityMultiplier = Math.max(1, Math.floor(timeSinceBaseline / 7)); // weekly activity
-    const visitorIncrement = Math.floor(Math.random() * 3) * activityMultiplier; // 0-2 visitors per week
-    const starIncrement =
-        Math.floor(Math.random() * 2) * Math.max(1, Math.floor(activityMultiplier / 2)); // fewer stars than visitors
+    // Initialize or load collective data
+    const isInitialized = localStorage.getItem(INIT_KEY);
+    if (!isInitialized) {
+        // First time initialization - set baseline totals
+        totalVisitors = INITIAL_VISITORS;
+        totalStars = INITIAL_STARS;
+        hasUserStarred = false;
 
-    let totalVisitors = baselineVisitors + visitorIncrement;
-    let totalStars = baselineStars + starIncrement;
+        // Store initial collective totals
+        localStorage.setItem(VISITOR_KEY, totalVisitors.toString());
+        localStorage.setItem(STAR_KEY, totalStars.toString());
+        localStorage.setItem(USER_STAR_KEY, 'false');
+        localStorage.setItem(INIT_KEY, 'true');
+        localStorage.setItem(LAST_VISIT_KEY, new Date().toISOString());
 
-    // Check user's personal star status
-    let hasUserStarred = localStorage.getItem(USER_STAR_KEY) === 'true';
+        console.log('Stats initialized with baseline:', {
+            visitors: totalVisitors,
+            stars: totalStars
+        });
+    } else {
+        // Load existing collective totals
+        totalVisitors = parseInt(
+            localStorage.getItem(VISITOR_KEY) || INITIAL_VISITORS.toString(),
+            10
+        );
+        totalStars = parseInt(localStorage.getItem(STAR_KEY) || INITIAL_STARS.toString(), 10);
+        hasUserStarred = localStorage.getItem(USER_STAR_KEY) === 'true';
 
-    // Handle session-based visitor increment (only once per session)
+        console.log('Stats loaded from storage:', {
+            visitors: totalVisitors,
+            stars: totalStars,
+            userStarred: hasUserStarred
+        });
+    }
+
+    // Increment visitor count (once per session, but accumulates globally)
     const hasVisitedThisSession = sessionStorage.getItem(SESSION_KEY);
     const lastVisit = localStorage.getItem(LAST_VISIT_KEY);
     const now = new Date();
     const lastVisitDate = lastVisit ? new Date(lastVisit) : null;
 
-    // Count as new visit if:
+    // Count as new visitor if:
     // 1. Never visited this session, AND
-    // 2. Last visit was more than 6 hours ago (reasonable session timeout)
-    const sixHoursAgo = new Date(now.getTime() - 6 * 60 * 60 * 1000);
+    // 2. Last visit was more than 1 hour ago (to prevent rapid refreshes from inflating count)
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     const shouldCountVisit =
-        !hasVisitedThisSession && (!lastVisitDate || lastVisitDate < sixHoursAgo);
+        !hasVisitedThisSession && (!lastVisitDate || lastVisitDate < oneHourAgo);
 
     if (shouldCountVisit) {
         totalVisitors++;
+        localStorage.setItem(VISITOR_KEY, totalVisitors.toString());
         localStorage.setItem(LAST_VISIT_KEY, now.toISOString());
         sessionStorage.setItem(SESSION_KEY, 'true');
-        console.log('New visitor counted. Current total:', totalVisitors);
-    }
 
-    console.log('Visitor stats loaded:', {
-        baseline: { visitors: baselineVisitors, stars: baselineStars },
-        current: { visitors: totalVisitors, stars: totalStars },
-        userStarred: hasUserStarred
-    });
+        console.log('New visitor counted. Total visitors:', totalVisitors);
+    }
 
     // Create visitor stats UI
     function createVisitorStatsUI() {
@@ -2158,21 +2175,21 @@ function initVisitorStats(contentData) {
         starDisplay.setAttribute('aria-label', totalStars + ' total stars');
         starDisplay.setAttribute('title', 'Total cumulative stars from all visitors');
 
-        // Star button click handler (updates display and saves user preference)
+        // Star button click handler (affects collective total)
         starButton.addEventListener('click', function () {
             if (hasUserStarred) {
-                // Remove user's star
-                totalStars = Math.max(baselineStars, totalStars - 1); // Never go below baseline
+                // Remove star from collective total
+                totalStars = Math.max(0, totalStars - 1); // Prevent negative counts
                 hasUserStarred = false;
                 starButton.classList.remove('text-yellow-400');
                 starButton.classList.add('text-gray-400', 'hover:text-yellow-400');
                 starButton.querySelector('svg').setAttribute('fill', 'none');
                 starButton.setAttribute('aria-label', 'Give a star');
-                starButton.setAttribute('title', 'Star this portfolio');
+                starButton.setAttribute('title', 'Star this portfolio (adds to total)');
 
-                console.log('Star removed. Current total:', totalStars);
+                console.log('Star removed. Total stars:', totalStars);
             } else {
-                // Add user's star
+                // Add star to collective total
                 totalStars++;
                 hasUserStarred = true;
                 starButton.classList.remove('text-gray-400', 'hover:text-yellow-400');
@@ -2181,14 +2198,15 @@ function initVisitorStats(contentData) {
                 starButton.setAttribute('aria-label', 'Remove your star');
                 starButton.setAttribute('title', 'Remove your star from this portfolio');
 
-                console.log('Star added. Current total:', totalStars);
+                console.log('Star added. Total stars:', totalStars);
             }
 
-            // Update display
+            // Update display with new collective total
             starDisplay.textContent = formatNumber(totalStars);
             starDisplay.setAttribute('aria-label', totalStars + ' total stars');
 
-            // Save user's star preference (only thing we can persist)
+            // Save collective totals to localStorage
+            localStorage.setItem(STAR_KEY, totalStars.toString());
             localStorage.setItem(USER_STAR_KEY, hasUserStarred.toString());
 
             // Animation feedback
@@ -2245,13 +2263,10 @@ function initVisitorStats(contentData) {
     updateMobileStats();
 
     // Log final state for debugging
-    console.log('Visitor stats initialized successfully:', {
-        displayedVisitors: totalVisitors,
-        displayedStars: totalStars,
-        baselineVisitors: baselineVisitors,
-        baselineStars: baselineStars,
-        userHasStarred: hasUserStarred,
-        sessionIncrement: shouldCountVisit ? 1 : 0
+    console.log('Visitor stats initialized with collective totals:', {
+        totalVisitors: totalVisitors,
+        totalStars: totalStars,
+        userHasStarred: hasUserStarred
     });
 }
 
