@@ -52,6 +52,31 @@ export default [
             ]
         }
     },
+    // Serverless API endpoints (Node runtime)
+    {
+        files: ['api/**/*.js'],
+        languageOptions: {
+            globals: {
+                process: 'readonly',
+                console: 'readonly',
+                Buffer: 'readonly',
+                URL: 'readonly',
+                fetch: 'readonly',
+                Response: 'readonly',
+                Headers: 'readonly',
+                Request: 'readonly',
+                setTimeout: 'readonly',
+                clearTimeout: 'readonly'
+            }
+        },
+        rules: {
+            'no-unused-vars': [
+                'warn',
+                { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'none' }
+            ],
+            'no-console': 'off'
+        }
+    },
     // Service worker (dedicated worker context)
     {
         files: ['sw.js'],

@@ -561,4 +561,55 @@ document.addEventListener('skillsFilterChanged', (event) => {
 
 ---
 
-This documentation provides a comprehensive reference for all public APIs in the portfolio application. For implementation details, refer to the source code with JSDoc comments.
+## HTTP Stats API (Visitors & Stars)
+
+The site uses a small HTTP API to persist accurate counts for visitors and stars across devices. The frontend calls these endpoints via `src/modules/stats-service.js`.
+
+Base URL: configured in `src/config/environment.js` as `apiBaseUrl`.
+
+### Endpoints
+
+- GET `${apiBaseUrl}/stats?cid={clientId}`
+    - Returns the current totals and whether this client has starred.
+    - Response: `{ visitors: number, stars: number, userHasStarred: boolean }`
+
+- POST `${apiBaseUrl}/stats/visit`
+    - Body: `{ clientId: string }`
+    - Increments the visitors count at most once per 24 hours per `clientId`.
+    - Response: `{ visitors: number, stars: number, userHasStarred: boolean }`
+
+- POST `${apiBaseUrl}/stats/star`
+    - Body: `{ clientId: string, desired: boolean }`
+    - Toggles a star for this client; increments or decrements the total accordingly.
+    - Response: `{ visitors: number, stars: number, userHasStarred: boolean }`
+
+### Deployment
+
+- Recommended: deploy on a serverless platform (e.g., Vercel, Netlify, Cloudflare Workers).
+- In this repo, a Vercel-style scaffold is provided under `api/`:
+    - `api/stats.js` (GET)
+    - `api/stats/visit.js` (POST)
+    - `api/stats/star.js` (POST)
+    - Shared helpers in `api/_lib/` for storage and HTTP.
+
+### Storage
+
+- Optional Redis (Upstash) support via environment variables:
+    - `UPSTASH_REDIS_REST_URL`
+    - `UPSTASH_REDIS_REST_TOKEN`
+- If not set, an in-memory fallback is used (suitable for local dev only).
+
+### Rate limiting & bot filtering
+
+- Visits: limited to once per 24 hours per `clientId`.
+- You can extend `api/_lib/storage.js` to add IP/user-agent based throttling, Captcha challenges, or bot detection.
+- Add a CDN rule (e.g., Vercel Edge / Cloudflare) for additional abuse protection if needed.
+
+### CORS & caching
+
+- All endpoints return `Access-Control-Allow-Origin: *` and `Cache-Control: no-store` by default.
+- Adjust CORS origin to your site domain(s) before production.
+
+### Notes
+
+- GitHub Pages cannot host server code. Deploy these endpoints elsewhere and update `apiBaseUrl` to point to that host.
