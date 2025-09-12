@@ -3,6 +3,8 @@
  * Handles visitor counting and star rating functionality with localStorage persistence
  * @class VisitorStatsComponent
  */
+import { statsService } from '../modules/stats-service.js';
+
 export class VisitorStatsComponent {
     /**
      * Initialize the visitor stats component
@@ -42,9 +44,9 @@ export class VisitorStatsComponent {
         /** @type {string} localStorage key for initialization flag */
         this.INIT_KEY = 'portfolio_stats_initialized';
 
-        // Initial values as requested
-        this.INITIAL_VISITORS = 109;
-        this.INITIAL_STARS = 89;
+        // Deprecated initial seeds; accurate values should come from backend or local persisted
+        this.INITIAL_VISITORS = 0;
+        this.INITIAL_STARS = 0;
     }
 
     /**
@@ -52,10 +54,10 @@ export class VisitorStatsComponent {
      * @returns {void}
      */
     init() {
-        this.loadOrInitializeData();
-        this.incrementVisitorCount();
         this.createUI();
         this.attachEventListeners();
+        // Load and update from service, then count this visit once
+        this.syncFromService();
     }
 
     /**
@@ -98,6 +100,60 @@ export class VisitorStatsComponent {
             this.visitorCount++;
             localStorage.setItem(this.VISITOR_KEY, this.visitorCount.toString());
             sessionStorage.setItem(sessionKey, 'true');
+        }
+    }
+
+    async syncFromService() {
+        try {
+            // Start with whatever we have
+            this.loadOrInitializeData();
+            this.updateDisplays();
+
+            // Get authoritative stats
+            const stats = await statsService.getStats();
+            this.visitorCount = stats.visitors ?? this.visitorCount;
+            this.starCount = stats.stars ?? this.starCount;
+            this.hasUserStarred = stats.userHasStarred ?? this.hasUserStarred;
+            this.updateDisplays();
+
+            // Count this visit once per session via service (falls back locally inside service if disabled)
+            const sessionKey = 'portfolio_session_visited';
+            const hasVisitedThisSession = sessionStorage.getItem(sessionKey);
+            if (!hasVisitedThisSession) {
+                const after = await statsService.incrementVisit();
+                this.visitorCount = after.visitors ?? this.visitorCount + 1;
+                this.updateDisplays();
+                sessionStorage.setItem(sessionKey, 'true');
+            }
+        } catch (_e) {
+            // Already have local values; displays updated
+        }
+    }
+
+    updateDisplays() {
+        if (this.visitorDisplay) {
+            this.visitorDisplay.textContent = this.formatNumber(this.visitorCount);
+            this.visitorDisplay.setAttribute('aria-label', `${this.visitorCount} visitors`);
+        }
+        if (this.starDisplay) {
+            this.starDisplay.textContent = this.formatNumber(this.starCount);
+            this.starDisplay.setAttribute('aria-label', `${this.starCount} stars`);
+        }
+        if (this.starButton) {
+            const svg = this.starButton.querySelector('svg');
+            if (this.hasUserStarred) {
+                this.starButton.classList.remove('text-gray-400', 'hover:text-yellow-400');
+                this.starButton.classList.add('text-yellow-400');
+                svg?.setAttribute('fill', 'currentColor');
+                this.starButton.setAttribute('aria-label', 'Remove star');
+                this.starButton.setAttribute('title', 'Remove your star');
+            } else {
+                this.starButton.classList.add('text-gray-400', 'hover:text-yellow-400');
+                this.starButton.classList.remove('text-yellow-400');
+                svg?.setAttribute('fill', 'none');
+                this.starButton.setAttribute('aria-label', 'Give star');
+                this.starButton.setAttribute('title', 'Star this portfolio');
+            }
         }
     }
 
@@ -205,36 +261,29 @@ export class VisitorStatsComponent {
      * @private
      */
     toggleStar() {
-        if (this.hasUserStarred) {
-            // Remove star
-            this.starCount--;
-            this.hasUserStarred = false;
-            this.starButton.classList.remove('text-yellow-400');
-            this.starButton.classList.add('text-gray-400', 'hover:text-yellow-400');
-            this.starButton.querySelector('svg').setAttribute('fill', 'none');
-            this.starButton.setAttribute('aria-label', 'Give star');
-            this.starButton.setAttribute('title', 'Star this portfolio');
-        } else {
-            // Add star
-            this.starCount++;
-            this.hasUserStarred = true;
-            this.starButton.classList.remove('text-gray-400', 'hover:text-yellow-400');
-            this.starButton.classList.add('text-yellow-400');
-            this.starButton.querySelector('svg').setAttribute('fill', 'currentColor');
-            this.starButton.setAttribute('aria-label', 'Remove star');
-            this.starButton.setAttribute('title', 'Remove your star');
-        }
-
-        // Update display
-        this.starDisplay.textContent = this.formatNumber(this.starCount);
-        this.starDisplay.setAttribute('aria-label', `${this.starCount} stars`);
-
-        // Save to localStorage
-        localStorage.setItem(this.STAR_KEY, this.starCount.toString());
-        localStorage.setItem(this.USER_STAR_KEY, this.hasUserStarred.toString());
-
-        // Add animation effect
+        const desired = !this.hasUserStarred;
+        // Optimistic UI update
+        this.hasUserStarred = desired;
+        this.starCount += desired ? 1 : -1;
+        if (this.starCount < 0) this.starCount = 0;
+        this.updateDisplays();
         this.animateStarChange();
+
+        // Persist via service (backend or local)
+        statsService
+            .toggleStar(desired)
+            .then((after) => {
+                this.starCount = after.stars ?? this.starCount;
+                this.hasUserStarred = after.userHasStarred ?? this.hasUserStarred;
+                this.updateDisplays();
+            })
+            .catch(() => {
+                // Rollback if necessary (rare; service falls back locally)
+                this.hasUserStarred = !desired;
+                this.starCount += desired ? -1 : 1;
+                if (this.starCount < 0) this.starCount = 0;
+                this.updateDisplays();
+            });
     }
 
     /**
