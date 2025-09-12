@@ -4,7 +4,7 @@ import pluginImport from 'eslint-plugin-import';
 // Flat config with per-environment globals so "no-undef" stops flagging browser / SW / Node built-ins.
 export default [
     // Global ignores (build artifacts etc.)
-    { ignores: ['dist/**'] },
+    { ignores: ['dist/**', 'public/**'] },
     js.configs.recommended,
     // Generic JS / MJS (browser – site scripts)
     {
