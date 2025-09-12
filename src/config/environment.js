@@ -189,6 +189,9 @@ class Environment {
 
     getConfig(key, defaultValue = null) {
         // Environment-specific configuration
+        // Detect host for environment-specific tweaks (e.g., Vercel vs GitHub Pages)
+        const host = typeof window !== 'undefined' ? window.location.hostname : '';
+
         const configs = {
             development: {
                 apiBaseUrl: 'http://localhost:3000/api',
@@ -212,7 +215,10 @@ class Environment {
                 // IMPORTANT: GitHub Pages cannot run server code. Keep this pointing to your live site
                 // until you deploy API endpoints (e.g., Vercel/Netlify). Then set to that URL, e.g.:
                 // 'https://portfolio-api.yourdomain.com/api'
-                apiBaseUrl: 'https://mohammednasserahmed.github.io/portfolio/',
+                // On Vercel, use same-origin serverless functions under /api. On GitHub Pages, keep disabled.
+                apiBaseUrl: host.includes('vercel.app')
+                    ? '/api'
+                    : 'https://mohammednasserahmed.github.io/portfolio/',
                 enableAnalytics: true,
                 enableServiceWorker: true,
                 logLevel: 'error',
