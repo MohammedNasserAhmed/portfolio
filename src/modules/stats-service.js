@@ -37,11 +37,12 @@ function uuidv4() {
 export class StatsService {
     constructor() {
         this.baseUrl = (getConfig && getConfig('apiBaseUrl')) || '';
-        // Treat example placeholder and static hosts as disabled
+        // Treat example placeholder and GitHub Pages as disabled; allow relative '/api' (Vercel same-origin)
         const isString = typeof this.baseUrl === 'string' && this.baseUrl.length > 0;
         const looksExample = /api\.example\.com\/api$/i.test(this.baseUrl);
         const looksGithub = /github\.io|githubusercontent\.com/i.test(this.baseUrl);
-        this.enabled = isString && !looksExample && !looksGithub;
+        const isRelativeApi = typeof this.baseUrl === 'string' && this.baseUrl.startsWith('/api');
+        this.enabled = (isString || isRelativeApi) && !looksExample && !looksGithub;
         this.clientId = this.getOrCreateClientId();
     }
 
