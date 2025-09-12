@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Updated to real deployment domain (adjust if you add a custom domain)
+Sitemap: https://mohammednasserahmed.github.io/portfolio/sitemap.xml

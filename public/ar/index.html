@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>م. ن. جابر - مهندس ذكاء اصطناعي</title>
+        <meta
+            name="description"
+            content="الموقع الشخصي لم. ن. جابر، مهندس ذكاء اصطناعي (دكتوراه) متخصص في النماذج اللغوية، استرجاع المعلومات، وحلول التعلم الآلي الشاملة."
+        />
+        <meta name="theme-color" content="#121212" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="م. ن. جابر - مهندس ذكاء اصطناعي" />
+        <meta
+            property="og:description"
+            content="مهندس ذكاء اصطناعي (دكتوراه) يطور أنظمة LLM وحلول RAG ونماذج تعلم آلي إنتاجية."
+        />
+        <meta property="og:image" content="../images/website-photo.png" />
+        <meta property="og:image:alt" content="صورة م. ن. جابر الشخصية" />
+        <meta property="og:url" content="https://mohammednasserahmed.github.io/portfolio/ar/" />
+        <meta property="og:site_name" content="ملف م. ن. جابر" />
+        <meta property="og:locale" content="ar_AR" />
+        <link
+            rel="alternate"
+            hreflang="en"
+            href="https://mohammednasserahmed.github.io/portfolio/"
+        />
+        <link
+            rel="alternate"
+            hreflang="ar"
+            href="https://mohammednasserahmed.github.io/portfolio/ar/"
+        />
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://mohammednasserahmed.github.io/portfolio/"
+        />
+        <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/ar/" />
+        <link rel="preload" as="image" href="../images/website-photo.png" />
+        <link rel="manifest" href="../manifest.webmanifest" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="asset-version" content="4c8a32699b" />
+        <link rel="apple-touch-icon" href="../images/website-photo.png" />
+        <link rel="stylesheet" href="../dist/style.b164a671bb.css" />
+        <script type="module" src="../js/vendor/three.min.js"></script>
+        <script src="../dist/main.a7c1a203d8.js" defer></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker
+                        .register('/portfolio/sw.js')
+                        .catch((e) => console.warn('SW reg failed', e));
+                });
+            }
+        </script>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "Person",
+                        "name": "م. ن. جابر",
+                        "alternateName": "M. N. Jaber",
+                        "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
+                        "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
+                        "jobTitle": "مهندس ذكاء اصطناعي",
+                        "description": "مهندس ذكاء اصطناعي (دكتوراه) متخصص في الأنظمة اللغوية الكبيرة واسترجاع المعرفة والتعلم الآلي التطبيقي.",
+                        "sameAs": [
+                            "https://github.com/mohammedNasserAhmed",
+                            "https://linkedin.com/in/m-n-g"
+                        ],
+                        "inLanguage": "ar"
+                    },
+                    {
+                        "@type": "WebSite",
+                        "name": "ملف م. ن. جابر",
+                        "alternateName": "M. N. Jaber Portfolio",
+                        "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
+                        "inLanguage": "ar",
+                        "description": "ملف مهندس ذكاء اصطناعي متخصص في النماذج اللغوية، استرجاع المعرفة، وحلول التعلم الآلي.",
+                        "publisher": { "@type": "Person", "name": "م. ن. جابر" },
+                        "potentialAction": {
+                            "@type": "SearchAction",
+                            "target": {
+                                "@type": "EntryPoint",
+                                "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/ar/?q={search_term_string}"
+                            },
+                            "query-input": "required name=search_term_string"
+                        }
+                    }
+                ]
+            }
+        </script>
+    </head>
+    <body class="bg-brand-dark text-brand-light-gray font-sans font-arabic">
+        <a
+            href="#hero"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-brand-red text-white px-4 py-2 rounded"
+            >تخطي إلى المحتوى</a
+        >
+        <header
+            class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-50 shadow-lg shadow-black/20"
+        >
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="./" class="text-2xl font-bold text-white"
+                    >م. ن. <span class="text-brand-red">جابر</span></a
+                >
+                <div class="hidden md:flex items-center space-x-8 space-x-reverse">
+                    <a href="#summary" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >الملخص</a
+                    >
+                    <a href="#projects" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >المشاريع</a
+                    >
+                    <a href="#skills" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >المهارات</a
+                    >
+                    <a
+                        href="#publications"
+                        class="text-gray-300 hover:text-brand-red transition-colors"
+                        >الإصدارات</a
+                    >
+                    <a
+                        href="#contact"
+                        class="bg-brand-red text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold"
+                        >تواصل</a
+                    >
+                    <a href="../" class="text-sm text-gray-400 hover:text-white">EN</a>
+                    <button
+                        id="theme-toggle"
+                        class="ml-4 text-gray-300 hover:text-brand-red transition-colors flex items-center"
+                        aria-label="تبديل النمط"
+                    >
+                        <span id="theme-toggle-icon" class="inline-block">🌙</span>
+                    </button>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-white" aria-label="القائمة">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+                <a href="#summary" class="block py-2 text-gray-300 hover:text-brand-red">الملخص</a>
+                <a href="#projects" class="block py-2 text-gray-300 hover:text-brand-red"
+                    >المشاريع</a
+                >
+                <a href="#skills" class="block py-2 text-gray-300 hover:text-brand-red">المهارات</a>
+                <a href="#publications" class="block py-2 text-gray-300 hover:text-brand-red"
+                    >الإصدارات</a
+                >
+                <a
+                    href="#contact"
+                    class="block mt-2 bg-brand-red text-white px-4 py-2 rounded-lg text-center"
+                    >تواصل</a
+                >
+                <a href="../" class="block py-2 text-gray-400">English</a>
+                <button
+                    id="theme-toggle-mobile"
+                    class="mt-4 w-full bg-brand-card border border-gray-700 text-gray-300 px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+                    aria-label="تبديل النمط (جوال)"
+                >
+                    تبديل النمط
+                </button>
+            </div>
+        </header>
+        <main class="container mx-auto px-6 py-12">
+            <section
+                id="hero"
+                class="relative flex flex-col md:flex-row items-center justify-between gap-12 my-12 md:my-24 overflow-hidden"
+            >
+                <canvas id="hero-canvas"></canvas>
+                <div class="hero-content md:w-2/3 text-center md:text-right md:pr-24">
+                    <h1
+                        id="hero-title"
+                        class="text-4xl md:text-6xl font-extrabold text-white leading-tight"
+                    >
+                        مهندس ذكاء اصطناعي & <span class="gradient-text"></span>
+                    </h1>
+                    <p class="mt-4 text-lg text-brand-gray max-w-2xl mx-auto md:mx-0">
+                        مهندس ذكاء اصطناعي (دكتوراه) بخبرة عميقة في بناء أنظمة تعلم آلي قابلة للتوسع
+                        تشمل التعلم الخاضع، غير الخاضع، والتعلم المعزز.
+                    </p>
+                    <div
+                        class="mt-8 flex items-center gap-5 justify-center md:justify-start md:flex-row-reverse flex-wrap relative"
+                    >
+                        <a
+                            href="#contact"
+                            class="bg-brand-red text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                            >تواصل</a
+                        >
+                        <a
+                            href="#projects"
+                            class="bg-brand-card text-white border border-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+                            >عرض الأعمال</a
+                        >
+                    </div>
+                </div>
+                <div class="hero-content md:w-1/3 flex justify-center md:justify-center">
+                    <div
+                        class="hero-photo-static w-64 h-64 md:w-80 md:h-80 relative overflow-hidden rounded-full ring-4 ring-brand-red/60 bg-brand-red/5 flex items-center justify-center"
+                        style="z-index: 10; position: relative"
+                    >
+                        <img
+                            src="../images/website-photo.png"
+                            alt="صورة"
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+            </section>
+            <section id="summary" class="my-24 fade-in-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">الملخص المهني</h2>
+                <div
+                    id="summary-cards"
+                    class="grid md:grid-cols-3 gap-8"
+                    data-dynamic="summary"
+                ></div>
+            </section>
+            <section id="projects" class="my-24 fade-in-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">مشاريع مختارة</h2>
+                <div class="outreach-scroller">
+                    <div id="projects-grid" class="outreach-track" data-dynamic="projects"></div>
+                </div>
+            </section>
+            <section id="skills" class="my-24 fade-in-section overflow-hidden">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">التقنيات الأساسية</h2>
+                <div class="skills-container">
+                    <div id="skills-track" class="skills-track" data-dynamic="skills"></div>
+                </div>
+            </section>
+            <section id="outreach" class="my-24 fade-in-section overflow-hidden">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">
+                    التدريب والمؤتمرات والتواصل
+                </h2>
+                <div class="outreach-scroller">
+                    <div class="outreach-track">
+                        <img src="../images/cf1.png" alt="فعالية 1" class="outreach-image" />
+                        <img src="../images/cf3.png" alt="فعالية 2" class="outreach-image" />
+                        <img src="../images/cf4.png" alt="فعالية 3" class="outreach-image" />
+                        <img src="../images/cf5.png" alt="فعالية 4" class="outreach-image" />
+                        <img src="../images/cf6.png" alt="فعالية 5" class="outreach-image" />
+                        <img src="../images/cf7.png" alt="فعالية 6" class="outreach-image" />
+                        <img src="../images/cf8.png" alt="فعالية 7" class="outreach-image" />
+                        <img src="../images/cf1.png" alt="فعالية 1" class="outreach-image" />
+                        <img src="../images/cf3.png" alt="فعالية 2" class="outreach-image" />
+                        <img src="../images/cf4.png" alt="فعالية 3" class="outreach-image" />
+                        <img src="../images/cf5.png" alt="فعالية 4" class="outreach-image" />
+                        <img src="../images/cf6.png" alt="فعالية 5" class="outreach-image" />
+                        <img src="../images/cf7.png" alt="فعالية 6" class="outreach-image" />
+                        <img src="../images/cf8.png" alt="فعالية 7" class="outreach-image" />
+                    </div>
+                </div>
+            </section>
+            <section id="publications" class="my-24 fade-in-section">
+                <h2 class="text-3xl font-bold text-center mb-12 text-white">أدلة وتقارير</h2>
+                <div id="publications-list" class="space-y-8" data-dynamic="publications"></div>
+            </section>
+            <section id="education" class="my-24 fade-in-section">
+                <div class="grid md:grid-cols-5 gap-8">
+                    <div class="md:col-span-3">
+                        <h2 class="text-3xl font-bold mb-8 text-white">التعليم</h2>
+                        <div
+                            class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full"
+                        >
+                            <div class="relative border-r-2 border-gray-700 pr-8">
+                                <div class="mb-8">
+                                    <div
+                                        class="absolute w-4 h-4 bg-brand-red rounded-full -right-2.5 mt-1.5 border-4 border-brand-card"
+                                    ></div>
+                                    <p class="text-sm text-gray-500">2021 - الآن</p>
+                                    <h3 class="text-lg font-bold text-white">
+                                        دكتوراه علوم الحاسوب والهندسة
+                                    </h3>
+                                    <p class="text-brand-gray">VGU، راجستان، الهند</p>
+                                </div>
+                                <div class="mb-8">
+                                    <div
+                                        class="absolute w-4 h-4 bg-brand-red rounded-full -right-2.5 mt-1.5 border-4 border-brand-card"
+                                    ></div>
+                                    <p class="text-sm text-gray-500">2016 - 2019</p>
+                                    <h3 class="text-lg font-bold text-white">
+                                        ماجستير نظم المعلومات
+                                    </h3>
+                                    <p class="text-brand-gray">جامعة عثمانية، حيدر أباد، الهند</p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="absolute w-4 h-4 bg-brand-red rounded-full -right-2.5 mt-1.5 border-4 border-brand-card"
+                                    ></div>
+                                    <p class="text-sm text-gray-500">2010 - 2014</p>
+                                    <h3 class="text-lg font-bold text-white">
+                                        بكالوريوس علوم الحاسوب
+                                    </h3>
+                                    <p class="text-brand-gray">جامعة الأحقاف، اليمن</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h2 class="text-3xl font-bold mb-8 text-white">التواصل</h2>
+                        <div
+                            class="bg-brand-card p-8 rounded-lg shadow-lg border border-gray-800 h-full"
+                        >
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-brand-red ml-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >تقديم مخيمات تقنية عملية في الذكاء الاصطناعي.</span
+                                    >
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-brand-red ml-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >تدريب خاص للجهات الحكومية والأكاديمية.</span
+                                    >
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-brand-red ml-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >تنظيم معسكرات تعليم الذكاء الاصطناعي للطلاب.</span
+                                    >
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-brand-red ml-3 mt-1">&#10003;</span
+                                    ><span class="text-brand-gray"
+                                        >قيادة مؤتمرات عامة لنشر الوعي بالذكاء الاصطناعي.</span
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer id="contact" class="bg-black text-white border-t border-gray-800">
+            <div class="container mx-auto px-6 py-12 text-center">
+                <h2 class="text-3xl font-bold">لنصنع مستقبل الذكاء الاصطناعي معاً</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-brand-gray">
+                    متاح دائماً لمناقشة أفكار جديدة أو مشاريع إبداعية أو فرص تعاون مميزة.
+                </p>
+                <a
+                    href="mailto:mohnasgbr@ainarabic.io"
+                    class="mt-8 inline-block bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105"
+                    >mohnasgbr@ainarabic.io</a
+                >
+                <div class="mt-12 flex justify-center space-x-6 space-x-reverse">
+                    <a
+                        href="https://github.com/mohammedNasserAhmed"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors"
+                        aria-label="GitHub"
+                        >GitHub</a
+                    >
+                    <a
+                        href="https://linkedin.com/in/m-n-g"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors"
+                        aria-label="LinkedIn"
+                        >LinkedIn</a
+                    >
+                </div>
+                <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
+                    <p>&copy; 2025 م. ن. جابر. جميع الحقوق محفوظة.</p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
