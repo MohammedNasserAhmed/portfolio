@@ -2,6 +2,13 @@
     "outputDirectory": "public",
     "cleanUrls": true,
     "trailingSlash": false,
+    "functions": {
+        "api/**/*.js": {
+            "runtime": "nodejs18.x",
+            "maxDuration": 10,
+            "memory": 128
+        }
+    },
     "headers": [
         {
             "source": "/(.*)",
