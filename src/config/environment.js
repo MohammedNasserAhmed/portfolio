@@ -199,7 +199,9 @@ class Environment {
                 enableDevOverlay: true
             },
             staging: {
-                apiBaseUrl: 'https://staging-api.example.com/api',
+                // NOTE: This is set to your GitHub Pages site for now to keep the app disabled
+                // for network stats on staging. Deploy the API to a serverless host and update this.
+                apiBaseUrl: 'https://mohammednasserahmed.github.io/portfolio/',
                 enableAnalytics: false,
                 enableServiceWorker: true,
                 logLevel: 'info',
@@ -207,7 +209,10 @@ class Environment {
                 enableDevOverlay: false
             },
             production: {
-                apiBaseUrl: 'https://api.example.com/api',
+                // IMPORTANT: GitHub Pages cannot run server code. Keep this pointing to your live site
+                // until you deploy API endpoints (e.g., Vercel/Netlify). Then set to that URL, e.g.:
+                // 'https://portfolio-api.yourdomain.com/api'
+                apiBaseUrl: 'https://mohammednasserahmed.github.io/portfolio/',
                 enableAnalytics: true,
                 enableServiceWorker: true,
                 logLevel: 'error',

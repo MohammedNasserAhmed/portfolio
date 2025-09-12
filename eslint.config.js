@@ -4,7 +4,7 @@ import pluginImport from 'eslint-plugin-import';
 // Flat config with per-environment globals so "no-undef" stops flagging browser / SW / Node built-ins.
 export default [
     // Global ignores (build artifacts etc.)
-    { ignores: ['dist/**'] },
+    { ignores: ['dist/**', 'public/**'] },
     js.configs.recommended,
     // Generic JS / MJS (browser – site scripts)
     {
@@ -50,6 +50,31 @@ export default [
                     'newlines-between': 'always'
                 }
             ]
+        }
+    },
+    // Serverless API endpoints (Node runtime)
+    {
+        files: ['api/**/*.js'],
+        languageOptions: {
+            globals: {
+                process: 'readonly',
+                console: 'readonly',
+                Buffer: 'readonly',
+                URL: 'readonly',
+                fetch: 'readonly',
+                Response: 'readonly',
+                Headers: 'readonly',
+                Request: 'readonly',
+                setTimeout: 'readonly',
+                clearTimeout: 'readonly'
+            }
+        },
+        rules: {
+            'no-unused-vars': [
+                'warn',
+                { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrors: 'none' }
+            ],
+            'no-console': 'off'
         }
     },
     // Service worker (dedicated worker context)
