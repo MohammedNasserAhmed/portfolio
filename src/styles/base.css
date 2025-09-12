@@ -125,3 +125,22 @@ html {
     min-width: 200px;
     display: inline-block;
 }
+
+/* --- Responsive media defaults (global) --- */
+html,
+body {
+    width: 100%;
+    overflow-x: hidden; /* prevent stray horizontal scroll on small screens */
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Avoid images causing layout shifts when loading */
+img {
+    display: block;
+}

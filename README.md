@@ -297,6 +297,44 @@ src/styles/
 - ⚙️ **Collapsible sections** for small screens
 - 🚀 **Optimized performance** on mobile networks
 
+### ✅ Responsive checklist (keep it fitting on PC and mobile)
+
+- Layout
+    - Use fluid containers: `container mx-auto px-6` or `max-w-screen-xl mx-auto`.
+    - Prefer responsive utilities: `mt-12 md:mt-24`, `text-4xl md:text-6xl`, `grid-cols-1 md:grid-cols-3`.
+    - Avoid fixed widths; prefer `w-full max-w-[...px]` or CSS `clamp()`.
+- Media
+    - Keep media fluid: ensure CSS has `img, video, iframe { max-width: 100%; height: auto; }`.
+    - Set width/height attributes on key images to reduce CLS, keep CSS fluid.
+- Grids & carousels
+    - Use `grid-template-columns: repeat(auto-fit, minmax(…))` for flexible grids.
+    - For carousels, ensure card widths use `clamp()` and don’t exceed viewport on mobile.
+- Spacing & typography
+    - Use responsive spacing and font sizes with Tailwind breakpoints.
+    - Prefer `clamp()` for large hero headings if needed.
+- Overflow safety
+    - Prevent horizontal scroll: ensure `html, body { overflow-x: hidden; }`.
+    - Watch for absolute/fixed elements pushing outside the viewport.
+
+### 🧩 Tailwind patterns that work well
+
+- Section containers: `container mx-auto px-4 sm:px-6 lg:px-8`
+- Responsive grids: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`
+- Responsive cards: `w-full sm:max-w-sm` or `w-[clamp(260px,45vw,380px)]`
+- Responsive text: `text-2xl sm:text-3xl md:text-5xl` with `leading-tight`
+- Hide/show: `hidden md:block` / `md:hidden`
+
+### 🛠 Troubleshooting layout issues
+
+- Horizontal scroll appears on mobile
+    - Inspect for elements with fixed width (e.g., `width: 1200px`) or negative margins; replace with responsive widths or `max-width: 100%`.
+    - Ensure images/iframes aren’t wider than their container.
+- Cards overflowing
+    - Constrain with `max-w-full` and consider `clamp()` for width.
+    - Reduce padding/margins at `sm`/`md` breakpoints.
+- Text too large on small screens
+    - Use responsive text utilities and test on 320–375px wide devices.
+
 ---
 
 ## ♿ **Accessibility Features**
