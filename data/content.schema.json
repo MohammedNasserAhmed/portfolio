@@ -6,6 +6,17 @@
     "additionalProperties": false,
     "required": ["summary", "projects", "skills", "publications"],
     "properties": {
+        "stats": {
+            "type": "object",
+            "description": "Visitor and star statistics",
+            "required": ["visitors", "stars"],
+            "additionalProperties": false,
+            "properties": {
+                "visitors": { "type": "integer", "minimum": 0 },
+                "stars": { "type": "integer", "minimum": 0 },
+                "lastUpdated": { "type": "string", "format": "date-time" }
+            }
+        },
         "summary": {
             "type": "array",
             "items": {
