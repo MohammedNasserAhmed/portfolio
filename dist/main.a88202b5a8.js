@@ -82,10 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
             renderSkills(data.skills || []);
             renderPublications(data.publications || []);
             renderOutreach(data.outreach || []);
-
+            
             // Initialize visitor stats
             initVisitorStats();
-
+            
             window.__PORTFOLIO_DATA__ = data; // expose for simple admin edits
         })
         .catch((err) => {
@@ -2051,85 +2051,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Visitor Statistics Functionality
 function initVisitorStats() {
-    // Storage keys for collective/cumulative data
-    const VISITOR_KEY = 'portfolio_total_visitors';
-    const STAR_KEY = 'portfolio_total_stars';
+    // Storage keys
+    const VISITOR_KEY = 'portfolio_visitor_count';
+    const STAR_KEY = 'portfolio_star_count';
     const USER_STAR_KEY = 'portfolio_user_starred';
     const INIT_KEY = 'portfolio_stats_initialized';
     const SESSION_KEY = 'portfolio_session_visited';
-    const LAST_VISIT_KEY = 'portfolio_last_visit_date';
-
-    // Initial baseline values (starting point for accumulation)
+    
+    // Initial values
     const INITIAL_VISITORS = 109;
     const INITIAL_STARS = 89;
-
-    // Load collective totals (these accumulate across all users)
-    let totalVisitors, totalStars, hasUserStarred;
-
-    // Initialize or load collective data
+    
+    // Load or initialize data
+    let visitorCount, starCount, hasUserStarred;
+    
     const isInitialized = localStorage.getItem(INIT_KEY);
     if (!isInitialized) {
-        // First time initialization - set baseline totals
-        totalVisitors = INITIAL_VISITORS;
-        totalStars = INITIAL_STARS;
+        // First time initialization
+        visitorCount = INITIAL_VISITORS;
+        starCount = INITIAL_STARS;
         hasUserStarred = false;
-
-        // Store initial collective totals
-        localStorage.setItem(VISITOR_KEY, totalVisitors.toString());
-        localStorage.setItem(STAR_KEY, totalStars.toString());
+        
+        localStorage.setItem(VISITOR_KEY, visitorCount.toString());
+        localStorage.setItem(STAR_KEY, starCount.toString());
         localStorage.setItem(USER_STAR_KEY, 'false');
         localStorage.setItem(INIT_KEY, 'true');
-        localStorage.setItem(LAST_VISIT_KEY, new Date().toISOString());
-
-        console.log('Stats initialized with baseline:', {
-            visitors: totalVisitors,
-            stars: totalStars
-        });
     } else {
-        // Load existing collective totals
-        totalVisitors = parseInt(
-            localStorage.getItem(VISITOR_KEY) || INITIAL_VISITORS.toString(),
-            10
-        );
-        totalStars = parseInt(localStorage.getItem(STAR_KEY) || INITIAL_STARS.toString(), 10);
+        // Load existing values
+        visitorCount = parseInt(localStorage.getItem(VISITOR_KEY) || '0', 10);
+        starCount = parseInt(localStorage.getItem(STAR_KEY) || '0', 10);
         hasUserStarred = localStorage.getItem(USER_STAR_KEY) === 'true';
-
-        console.log('Stats loaded from storage:', {
-            visitors: totalVisitors,
-            stars: totalStars,
-            userStarred: hasUserStarred
-        });
     }
-
-    // Increment visitor count (once per session, but accumulates globally)
+    
+    // Increment visitor count (once per session)
     const hasVisitedThisSession = sessionStorage.getItem(SESSION_KEY);
-    const lastVisit = localStorage.getItem(LAST_VISIT_KEY);
-    const now = new Date();
-    const lastVisitDate = lastVisit ? new Date(lastVisit) : null;
-
-    // Count as new visitor if:
-    // 1. Never visited this session, AND
-    // 2. Last visit was more than 1 hour ago (to prevent rapid refreshes from inflating count)
-    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-    const shouldCountVisit =
-        !hasVisitedThisSession && (!lastVisitDate || lastVisitDate < oneHourAgo);
-
-    if (shouldCountVisit) {
-        totalVisitors++;
-        localStorage.setItem(VISITOR_KEY, totalVisitors.toString());
-        localStorage.setItem(LAST_VISIT_KEY, now.toISOString());
+    if (!hasVisitedThisSession) {
+        visitorCount++;
+        localStorage.setItem(VISITOR_KEY, visitorCount.toString());
         sessionStorage.setItem(SESSION_KEY, 'true');
-
-        console.log('New visitor counted. Total visitors:', totalVisitors);
     }
-
+    
     // Create visitor stats UI
     function createVisitorStatsUI() {
         const container = document.createElement('div');
         container.className = 'visitor-stats flex items-center gap-4 text-sm text-gray-300';
         container.setAttribute('aria-label', 'Portfolio statistics');
-
-        // Visitor counter (shows collective total)
+        
+        // Visitor counter
         const visitorContainer = document.createElement('div');
         visitorContainer.className = 'flex items-center gap-1';
         visitorContainer.innerHTML = `
@@ -2139,132 +2107,113 @@ function initVisitorStats() {
                 <path d="m22 21-3-3m0 0a4.5 4.5 0 1 1-6.36-6.36 4.5 4.5 0 0 1 6.36 6.36Z"/>
             </svg>
         `;
-
+        
         const visitorDisplay = document.createElement('span');
-        visitorDisplay.textContent = formatNumber(totalVisitors);
-        visitorDisplay.setAttribute('aria-label', totalVisitors + ' total visitors');
-        visitorDisplay.setAttribute('title', 'Total cumulative visitors');
+        visitorDisplay.textContent = formatNumber(visitorCount);
+        visitorDisplay.setAttribute('aria-label', visitorCount + ' visitors');
         visitorContainer.appendChild(visitorDisplay);
-
-        // Star rating (shows collective total)
+        
+        // Star rating
         const starContainer = document.createElement('div');
         starContainer.className = 'flex items-center gap-1';
-
+        
         const starButton = document.createElement('button');
-        starButton.className =
-            'star-button transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-red/50 rounded ' +
+        starButton.className = 'star-button transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-brand-red/50 rounded ' +
             (hasUserStarred ? 'text-yellow-400' : 'text-gray-400 hover:text-yellow-400');
         starButton.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="${hasUserStarred ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
             </svg>
         `;
-        starButton.setAttribute('aria-label', hasUserStarred ? 'Remove your star' : 'Give a star');
-        starButton.setAttribute(
-            'title',
-            hasUserStarred
-                ? 'Remove your star from this portfolio'
-                : 'Star this portfolio (adds to total)'
-        );
-
+        starButton.setAttribute('aria-label', hasUserStarred ? 'Remove star' : 'Give star');
+        starButton.setAttribute('title', hasUserStarred ? 'Remove your star' : 'Star this portfolio');
+        
         const starDisplay = document.createElement('span');
-        starDisplay.textContent = formatNumber(totalStars);
-        starDisplay.setAttribute('aria-label', totalStars + ' total stars');
-        starDisplay.setAttribute('title', 'Total cumulative stars from all visitors');
-
-        // Star button click handler (affects collective total)
-        starButton.addEventListener('click', function () {
+        starDisplay.textContent = formatNumber(starCount);
+        starDisplay.setAttribute('aria-label', starCount + ' stars');
+        
+        // Star button click handler
+        starButton.addEventListener('click', function() {
             if (hasUserStarred) {
-                // Remove star from collective total
-                totalStars = Math.max(0, totalStars - 1); // Prevent negative counts
+                // Remove star
+                starCount--;
                 hasUserStarred = false;
                 starButton.classList.remove('text-yellow-400');
                 starButton.classList.add('text-gray-400', 'hover:text-yellow-400');
                 starButton.querySelector('svg').setAttribute('fill', 'none');
-                starButton.setAttribute('aria-label', 'Give a star');
-                starButton.setAttribute('title', 'Star this portfolio (adds to total)');
-
-                console.log('Star removed. Total stars:', totalStars);
+                starButton.setAttribute('aria-label', 'Give star');
+                starButton.setAttribute('title', 'Star this portfolio');
             } else {
-                // Add star to collective total
-                totalStars++;
+                // Add star
+                starCount++;
                 hasUserStarred = true;
                 starButton.classList.remove('text-gray-400', 'hover:text-yellow-400');
                 starButton.classList.add('text-yellow-400');
                 starButton.querySelector('svg').setAttribute('fill', 'currentColor');
-                starButton.setAttribute('aria-label', 'Remove your star');
-                starButton.setAttribute('title', 'Remove your star from this portfolio');
-
-                console.log('Star added. Total stars:', totalStars);
+                starButton.setAttribute('aria-label', 'Remove star');
+                starButton.setAttribute('title', 'Remove your star');
             }
-
-            // Update display with new collective total
-            starDisplay.textContent = formatNumber(totalStars);
-            starDisplay.setAttribute('aria-label', totalStars + ' total stars');
-
-            // Save collective totals to localStorage
-            localStorage.setItem(STAR_KEY, totalStars.toString());
+            
+            // Update display
+            starDisplay.textContent = formatNumber(starCount);
+            starDisplay.setAttribute('aria-label', starCount + ' stars');
+            
+            // Save to localStorage
+            localStorage.setItem(STAR_KEY, starCount.toString());
             localStorage.setItem(USER_STAR_KEY, hasUserStarred.toString());
-
-            // Animation feedback
+            
+            // Animation
             starButton.style.transform = 'scale(1.3)';
-            setTimeout(function () {
+            setTimeout(function() {
                 starButton.style.transform = 'scale(1)';
             }, 150);
-
+            
             // Update mobile version if it exists
             updateMobileStats();
         });
-
+        
         // Handle keyboard navigation
-        starButton.addEventListener('keydown', function (event) {
+        starButton.addEventListener('keydown', function(event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 starButton.click();
             }
         });
-
+        
         starContainer.appendChild(starButton);
         starContainer.appendChild(starDisplay);
-
+        
         container.appendChild(visitorContainer);
         container.appendChild(starContainer);
-
+        
         return { container, starButton, starDisplay, visitorDisplay };
     }
-
+    
     // Format number with commas
     function formatNumber(num) {
         return num.toLocaleString();
     }
-
-    // Update mobile stats to match desktop (sync collective totals)
+    
+    // Update mobile stats to match desktop
     function updateMobileStats() {
         const mobileContainer = document.getElementById('mobile-visitor-stats-container');
         if (!mobileContainer) return;
-
-        // Clear and recreate mobile version with current collective totals
+        
+        // Clear and recreate mobile version
         mobileContainer.innerHTML = '';
         const mobileStats = createVisitorStatsUI();
         mobileContainer.appendChild(mobileStats.container);
     }
-
+    
     // Add to desktop navigation
     const desktopContainer = document.getElementById('visitor-stats-container');
     if (desktopContainer) {
         const stats = createVisitorStatsUI();
         desktopContainer.appendChild(stats.container);
     }
-
+    
     // Add to mobile navigation
     updateMobileStats();
-
-    // Log final state for debugging
-    console.log('Visitor stats initialized with collective totals:', {
-        totalVisitors: totalVisitors,
-        totalStars: totalStars,
-        userHasStarred: hasUserStarred
-    });
 }
 
 // Accessibility: focus outline restoration if user tabs

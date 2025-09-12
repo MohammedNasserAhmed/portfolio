@@ -348,7 +348,7 @@ class TemplateBuilder {
             footerAccentWords: 'AI|Intelligence|Innovation',
             footerDescription:
                 "I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.",
-            contactEmail: 'mohnasgr@ainarabic.io',
+            contactEmail: 'mohnasgbr@ainarabic.io',
             copyright:
                 '© 2025 M. N. Jaber. All Rights Reserved. Designed & Coded with a passion for AI.',
 

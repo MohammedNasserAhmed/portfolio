@@ -7,6 +7,7 @@ import { ProjectsComponent } from './components/projects-component.js';
 import { SkillsComponent } from './components/skills-component.js';
 import { PublicationsComponent } from './components/publications-component.js';
 import { MobileNavigation } from './components/mobile-navigation.js';
+import { VisitorStatsComponent } from './components/visitor-stats-component.js';
 import { APP_CONFIG } from './config/app-config.js';
 import { logInfo, handleError } from './utils/helpers.js';
 
@@ -104,6 +105,7 @@ class PortfolioApp {
         this.components.skills = new SkillsComponent();
         this.components.publications = new PublicationsComponent();
         this.components.mobileNav = new MobileNavigation();
+        this.components.visitorStats = new VisitorStatsComponent();
 
         // Initialize component DOM bindings
         Object.values(this.components).forEach((component) => {
@@ -111,6 +113,9 @@ class PortfolioApp {
                 component.init();
             }
         });
+
+        // Setup visitor stats in navigation
+        this.setupVisitorStats();
 
         // Setup cross-component communication
         this.setupComponentInteractions();
@@ -124,6 +129,91 @@ class PortfolioApp {
                 this.updateFilterIndicators(activeFilters, matchedCount);
                 this.announceFilterChange(activeFilters);
             });
+        }
+    }
+
+    setupVisitorStats() {
+        if (!this.components.visitorStats) return;
+
+        // Add to desktop navigation
+        const desktopContainer = document.getElementById('visitor-stats-container');
+        if (desktopContainer) {
+            const statsElement = this.components.visitorStats.getElement();
+            if (statsElement) {
+                desktopContainer.appendChild(statsElement);
+            }
+        }
+
+        // Add to mobile navigation (create a separate instance for mobile)
+        const mobileContainer = document.getElementById('mobile-visitor-stats-container');
+        if (mobileContainer) {
+            const mobileStats = this.components.visitorStats.getElement().cloneNode(true);
+
+            // Re-attach event listeners for the cloned mobile version
+            const mobileStarButton = mobileStats.querySelector('.star-button');
+            if (mobileStarButton) {
+                mobileStarButton.addEventListener('click', () => {
+                    // Trigger the original star button click to maintain sync
+                    const originalButton = desktopContainer?.querySelector('.star-button');
+                    if (originalButton) {
+                        originalButton.click();
+                        // Update mobile display
+                        this.syncMobileStats(mobileStats);
+                    }
+                });
+            }
+
+            mobileContainer.appendChild(mobileStats);
+        }
+    }
+
+    syncMobileStats(mobileElement) {
+        if (!this.components.visitorStats || !mobileElement) return;
+
+        const originalElement = this.components.visitorStats.getElement();
+        if (!originalElement) return;
+
+        // Sync visitor count
+        const originalVisitorDisplay = originalElement.querySelector(
+            'span[aria-label*="visitors"]'
+        );
+        const mobileVisitorDisplay = mobileElement.querySelector('span[aria-label*="visitors"]');
+        if (originalVisitorDisplay && mobileVisitorDisplay) {
+            mobileVisitorDisplay.textContent = originalVisitorDisplay.textContent;
+            mobileVisitorDisplay.setAttribute(
+                'aria-label',
+                originalVisitorDisplay.getAttribute('aria-label')
+            );
+        }
+
+        // Sync star count and state
+        const originalStarButton = originalElement.querySelector('.star-button');
+        const mobileStarButton = mobileElement.querySelector('.star-button');
+        const originalStarDisplay = originalElement.querySelector('.star-button + span');
+        const mobileStarDisplay = mobileElement.querySelector('.star-button + span');
+
+        if (originalStarButton && mobileStarButton && originalStarDisplay && mobileStarDisplay) {
+            // Sync button state
+            mobileStarButton.className = originalStarButton.className;
+            mobileStarButton.setAttribute(
+                'aria-label',
+                originalStarButton.getAttribute('aria-label')
+            );
+            mobileStarButton.setAttribute('title', originalStarButton.getAttribute('title'));
+
+            // Sync button icon
+            const originalSvg = originalStarButton.querySelector('svg');
+            const mobileSvg = mobileStarButton.querySelector('svg');
+            if (originalSvg && mobileSvg) {
+                mobileSvg.setAttribute('fill', originalSvg.getAttribute('fill'));
+            }
+
+            // Sync star count
+            mobileStarDisplay.textContent = originalStarDisplay.textContent;
+            mobileStarDisplay.setAttribute(
+                'aria-label',
+                originalStarDisplay.getAttribute('aria-label')
+            );
         }
     }
 
