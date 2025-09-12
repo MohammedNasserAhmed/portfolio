@@ -24,7 +24,7 @@ class Environment {
     detectEnvironment() {
         // Check various environment indicators
         const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
-        const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+        const _userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
 
         // Production indicators
         if (hostname.includes('github.io') || hostname.includes('githubusercontent.com')) {
@@ -230,7 +230,7 @@ class Environment {
         const result = fn();
         const end = performance.now();
 
-        console.log(`⏱️ ${name}: ${(end - start).toFixed(2)}ms`);
+        console.info(`⏱️ ${name}: ${(end - start).toFixed(2)}ms`);
 
         return result;
     }

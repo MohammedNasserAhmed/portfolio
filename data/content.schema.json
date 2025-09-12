@@ -14,7 +14,7 @@
             "properties": {
                 "visitors": { "type": "integer", "minimum": 0 },
                 "stars": { "type": "integer", "minimum": 0 },
-                "lastUpdated": { "type": "string", "format": "date-time" }
+                "lastUpdated": { "type": "string" }
             }
         },
         "summary": {

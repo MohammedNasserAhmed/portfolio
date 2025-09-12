@@ -239,9 +239,9 @@ class DevServer {
                 env: { ...process.env, NODE_ENV: 'development' }
             });
 
-            let output = '';
+            let _output = '';
             buildProcess.stdout.on('data', (data) => {
-                output += data.toString();
+                _output += data.toString();
             });
 
             buildProcess.stderr.on('data', (data) => {
