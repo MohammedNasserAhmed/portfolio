@@ -24,7 +24,6 @@ export async function readJson(req) {
     } catch (e) {
         return {};
     }
-    return {};
 }
 
 export function corsHeaders(origin = '*') {

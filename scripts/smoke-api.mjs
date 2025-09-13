@@ -1,5 +1,8 @@
 // Run a quick end-to-end smoke test against the local API harness
 import { startLocalApiServer } from './local-api-harness.mjs';
+// Ensure fetch exists in Node <=18 environments used by the dev machine/CI
+const nodeFetch = (globalThis.fetch ? null : await import('node-fetch')).default;
+const _fetch = globalThis.fetch || nodeFetch;
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -11,12 +14,12 @@ async function main() {
     const cid = `smoke_${Math.random().toString(36).slice(2)}`;
 
     // GET /stats (should return baseline numbers)
-    let res = await fetch(`${base}/stats?cid=${encodeURIComponent(cid)}`, { cache: 'no-store' });
+  let res = await _fetch(`${base}/stats?cid=${encodeURIComponent(cid)}`, { cache: 'no-store' });
     let data = await res.json();
     console.log('GET /stats ->', data);
 
     // POST /stats/visit (increments if >24h since last visit for this cid)
-    res = await fetch(`${base}/stats/visit`, {
+  res = await _fetch(`${base}/stats/visit`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ clientId: cid })
@@ -25,7 +28,7 @@ async function main() {
     console.log('POST /stats/visit ->', data);
 
     // POST /stats/star desired=true (add star)
-    res = await fetch(`${base}/stats/star`, {
+  res = await _fetch(`${base}/stats/star`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ clientId: cid, desired: true })
@@ -34,7 +37,7 @@ async function main() {
     console.log('POST /stats/star desired=true ->', data);
 
     // POST /stats/star desired=false (remove star)
-    res = await fetch(`${base}/stats/star`, {
+  res = await _fetch(`${base}/stats/star`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ clientId: cid, desired: false })
