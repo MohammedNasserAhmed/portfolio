@@ -53,6 +53,23 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
     if (request.method !== 'GET') return;
 
+    // Skip non-HTTP(S) schemes (e.g., chrome-extension://, moz-extension://)
+    try {
+        const url = new URL(request.url);
+        if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+            return; // don't intercept
+        }
+
+        // Always bypass caching for API calls
+        if (url.pathname.startsWith('/portfolio/api/') || url.pathname.startsWith('/api/')) {
+            event.respondWith(fetch(request));
+            return;
+        }
+    } catch (_e) {
+        // If URL parsing fails, do not intercept
+        return;
+    }
+
     // HTML: Network-first with offline fallback
     if (isHTML(request)) {
         event.respondWith(

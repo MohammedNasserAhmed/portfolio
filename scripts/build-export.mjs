@@ -58,14 +58,20 @@ function main() {
   }
 
   // Copy directories
-  const dirs = ['ar', 'images', 'js', 'css'];
+  const dirs = ['ar', 'images', 'js', 'css', 'docs', 'data'];
   for (const dir of dirs) {
     const src = path.join(root, dir);
     if (fs.existsSync(src)) copyDir(src, path.join(publicDir, dir));
   }
 
   // Copy built dist assets
-  if (fs.existsSync(distDir)) copyDir(distDir, path.join(publicDir, 'dist'));
+  if (fs.existsSync(distDir)) {
+    copyDir(distDir, path.join(publicDir, 'dist'));
+    // Ensure vendor modules are available relative to dist for dynamic imports
+    const vendorSrc = path.join(root, 'js', 'vendor');
+    const vendorDst = path.join(publicDir, 'dist', 'vendor');
+    if (fs.existsSync(vendorSrc)) copyDir(vendorSrc, vendorDst);
+  }
 
   // Ensure base path works: for GitHub Pages the base is /portfolio, but for Vercel likely root
   // Our built HTML already references ./dist/... so it should work. If needed, additional rewrites can be added via vercel.json.

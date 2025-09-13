@@ -61,8 +61,7 @@
             href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
             rel="stylesheet"
         />
-        <!-- TODO: bundle local three.js if needed; temporarily still using CDN -->
-        <script type="module" src="./js/vendor/three.min.js"></script>
+        <!-- three.js is loaded on-demand by main.js when needed -->
         <link
             rel="preload"
             as="image"
@@ -71,6 +70,7 @@
         />
         <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/" />
         <link rel="manifest" href="manifest.webmanifest" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="asset-version" content="b0df0c55f3" />
