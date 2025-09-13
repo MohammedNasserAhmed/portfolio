@@ -47,10 +47,16 @@
         <script src="../dist/main.a7c1a203d8.js" defer></script>
         <script>
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker
-                        .register('/portfolio/sw.js')
-                        .catch((e) => console.warn('SW reg failed', e));
+                window.addEventListener('load', function () {
+                    try {
+                        var base = location.pathname.includes('/portfolio/') ? '/portfolio' : '';
+                        var swUrl = base + '/sw.js';
+                        navigator.serviceWorker.register(swUrl).catch(function (e) {
+                            console.warn('SW reg failed', e);
+                        });
+                    } catch (e) {
+                        console.warn('SW registration error', e);
+                    }
                 });
             }
         </script>
