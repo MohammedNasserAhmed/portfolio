@@ -28,12 +28,14 @@ export async function getStats(clientId) {
         return {
             visitors: memory.visitors,
             stars: memory.stars,
-            userHasStarred: clientId ? memory.starredBy.has(clientId) : false
+            userHasStarred: clientId ? memory.starredBy.has(clientId) : false,
+            unstable: true
         };
     }
     const [visitors, stars, userStarred] = await Promise.all([
         redisFetch('/GET/portfolio:visitors'),
-        redisFetch('/GET/portfolio:stars'),
+        // Derive stars from set cardinality for correctness
+        redisFetch('/SCARD/portfolio:starredBy'),
         clientId ? redisFetch(`/SISMEMBER/portfolio:starredBy/${clientId}`) : { result: 0 }
     ]);
     return {
@@ -86,20 +88,12 @@ export async function toggleStar(clientId, desired) {
         return getStats(clientId);
     }
     const keySet = 'portfolio:starredBy';
-    const keyStars = 'portfolio:stars';
     if (desired) {
-        // Add star
-        const added = await redisFetch(`/SADD/${keySet}/${clientId}`, { method: 'POST' });
-        if (Number(added.result || 0) > 0) {
-            await redisFetch(`/INCR/${keyStars}`, { method: 'POST' });
-        }
+        // Add star (idempotent)
+        await redisFetch(`/SADD/${keySet}/${clientId}`, { method: 'POST' });
     } else {
-        // Remove star
-        const removed = await redisFetch(`/SREM/${keySet}/${clientId}`, { method: 'POST' });
-        if (Number(removed.result || 0) > 0) {
-            // Upstash doesn't have DECR if below zero enforcement, but we protect client side anyway
-            await redisFetch(`/DECR/${keyStars}`, { method: 'POST' });
-        }
+        // Remove star (idempotent)
+        await redisFetch(`/SREM/${keySet}/${clientId}`, { method: 'POST' });
     }
     return getStats(clientId);
 }

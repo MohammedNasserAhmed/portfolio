@@ -123,16 +123,21 @@ export class VisitorStatsComponent {
             this.visitorCount = stats.visitors ?? this.visitorCount;
             this.starCount = stats.stars ?? this.starCount;
             this.hasUserStarred = stats.userHasStarred ?? this.hasUserStarred;
+            this.unstableBackend = !!stats.unstable;
             this.updateDisplays();
 
             // Count this visit once per session via service (falls back locally inside service if disabled)
             const sessionKey = 'portfolio_session_visited';
             const hasVisitedThisSession = sessionStorage.getItem(sessionKey);
             if (!hasVisitedThisSession) {
-                const after = await statsService.incrementVisit();
-                this.visitorCount = after.visitors ?? this.visitorCount + 1;
-                this.updateDisplays();
-                sessionStorage.setItem(sessionKey, 'true');
+                try {
+                    const after = await statsService.incrementVisit();
+                    this.visitorCount = after.visitors ?? this.visitorCount;
+                    this.updateDisplays();
+                    sessionStorage.setItem(sessionKey, 'true');
+                } catch (_e) {
+                    // Don't locally bump; wait for next successful fetch
+                }
             }
         } catch (_e) {
             // Already have local values; displays updated
@@ -271,27 +276,33 @@ export class VisitorStatsComponent {
      */
     toggleStar() {
         const desired = !this.hasUserStarred;
-        // Optimistic UI update
-        this.hasUserStarred = desired;
-        this.starCount += desired ? 1 : -1;
-        if (this.starCount < 0) this.starCount = 0;
-        this.updateDisplays();
-        this.animateStarChange();
+        // If backend is unstable (no Redis), keep current optimistic behavior
+        if (this.unstableBackend) {
+            this.hasUserStarred = desired;
+            this.starCount += desired ? 1 : -1;
+            if (this.starCount < 0) this.starCount = 0;
+            this.updateDisplays();
+            this.animateStarChange();
+        }
 
-        // Persist via service (backend or local)
         statsService
             .toggleStar(desired)
             .then((after) => {
+                // Always trust server response
                 this.starCount = after.stars ?? this.starCount;
                 this.hasUserStarred = after.userHasStarred ?? this.hasUserStarred;
                 this.updateDisplays();
+                this.animateStarChange();
             })
             .catch(() => {
-                // Rollback if necessary (rare; service falls back locally)
-                this.hasUserStarred = !desired;
-                this.starCount += desired ? -1 : 1;
-                if (this.starCount < 0) this.starCount = 0;
-                this.updateDisplays();
+                // If we didn't optimistically update, leave UI unchanged
+                if (this.unstableBackend) {
+                    // Rollback optimistic change
+                    this.hasUserStarred = !desired;
+                    this.starCount += desired ? -1 : 1;
+                    if (this.starCount < 0) this.starCount = 0;
+                    this.updateDisplays();
+                }
             });
     }
 
