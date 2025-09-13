@@ -17,25 +17,17 @@
         />
         <meta property="og:image" content="../images/website-photo.png" />
         <meta property="og:image:alt" content="صورة م. ن. جابر الشخصية" />
-        <meta property="og:url" content="https://mohammednasserahmed.github.io/portfolio/ar/" />
+        <meta property="og:url" content="https://portfolio-nine-theta-64.vercel.app/ar/" />
         <meta property="og:site_name" content="ملف م. ن. جابر" />
         <meta property="og:locale" content="ar_AR" />
-        <link
-            rel="alternate"
-            hreflang="en"
-            href="https://mohammednasserahmed.github.io/portfolio/"
-        />
-        <link
-            rel="alternate"
-            hreflang="ar"
-            href="https://mohammednasserahmed.github.io/portfolio/ar/"
-        />
+        <link rel="alternate" hreflang="en" href="https://portfolio-nine-theta-64.vercel.app/" />
+        <link rel="alternate" hreflang="ar" href="https://portfolio-nine-theta-64.vercel.app/ar/" />
         <link
             rel="alternate"
             hreflang="x-default"
-            href="https://mohammednasserahmed.github.io/portfolio/"
+            href="https://portfolio-nine-theta-64.vercel.app/"
         />
-        <link rel="canonical" href="https://mohammednasserahmed.github.io/portfolio/ar/" />
+        <link rel="canonical" href="https://portfolio-nine-theta-64.vercel.app/ar/" />
         <link rel="preload" as="image" href="../images/website-photo.png" />
         <link rel="manifest" href="../manifest.webmanifest" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -47,10 +39,16 @@
         <script src="../dist/main.a7c1a203d8.js" defer></script>
         <script>
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker
-                        .register('/portfolio/sw.js')
-                        .catch((e) => console.warn('SW reg failed', e));
+                window.addEventListener('load', function () {
+                    try {
+                        var base = location.pathname.includes('/portfolio/') ? '/portfolio' : '';
+                        var swUrl = base + '/sw.js';
+                        navigator.serviceWorker.register(swUrl).catch(function (e) {
+                            console.warn('SW reg failed', e);
+                        });
+                    } catch (e) {
+                        console.warn('SW registration error', e);
+                    }
                 });
             }
         </script>
@@ -62,8 +60,8 @@
                         "@type": "Person",
                         "name": "م. ن. جابر",
                         "alternateName": "M. N. Jaber",
-                        "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
-                        "image": "https://mohammednasserahmed.github.io/portfolio/images/website-photo.png",
+                        "url": "https://portfolio-nine-theta-64.vercel.app/ar/",
+                        "image": "https://portfolio-nine-theta-64.vercel.app/images/website-photo.png",
                         "jobTitle": "مهندس ذكاء اصطناعي",
                         "description": "مهندس ذكاء اصطناعي (دكتوراه) متخصص في الأنظمة اللغوية الكبيرة واسترجاع المعرفة والتعلم الآلي التطبيقي.",
                         "sameAs": [
@@ -76,7 +74,7 @@
                         "@type": "WebSite",
                         "name": "ملف م. ن. جابر",
                         "alternateName": "M. N. Jaber Portfolio",
-                        "url": "https://mohammednasserahmed.github.io/portfolio/ar/",
+                        "url": "https://portfolio-nine-theta-64.vercel.app/ar/",
                         "inLanguage": "ar",
                         "description": "ملف مهندس ذكاء اصطناعي متخصص في النماذج اللغوية، استرجاع المعرفة، وحلول التعلم الآلي.",
                         "publisher": { "@type": "Person", "name": "م. ن. جابر" },
@@ -84,7 +82,7 @@
                             "@type": "SearchAction",
                             "target": {
                                 "@type": "EntryPoint",
-                                "urlTemplate": "https://mohammednasserahmed.github.io/portfolio/ar/?q={search_term_string}"
+                                "urlTemplate": "https://portfolio-nine-theta-64.vercel.app/ar/?q={search_term_string}"
                             },
                             "query-input": "required name=search_term_string"
                         }
