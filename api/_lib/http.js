@@ -3,7 +3,11 @@ export function json(res, status, data, extraHeaders = {}) {
     const body = JSON.stringify(data);
     const headers = {
         'content-type': 'application/json; charset=utf-8',
-        'cache-control': 'no-store',
+        // Prevent any caching at browser and CDN layers
+        'cache-control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'CDN-Cache-Control': 'no-store',
+        'Vercel-CDN-Cache-Control': 'no-store',
+        pragma: 'no-cache',
         ...extraHeaders
     };
     if (res) {
