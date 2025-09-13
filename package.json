@@ -18,6 +18,7 @@
         "build": "npm run build:new",
         "build:legacy": "npm run build:css:legacy && npm run build:js",
         "build:prod": "cross-env NODE_ENV=production npm run build",
+        "vercel-build": "npm run build:prod",
         "validate:content": "node ./scripts/validate-content.mjs",
         "export": "node ./scripts/build-export.mjs",
         "postbuild": "npm run fix:html && npm run verify:build && npm run export && echo Build complete",
