@@ -5,7 +5,8 @@ const LS = {
     CLIENT_ID: 'portfolio_client_id',
     VISITORS: 'portfolio_visitor_count',
     STARS: 'portfolio_star_count',
-    USER_STARRED: 'portfolio_user_starred'
+    USER_STARRED: 'portfolio_user_starred',
+    LAST_HOST: 'portfolio_last_host'
 };
 
 function uuidv4() {
@@ -43,7 +44,29 @@ export class StatsService {
         const looksGithub = /github\.io|githubusercontent\.com/i.test(this.baseUrl);
         const isRelativeApi = typeof this.baseUrl === 'string' && this.baseUrl.startsWith('/api');
         this.enabled = (isString || isRelativeApi) && !looksExample && !looksGithub;
+        // Ensure local cached stats are scoped to the current host to avoid stale values
+        this.ensureHostScopedStorage();
         this.clientId = this.getOrCreateClientId();
+    }
+
+    ensureHostScopedStorage() {
+        try {
+            const currentHost = typeof window !== 'undefined' ? window.location.host : '';
+            const lastHost = localStorage.getItem(LS.LAST_HOST) || '';
+            if (currentHost && lastHost && lastHost !== currentHost) {
+                // Different host than last run: reset cached counters and star flag
+                localStorage.removeItem(LS.VISITORS);
+                localStorage.removeItem(LS.STARS);
+                localStorage.removeItem(LS.USER_STARRED);
+                // New session flag reset to allow recount on this host
+                sessionStorage.removeItem('portfolio_session_visited');
+            }
+            if (currentHost) {
+                localStorage.setItem(LS.LAST_HOST, currentHost);
+            }
+        } catch (_) {
+            // Ignore storage access errors (private mode, etc.)
+        }
     }
 
     getOrCreateClientId() {
