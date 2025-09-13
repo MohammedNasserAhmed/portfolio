@@ -1,8 +1,15 @@
 // Run a quick end-to-end smoke test against the local API harness
 import { startLocalApiServer } from './local-api-harness.mjs';
-// Ensure fetch exists in Node <=18 environments used by the dev machine/CI
-const nodeFetch = (globalThis.fetch ? null : await import('node-fetch')).default;
-const _fetch = globalThis.fetch || nodeFetch;
+// Ensure a fetch implementation exists across Node versions
+let _fetch = globalThis.fetch;
+if (!_fetch) {
+  try {
+    const mod = await import('node-fetch');
+    _fetch = mod.default || mod;
+  } catch (e) {
+    throw new Error('Fetch is not available. Use Node 18+ or install node-fetch.');
+  }
+}
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
