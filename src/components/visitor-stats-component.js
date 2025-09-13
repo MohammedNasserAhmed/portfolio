@@ -105,9 +105,18 @@ export class VisitorStatsComponent {
 
     async syncFromService() {
         try {
-            // Start with whatever we have
-            this.loadOrInitializeData();
-            this.updateDisplays();
+            // If backend is enabled (same-origin /api), avoid showing stale local numbers first.
+            // Render neutral zeros, then replace with server values once fetched.
+            if (statsService && statsService.enabled) {
+                this.visitorCount = 0;
+                this.starCount = 0;
+                this.hasUserStarred = false;
+                this.updateDisplays();
+            } else {
+                // Start with whatever we have locally when backend is disabled
+                this.loadOrInitializeData();
+                this.updateDisplays();
+            }
 
             // Get authoritative stats
             const stats = await statsService.getStats();

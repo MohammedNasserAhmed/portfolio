@@ -75,16 +75,22 @@
         <link rel="stylesheet" href="dist/style.b164a671bb.css" />
         <!-- cache-bust v=static2 -->
         <script defer src="dist/main.a7c1a203d8.js"></script>
-        <!-- Temporarily disable SW registration to avoid stale caches while debugging -->
-        <!-- <script>
+        <!-- Register Service Worker with dynamic base (works on GH Pages and Vercel) -->
+        <script>
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
-                    navigator.serviceWorker
-                        .register('/portfolio/sw.js')
-                        .catch((e) => console.warn('SW reg failed', e));
+                    try {
+                        var base = location.pathname.includes('/portfolio/') ? '/portfolio' : '';
+                        var swUrl = base + '/sw.js';
+                        navigator.serviceWorker.register(swUrl).catch(function (e) {
+                            console.warn('SW reg failed', e);
+                        });
+                    } catch (e) {
+                        console.warn('SW registration error', e);
+                    }
                 });
             }
-        </script> -->
+        </script>
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",

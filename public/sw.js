@@ -1,21 +1,25 @@
-// Bumped VERSION to v4 to flush prior caches (explicit user request)
-const VERSION = 'v4';
+// Bumped VERSION to v5 to flush prior caches and support dynamic base path
+const VERSION = 'v5';
 const STATIC_CACHE = `portfolio-static-${VERSION}`;
 const RUNTIME_CACHE = 'portfolio-runtime';
 const IMAGE_CACHE = 'portfolio-images';
-const OFFLINE_URL = '/portfolio/offline.html';
 
+// Derive the base path from the registration scope so this works on both
+// GitHub Pages ("/portfolio/") and Vercel root ("/")
+const SCOPE_PATH = new URL(self.registration.scope).pathname.replace(/\/$/, '');
+const BASE = SCOPE_PATH === '' ? '' : SCOPE_PATH; // e.g., '' or '/portfolio'
+const OFFLINE_URL = `${BASE}/offline.html`;
+
+// Keep CORE_ASSETS minimal and avoid fingerprinted assets that change each build
 const CORE_ASSETS = [
-    '/portfolio/',
-    '/portfolio/index.html',
-    '/portfolio/ar/index.html',
-    '/portfolio/offline.html',
-    '/portfolio/dist/style.css',
-    '/portfolio/dist/main.js',
-    '/portfolio/data/content.json',
-    '/portfolio/data/content.ar.json',
-    '/portfolio/images/website-photo.png',
-    '/portfolio/manifest.webmanifest'
+    `${BASE}/`,
+    `${BASE}/index.html`,
+    `${BASE}/ar/index.html`,
+    OFFLINE_URL,
+    `${BASE}/data/content.json`,
+    `${BASE}/data/content.ar.json`,
+    `${BASE}/images/website-photo.png`,
+    `${BASE}/manifest.webmanifest`
 ];
 
 self.addEventListener('install', (event) => {
@@ -61,7 +65,7 @@ self.addEventListener('fetch', (event) => {
         }
 
         // Always bypass caching for API calls
-        if (url.pathname.startsWith('/portfolio/api/') || url.pathname.startsWith('/api/')) {
+        if (url.pathname.startsWith(`${BASE}/api/`) || url.pathname.startsWith('/api/')) {
             event.respondWith(fetch(request));
             return;
         }
@@ -126,7 +130,7 @@ self.addEventListener('fetch', (event) => {
                         });
                         return resp;
                     })
-                    .catch(() => caches.match('/portfolio/images/website-photo.png'));
+                    .catch(() => caches.match(`${BASE}/images/website-photo.png`));
             })
         );
         return;
