@@ -1,7 +1,7 @@
 // Run a quick end-to-end smoke test against the local API harness
 import { startLocalApiServer } from './local-api-harness.mjs';
 // Ensure fetch exists in Node <=18 environments used by the dev machine/CI
-const nodeFetch = (globalThis.fetch ? null : await import('node-fetch')).default;
+const nodeFetch = globalThis.fetch ? null : (await import('node-fetch')).default;
 const _fetch = globalThis.fetch || nodeFetch;
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }

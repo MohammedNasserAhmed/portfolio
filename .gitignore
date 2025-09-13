@@ -205,3 +205,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 node_modules
+
+# Build artifacts
+dist/build-manifest.json
+public/dist/build-manifest.json
