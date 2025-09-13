@@ -32,7 +32,8 @@
         "browserslist:update": "npx update-browserslist-db@latest --update-db",
         "test": "echo \"No tests specified yet\" && exit 0",
         "clean": "rimraf dist/*",
-        "preview": "npm run build:prod && serve -s . -l 3000"
+        "preview": "npm run build:prod && serve -s . -l 3000",
+        "smoke:api": "node ./scripts/smoke-api.mjs"
     },
     "devDependencies": {
         "@commitlint/cli": "^19.3.0",

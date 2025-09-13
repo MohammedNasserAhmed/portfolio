@@ -16,13 +16,11 @@ export function json(res, status, data, extraHeaders = {}) {
 
 export async function readJson(req) {
     try {
-        if (req?.body) {
-            // Vercel/Node-style request
-            const chunks = [];
-            for await (const chunk of req) chunks.push(chunk);
-            const raw = Buffer.concat(chunks).toString('utf8');
-            return raw ? JSON.parse(raw) : {};
-        }
+        // Read from the request stream (works for Node http.IncomingMessage and most serverless envs)
+        const chunks = [];
+        for await (const chunk of req) chunks.push(chunk);
+        const raw = Buffer.concat(chunks).toString('utf8');
+        return raw ? JSON.parse(raw) : {};
     } catch (e) {
         return {};
     }
