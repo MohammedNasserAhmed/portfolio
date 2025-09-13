@@ -27,6 +27,8 @@ jobs:
               run: npm run validate:content
             - name: Build (production CSS + JS)
               run: npm run build:prod
+            - name: API smoke test (local harness)
+              run: npm run smoke:api
             - name: Debug dist contents
               run: |
                   echo "Listing dist/";
