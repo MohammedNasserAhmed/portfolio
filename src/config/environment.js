@@ -215,10 +215,12 @@ class Environment {
                 // IMPORTANT: GitHub Pages cannot run server code. Keep this pointing to your live site
                 // until you deploy API endpoints (e.g., Vercel/Netlify). Then set to that URL, e.g.:
                 // 'https://portfolio-api.yourdomain.com/api'
-                // On Vercel, use same-origin serverless functions under /api. On GitHub Pages, keep disabled.
-                apiBaseUrl: host.includes('vercel.app')
-                    ? '/api'
-                    : 'https://mohammednasserahmed.github.io/portfolio/',
+                // On Vercel or any custom domain, use same-origin serverless functions under /api.
+                // On GitHub Pages, keep disabled by pointing to the static site (no backend).
+                apiBaseUrl:
+                    host.includes('github.io') || host.includes('githubusercontent.com')
+                        ? 'https://mohammednasserahmed.github.io/portfolio/'
+                        : '/api',
                 enableAnalytics: true,
                 enableServiceWorker: true,
                 logLevel: 'error',

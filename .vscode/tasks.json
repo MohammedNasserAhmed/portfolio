@@ -15,6 +15,14 @@
             "command": "npm",
             "args": ["run", "build:prod"],
             "group": "build"
+        },
+        {
+            "label": "Build+Export portfolio",
+            "type": "shell",
+            "command": "npm",
+            "args": ["run", "build:prod"],
+            "problemMatcher": ["$eslint-stylish"],
+            "group": "build"
         }
     ]
 }
