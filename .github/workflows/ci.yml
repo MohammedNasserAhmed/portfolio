@@ -30,9 +30,15 @@ jobs:
             - name: Debug dist contents
               run: |
                   echo "Listing dist/";
-                  ls -al dist || dir dist
-                  echo "Checking main.js head snippet:";
-                  head -n 20 dist/main.js || sed -n '1,20p' dist/main.js
+                  ls -al dist || dir dist || true
+                  echo "Checking main.*.js head snippet:";
+                  JS_FILE=$(ls -1 dist/main.*.js 2>/dev/null | head -n 1)
+                  if [ -n "$JS_FILE" ]; then
+                    echo "File: $JS_FILE";
+                    head -n 20 "$JS_FILE" || true;
+                  else
+                    echo "No dist/main.*.js found (expected when filenames are hashed).";
+                  fi
             - name: Env info
               run: |
                   node -v
