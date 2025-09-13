@@ -12,7 +12,7 @@ const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const LEGACY_JS_DIR = path.join(ROOT_DIR, 'js');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const KEEP_ASSET_VERSIONS = parseInt(process.env.KEEP_ASSET_VERSIONS || '3', 10);
+const KEEP_ASSET_VERSIONS = parseInt(process.env.KEEP_ASSET_VERSIONS || '2', 10);
 
 class BuildSystem {
     constructor() {

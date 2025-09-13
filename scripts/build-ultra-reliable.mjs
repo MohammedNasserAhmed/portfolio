@@ -9,6 +9,9 @@ const __file = fileURLToPath(import.meta.url);
 const ROOT_DIR = path.resolve(path.dirname(__file), '..');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const KEEP_ASSET_VERSIONS = parseInt(process.env.KEEP_ASSET_VERSIONS || '2', 10);
+
 /**
  * Ultra-reliable build system that ONLY uses proven working vanilla JavaScript
  * This prevents ES6 module transformation failures that cause white page issues
@@ -42,6 +45,11 @@ class ReliableBuildSystem {
 
             // Step 5: Create build manifest
             await this.createBuildManifest(jsFilename, cssFilename);
+
+            // Step 6: Prune old assets in production
+            if (IS_PRODUCTION) {
+                await this.pruneOldAssets();
+            }
 
             console.log('✅ Ultra-reliable build completed successfully');
             console.log('🛡️ No ES6 imports - guaranteed browser compatibility');
@@ -166,6 +174,57 @@ class ReliableBuildSystem {
         if (bytes === 0) return '0 B';
         const i = Math.floor(Math.log(bytes) / Math.log(1024));
         return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    async pruneOldAssets() {
+        console.log('🧹 Pruning old assets...');
+
+        const prunePatterns = [/^main\.[a-f0-9]{10}\.js$/, /^style\.[a-f0-9]{10}\.css$/];
+
+        for (const pattern of prunePatterns) {
+            await this.pruneAssetsByPattern(pattern);
+        }
+    }
+
+    async pruneAssetsByPattern(pattern) {
+        try {
+            const files = await fs.readdir(DIST_DIR);
+            const matchingFiles = files
+                .filter((file) => pattern.test(file))
+                .map((file) => ({
+                    name: file,
+                    path: path.join(DIST_DIR, file),
+                    stat: null
+                }));
+
+            // Get file stats
+            for (const file of matchingFiles) {
+                try {
+                    file.stat = await fs.stat(file.path);
+                } catch (error) {
+                    // File might have been deleted, skip
+                }
+            }
+
+            // Sort by modification time (newest first)
+            const sortedFiles = matchingFiles
+                .filter((file) => file.stat)
+                .sort((a, b) => b.stat.mtimeMs - a.stat.mtimeMs);
+
+            // Keep only the newest N files
+            const toDelete = sortedFiles.slice(KEEP_ASSET_VERSIONS);
+
+            for (const file of toDelete) {
+                try {
+                    await fs.unlink(file.path);
+                    console.log(`   Removed: ${file.name}`);
+                } catch (error) {
+                    console.warn(`⚠️  Could not remove ${file.name}:`, error.message);
+                }
+            }
+        } catch (error) {
+            console.warn('⚠️  Asset pruning failed:', error.message);
+        }
     }
 }
 

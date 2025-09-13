@@ -185,6 +185,7 @@ npm run dev
 | `npm run lint`             | **Quality**     | 🔎 Check code quality               |
 | `npm run format`           | **Style**       | ✨ Auto-format code                 |
 | `npm run validate:content` | **Content**     | ✅ Validate JSON content            |
+| `npm run clean:assets`     | **Cleanup**     | 🧹 Remove old asset versions        |
 
 ---
 
@@ -481,7 +482,7 @@ npm run lighthouse    # Performance audit
 ```bash
 # Build configuration
 NODE_ENV=production          # Environment mode
-KEEP_ASSET_VERSIONS=3        # Asset version retention
+KEEP_ASSET_VERSIONS=2        # Asset version retention (default: 2)
 ```
 
 ### **App Configuration**

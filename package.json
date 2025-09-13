@@ -31,6 +31,7 @@
         "browserslist:update": "npx update-browserslist-db@latest --update-db",
         "test": "echo \"No tests specified yet\" && exit 0",
         "clean": "rimraf dist/*",
+        "clean:assets": "node ./scripts/cleanup-assets.mjs",
         "preview": "npm run build:prod && serve -s . -l 3000"
     },
     "devDependencies": {
