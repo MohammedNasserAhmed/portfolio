@@ -1,11 +1,12 @@
 {
     "version": 2,
+    "buildCommand": "npm run vercel-build",
     "outputDirectory": "public",
     "cleanUrls": true,
     "trailingSlash": false,
     "functions": {
         "api/**/*.js": {
-            "runtime": "nodejs18.x",
+            "runtime": "nodejs20.x",
             "maxDuration": 10,
             "memory": 128
         }
