@@ -1,8 +1,8 @@
-// Bumped VERSION to v5 to flush prior caches and support dynamic base path
-const VERSION = 'v5';
+// Bumped VERSION to v6 to flush prior caches and prevent stale 404 image caching
+const VERSION = 'v6';
 const STATIC_CACHE = `portfolio-static-${VERSION}`;
-const RUNTIME_CACHE = 'portfolio-runtime';
-const IMAGE_CACHE = 'portfolio-images';
+const RUNTIME_CACHE = `portfolio-runtime-${VERSION}`;
+const IMAGE_CACHE = `portfolio-images-${VERSION}`;
 
 // Derive the base path from the registration scope so this works on both
 // GitHub Pages ("/portfolio/") and Vercel root ("/")
@@ -113,22 +113,26 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Images: Cache-first with limit
+    // Images: Cache-first with limit; only cache successful responses
     if (request.destination === 'image') {
         event.respondWith(
             caches.match(request).then((cached) => {
-                if (cached) return cached;
+                if (cached && cached.ok) return cached;
                 return fetch(request)
                     .then((resp) => {
-                        const copy = resp.clone();
-                        caches.open(IMAGE_CACHE).then((cache) => {
-                            cache.put(request, copy);
-                            // Optional cleanup
-                            cache.keys().then((keys) => {
-                                if (keys.length > 40) cache.delete(keys[0]);
+                        if (resp && resp.ok) {
+                            const copy = resp.clone();
+                            caches.open(IMAGE_CACHE).then((cache) => {
+                                cache.put(request, copy);
+                                // Optional cleanup
+                                cache.keys().then((keys) => {
+                                    if (keys.length > 60) cache.delete(keys[0]);
+                                });
                             });
-                        });
-                        return resp;
+                            return resp;
+                        }
+                        // Non-OK HTTP (e.g., 404): fallback placeholder
+                        return caches.match(`${BASE}/images/website-photo.png`);
                     })
                     .catch(() => caches.match(`${BASE}/images/website-photo.png`));
             })
