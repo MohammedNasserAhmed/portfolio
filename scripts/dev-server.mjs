@@ -1,6 +1,11 @@
 // Enhanced development server with hot reload and build integration
 import { createServer } from 'http';
-import { promises as fs } from 'fs';
+import net from 'net';
+// Use both callback and promise-based fs APIs:
+// - fsp: for readFile/stat
+// - fs: for watch (returns FSWatcher with .on)
+import fs from 'fs';
+import { promises as fsp } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { spawn } from 'child_process';
@@ -30,16 +35,56 @@ class DevServer {
         // Setup file watchers
         this.setupWatchers();
 
-        // Start server
-        this.server.listen(this.port, this.host, () => {
-            console.log(`✅ Development server running at http://${this.host}:${this.port}`);
-            console.log('📂 Serving files from:', ROOT_DIR);
-            console.log('👀 Watching for changes...');
-        });
+        await this.startListening();
 
         // Graceful shutdown
         process.on('SIGINT', () => this.shutdown());
         process.on('SIGTERM', () => this.shutdown());
+    }
+
+    async startListening() {
+        const startPort = this.port;
+        this.port = await this.findAvailablePort(startPort, startPort + 30);
+
+        return new Promise((resolve, reject) => {
+            this.server.listen(this.port, this.host, () => {
+                console.log(`✅ Development server running at http://${this.host}:${this.port}`);
+                console.log('📂 Serving files from:', ROOT_DIR);
+                console.log('👀 Watching for changes...');
+                resolve();
+            });
+            this.server.on('error', (err) => {
+                console.error('Server listen error:', err);
+                reject(err);
+            });
+        });
+    }
+
+    async findAvailablePort(from, to) {
+        for (let p = from; p <= to; p++) {
+            const isFree = await this.isPortFree(p, this.host);
+            if (isFree) return p;
+        }
+        // Fallback to 0 (let OS pick any free port)
+        return new Promise((resolve) => {
+            const tester = net.createServer()
+                .once('listening', () => {
+                    const address = tester.address();
+                    tester.close(() => resolve(address.port));
+                })
+                .once('error', () => resolve(0))
+                .listen(0, this.host);
+        });
+    }
+
+    isPortFree(port, host) {
+        return new Promise((resolve) => {
+            const tester = net
+                .createServer()
+                .once('error', () => resolve(false))
+                .once('listening', () => tester.close(() => resolve(true)))
+                .listen(port, host);
+        });
     }
 
     async handleRequest(req, res) {
@@ -58,7 +103,7 @@ class DevServer {
         }
 
         try {
-            const stat = await fs.stat(filePath);
+            const stat = await fsp.stat(filePath);
 
             if (stat.isDirectory()) {
                 filePath = path.join(filePath, 'index.html');
@@ -81,7 +126,7 @@ class DevServer {
     }
 
     async serveFile(res, filePath) {
-        const content = await fs.readFile(filePath);
+    const content = await fsp.readFile(filePath);
         const ext = path.extname(filePath).toLowerCase();
         const contentType = this.getContentType(ext);
 

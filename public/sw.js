@@ -1,5 +1,5 @@
-// Bumped VERSION to v6 to flush prior caches and prevent stale 404 image caching
-const VERSION = 'v6';
+// Bumped VERSION to v7: dedicated neutral placeholder (no longer using hero portrait for failed images)
+const VERSION = 'v7';
 const STATIC_CACHE = `portfolio-static-${VERSION}`;
 const RUNTIME_CACHE = `portfolio-runtime-${VERSION}`;
 const IMAGE_CACHE = `portfolio-images-${VERSION}`;
@@ -19,6 +19,7 @@ const CORE_ASSETS = [
     `${BASE}/data/content.json`,
     `${BASE}/data/content.ar.json`,
     `${BASE}/images/website-photo.png`,
+    `${BASE}/images/placeholder.svg`,
     `${BASE}/manifest.webmanifest`
 ];
 
@@ -131,10 +132,10 @@ self.addEventListener('fetch', (event) => {
                             });
                             return resp;
                         }
-                        // Non-OK HTTP (e.g., 404): fallback placeholder
-                        return caches.match(`${BASE}/images/website-photo.png`);
+                        // Non-OK HTTP (e.g., 404): fallback neutral placeholder
+                        return caches.match(`${BASE}/images/placeholder.svg`);
                     })
-                    .catch(() => caches.match(`${BASE}/images/website-photo.png`));
+                    .catch(() => caches.match(`${BASE}/images/placeholder.svg`));
             })
         );
         return;

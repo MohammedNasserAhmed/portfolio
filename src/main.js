@@ -10,6 +10,7 @@ import { MobileNavigation } from './components/mobile-navigation.js';
 import { VisitorStatsComponent } from './components/visitor-stats-component.js';
 import { APP_CONFIG } from './config/app-config.js';
 import { logInfo, handleError } from './utils/helpers.js';
+import { runImageGuard } from './utils/image-guard.js';
 
 /**
  * Main portfolio application class that orchestrates all components and modules
@@ -281,7 +282,12 @@ class PortfolioApp {
                 this.components.publications.render(data.publications);
             }
 
+            // Run image guard after initial content render
+            runImageGuard();
+
             logInfo('Content rendered successfully');
+            // Schedule a second guard pass once animations settled
+            setTimeout(runImageGuard, 2500);
         } catch (error) {
             console.error('Failed to load content:', error);
             this.renderFallbackContent();

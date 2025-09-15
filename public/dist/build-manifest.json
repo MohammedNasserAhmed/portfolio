@@ -1,7 +1,7 @@
 {
-  "buildId": "9781d53486",
-  "version": "cc491ce673",
-  "timestamp": "2025-09-14T22:19:42.957Z",
+  "buildId": "553db71063",
+  "version": "3810d2cc0c",
+  "timestamp": "2025-09-15T19:49:40.501Z",
   "assets": {
     "js": {
       "filename": "main.a7c1a203d8.js",
@@ -12,6 +12,6 @@
       "hash": "b164a671bb"
     }
   },
-  "environment": "development",
+  "environment": "production",
   "note": "Built with ultra-reliable system - no ES6 imports"
 }
