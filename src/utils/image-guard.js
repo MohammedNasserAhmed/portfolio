@@ -5,10 +5,6 @@
 const HERO_IMAGE_PATTERN = /website-photo\.png$/i;
 const PLACEHOLDER_PATTERN = /placeholder\.(svg|png)$/i;
 
-function uniqueId() {
-    return Math.random().toString(36).slice(2);
-}
-
 /**
  * Attempt to reload an image once with a cache-busting query param.
  * @param {HTMLImageElement} img
@@ -33,7 +29,7 @@ function verifyProjectCards() {
     cards.forEach((card) => {
         const lid = card.querySelector('.project-lid');
         if (!lid) return;
-        const style = getComputedStyle(lid);
+        const style = window.getComputedStyle(lid);
         const bg = style.getPropertyValue('--lid-bg') || '';
         if (!bg) return;
 
