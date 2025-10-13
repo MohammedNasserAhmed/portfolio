@@ -89,7 +89,7 @@
     background: var(--lid-bg);
     display: flex;
     align-items: flex-start;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 1rem;
     transition: all var(--transition-speed);
 }
@@ -120,6 +120,27 @@
 .proj-gh svg {
     width: 20px;
     height: 20px;
+}
+
+/* Lid note badge for placeholders */
+.lid-note {
+    align-self: flex-start;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.project-lid.is-dark .lid-note {
+    background: rgba(255, 255, 255, 0.85);
+    color: #111;
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 .project-body {

@@ -36,7 +36,13 @@ export class ProjectsComponent {
                 const baseIndex = index % items.length;
                 const altColors = ['#ff5858', '#2e2e2e', '#d92323', '#3a3a3a'];
 
-                const backgroundStyle = project.image
+                const hasImage = !!project.image;
+                const isKnownPlaceholder =
+                    !hasImage ||
+                    /placeholder\.(svg|png)$/i.test(project.image || '') ||
+                    /placehold\.co/i.test(project.image || '');
+
+                const backgroundStyle = hasImage
                     ? `url('${escapeAttr(project.image)}') center/cover`
                     : altColors[baseIndex % altColors.length];
 
@@ -46,8 +52,10 @@ export class ProjectsComponent {
                 <div class="project-card has-lid" 
                      role="listitem" 
                      data-dupe="${isDuplicate ? 'true' : 'false'}" 
+                     data-lid-bg="${escapeAttr(project.image || 'placeholder')}"
                      style="--lid-bg:${backgroundStyle};">
                     <div class="project-lid${isDark ? ' is-dark' : ''}" tabindex="0">
+                        ${isKnownPlaceholder ? `<div class="lid-note" aria-label="Image placeholder">IMAGE place holder</div>` : ''}
                         ${this.renderGitHubLink(project)}
                     </div>
                     <div class="project-body">
