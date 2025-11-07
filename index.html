@@ -65,6 +65,19 @@
         <link rel="icon" href="images/website-photo.png" type="image/png" />
         <!-- Cache-busting query string appended; update BUILD_VERSION via build script if desired -->
         <link rel="stylesheet" href="dist/style.b164a671bb.css" />
+        <!-- Supabase JS Client (CDN) -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <!-- Environment Configuration -->
+        <script>
+            // Initialize environment variables for Supabase
+            // Replace these values with your actual Supabase credentials
+            // For production, these should be injected during deployment
+            window.__ENV__ = {
+                VITE_SUPABASE_URL: '', // e.g., 'https://your-project.supabase.co'
+                VITE_SUPABASE_ANON_KEY: '', // Your Supabase anon/public key
+                VITE_DATA_SOURCE: 'local' // 'local' or 'supabase'
+            };
+        </script>
         <!-- cache-bust v=static2 -->
         <script defer src="dist/main.a7c1a203d8.js"></script>
         <!-- Register Service Worker with dynamic base (works on GH Pages and Vercel) -->

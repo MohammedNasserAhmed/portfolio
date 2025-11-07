@@ -1,6 +1,7 @@
 // Content loading and management module
 import { APP_CONFIG } from '../config/app-config.js';
 import { getContentPath, logInfo, logWarn } from '../utils/helpers.js';
+import { fetchProjectsFromSupabase, isSupabaseConfigured } from '../utils/supabase-client.js';
 
 class ContentManager {
     constructor() {
@@ -32,6 +33,24 @@ class ContentManager {
 
             this.data = await response.json();
             logInfo('Content loaded. Summary items:', (this.data.summary || []).length);
+
+            // Try to load projects from Supabase if configured
+            if (isSupabaseConfigured()) {
+                try {
+                    logInfo('Attempting to load projects from Supabase...');
+                    const supabaseProjects = await fetchProjectsFromSupabase();
+                    if (supabaseProjects && supabaseProjects.length > 0) {
+                        this.data.projects = supabaseProjects;
+                        logInfo('Projects loaded from Supabase:', supabaseProjects.length);
+                    }
+                } catch (supabaseError) {
+                    logWarn(
+                        'Failed to load projects from Supabase, using local data:',
+                        supabaseError
+                    );
+                    // Continue with local data if Supabase fails
+                }
+            }
 
             // Expose for dev overlay
             window.__PORTFOLIO_DATA__ = this.data;
