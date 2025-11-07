@@ -150,6 +150,7 @@ VALUES (
 - Row Level Security (RLS) is enabled to ensure only active projects are publicly accessible
 - Never commit your `.env` files to version control (they're already in `.gitignore`)
 - Use the `.env.example` file as a template for other developers
+- The Supabase client is loaded from **CDN with a pinned version** (2.39.3) to prevent automatic updates to potentially compromised versions
 
 ## Troubleshooting
 
@@ -195,6 +196,6 @@ VALUES (
 
 ## Implementation Notes
 
-This integration uses the **Supabase JavaScript client from CDN** for maximum compatibility with the vanilla JavaScript build system. The `@supabase/supabase-js` npm package is installed but the CDN version (`https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2`) is loaded in the HTML for production use.
+This integration uses the **Supabase JavaScript client from CDN** for maximum compatibility with the vanilla JavaScript build system. The client is loaded from `https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3` (pinned version for security). The `@supabase/supabase-js` npm package is installed for development purposes, but the CDN version is used in production.
 
 The integration is **fully backward compatible** - if Supabase is not configured, the site falls back to loading projects from the local `data/content.json` file.

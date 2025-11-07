@@ -1,5 +1,9 @@
 // Supabase client configuration and utilities
 // Using CDN version for vanilla JS compatibility
+import '../config/env-config.js'; // Initialize environment variables
+
+// Constants
+const PLACEHOLDER_URL = 'your-project-url.supabase.co';
 
 /**
  * Get environment variable value
@@ -33,7 +37,7 @@ export function initSupabaseClient() {
         return false;
     }
 
-    if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== 'your-project-url.supabase.co') {
+    if (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== PLACEHOLDER_URL) {
         try {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
                 auth: {
@@ -96,9 +100,7 @@ export async function fetchProjectsFromSupabase() {
 export function isSupabaseConfigured() {
     return (
         (supabaseClient !== null ||
-            (SUPABASE_URL &&
-                SUPABASE_ANON_KEY &&
-                SUPABASE_URL !== 'your-project-url.supabase.co')) &&
+            (SUPABASE_URL && SUPABASE_ANON_KEY && SUPABASE_URL !== PLACEHOLDER_URL)) &&
         DATA_SOURCE === 'supabase'
     );
 }
