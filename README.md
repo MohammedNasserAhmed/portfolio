@@ -37,6 +37,7 @@ This is a **modern, ultra-optimized portfolio website** for an AI Engineer speci
         <li><strong>Service Worker</strong> caching</li>
         <li><strong>Progressive Enhancement</strong></li>
         <li><strong>Type Safety</strong> with JSDoc</li>
+        <li><strong>Supabase Integration</strong> (optional)</li>
       </ul>
     </td>
     <td>
@@ -536,6 +537,24 @@ npm run format        # Format code
 npm run build:prod    # Production build
 npm run preview       # Test production build
 ```
+
+### **Supabase Backend Integration** (Optional)
+
+The portfolio supports fetching project data from Supabase as an alternative to local JSON files.
+
+```bash
+# Quick setup:
+# 1. Create a Supabase project at https://app.supabase.com
+# 2. Run the SQL setup script (supabase-setup.sql) in Supabase SQL Editor
+# 3. Configure credentials in index.html:
+window.__ENV__ = {
+    VITE_SUPABASE_URL: 'https://your-project.supabase.co',
+    VITE_SUPABASE_ANON_KEY: 'your-anon-key',
+    VITE_DATA_SOURCE: 'supabase'  // Switch to 'supabase' to enable
+};
+```
+
+📖 **[Complete Supabase Setup Guide](SUPABASE_SETUP.md)** - Includes database schema, configuration options, and troubleshooting.
 
 ### **Git Workflow**
 
