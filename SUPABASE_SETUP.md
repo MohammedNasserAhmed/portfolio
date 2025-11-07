@@ -46,9 +46,9 @@ The configuration is already in the HTML files. Edit the `window.__ENV__` object
 ```html
 <script>
     window.__ENV__ = {
-        VITE_SUPABASE_URL: 'https://your-project.supabase.co',  // Replace with your URL
-        VITE_SUPABASE_ANON_KEY: 'your-anon-key-here',  // Replace with your key
-        VITE_DATA_SOURCE: 'supabase'  // Change from 'local' to 'supabase' to enable
+        VITE_SUPABASE_URL: 'https://your-project.supabase.co', // Replace with your URL
+        VITE_SUPABASE_ANON_KEY: 'your-anon-key-here', // Replace with your key
+        VITE_DATA_SOURCE: 'supabase' // Change from 'local' to 'supabase' to enable
     };
 </script>
 ```
@@ -67,6 +67,7 @@ window.__ENV__ = {
 ```
 
 Then in your HTML:
+
 ```html
 <script src="config.js"></script>
 ```
@@ -169,22 +170,27 @@ VALUES (
 ## Files Modified/Created
 
 ### Core Integration Files
+
 - `src/utils/supabase-client.js` - Supabase client initialization and API calls (uses CDN version)
 - `src/config/env-config.js` - Environment variable loader
 - `src/modules/content-manager.js` - Modified to support Supabase data fetching
 
 ### Database and Configuration
+
 - `supabase-setup.sql` - Complete database schema with 6 sample projects
 - `.env.example`, `.env`, `.env.local` - Environment configuration templates
 
 ### HTML Files
+
 - `index.html` - Added Supabase CDN script and environment configuration
 - `ar/index.html` - Added Supabase CDN script and environment configuration
 
 ### Documentation
+
 - `SUPABASE_SETUP.md` - This comprehensive setup guide
 
 ### Dependencies
+
 - `package.json` - Added `@supabase/supabase-js` (optional, CDN version is used in production)
 
 ## Implementation Notes
