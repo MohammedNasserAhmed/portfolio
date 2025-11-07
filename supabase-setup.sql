@@ -27,7 +27,7 @@ CREATE POLICY "Allow public read access" ON projects
     FOR SELECT
     USING (is_active = true);
 
--- Insert sample project data (at least 4 real full samples based on existing data)
+-- Insert sample project data - 5 real projects from the portfolio
 INSERT INTO projects (title, description, image, tech, github_url, display_order) VALUES
 (
     'Arabic PDF Chat 📚💬',
@@ -68,14 +68,6 @@ INSERT INTO projects (title, description, image, tech, github_url, display_order
     ARRAY['Python', 'CodeLlama', 'LangChain', 'FAISS', 'HuggingFace'],
     'https://github.com/MohammedNasserAhmed/CodeXpert',
     5
-),
-(
-    'AI-Powered Resume Analyzer',
-    'An intelligent system that uses natural language processing and machine learning to analyze resumes, extract key information, and provide actionable insights for both job seekers and recruiters. Features include skill gap analysis, ATS compatibility scoring, and personalized improvement suggestions.',
-    'https://placehold.co/600x400/333333/FFFFFF?text=Resume+Analyzer',
-    ARRAY['Python', 'spaCy', 'FastAPI', 'React', 'Docker', 'PostgreSQL'],
-    'https://github.com/MohammedNasserAhmed/resume-analyzer',
-    6
 );
 
 -- Create function to automatically update updated_at timestamp

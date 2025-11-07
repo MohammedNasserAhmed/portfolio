@@ -17,7 +17,7 @@ This portfolio site supports fetching project data from Supabase as an alternati
 3. Paste it into the SQL Editor and run it
 4. This will:
     - Create the `projects` table with the required schema
-    - Insert 6 sample projects (including the 4 existing ones plus 2 new ones)
+    - Insert 5 real sample projects from the portfolio
     - Set up Row Level Security (RLS) for public read access
     - Create indexes for better performance
     - Add triggers for automatic timestamp updates
