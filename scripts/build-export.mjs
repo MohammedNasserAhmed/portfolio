@@ -50,7 +50,9 @@ function main() {
     'manifest.webmanifest',
     'robots.txt',
     'sitemap.xml',
-    'sw.js'
+    'sw.js',
+    'blog.html',
+    'project.html'
   ];
   for (const f of rootFiles) {
     const src = path.join(root, f);
@@ -58,7 +60,7 @@ function main() {
   }
 
   // Copy directories
-  const dirs = ['ar', 'images', 'js', 'css', 'docs', 'data'];
+  const dirs = ['ar', 'images', 'js', 'css', 'docs', 'data', 'src'];
   for (const dir of dirs) {
     const src = path.join(root, dir);
     if (fs.existsSync(src)) copyDir(src, path.join(publicDir, dir));
