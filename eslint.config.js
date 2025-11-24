@@ -12,6 +12,8 @@ export default [
         ignores: ['js/vendor/**'],
         plugins: { import: pluginImport },
         languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
             globals: {
                 window: 'readonly',
                 document: 'readonly',
@@ -34,7 +36,14 @@ export default [
                 URLSearchParams: 'readonly',
                 Buffer: 'readonly',
                 HTMLScriptElement: 'readonly',
-                performance: 'readonly'
+                performance: 'readonly',
+                FormData: 'readonly',
+                HTMLElement: 'readonly',
+                Event: 'readonly',
+                CustomEvent: 'readonly',
+                Image: 'readonly',
+                Date: 'readonly',
+                Promise: 'readonly'
             }
         },
         rules: {
@@ -56,6 +65,8 @@ export default [
     {
         files: ['api/**/*.js'],
         languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
             globals: {
                 process: 'readonly',
                 console: 'readonly',
@@ -81,6 +92,8 @@ export default [
     {
         files: ['sw.js'],
         languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
             globals: {
                 self: 'readonly',
                 caches: 'readonly',
@@ -92,6 +105,8 @@ export default [
     {
         files: ['*.config.js', 'tailwind.config.js', 'scripts/**/*.{js,mjs}', 'eslint.config.js'],
         languageOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
             globals: {
                 // Minimal Node globals we rely on
                 module: 'readonly',
