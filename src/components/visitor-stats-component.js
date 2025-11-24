@@ -274,36 +274,59 @@ export class VisitorStatsComponent {
      * @returns {void}
      * @private
      */
-    toggleStar() {
-        const desired = !this.hasUserStarred;
-        // If backend is unstable (no Redis), keep current optimistic behavior
-        if (this.unstableBackend) {
-            this.hasUserStarred = desired;
-            this.starCount += desired ? 1 : -1;
-            if (this.starCount < 0) this.starCount = 0;
+    async fetchStats() {
+        try {
+            // Use the new visit endpoint which handles incrementing
+            const response = await fetch(`/api/visit?cid=${this.clientId}`);
+            if (!response.ok) throw new Error('Failed to fetch stats');
+            
+            const data = await response.json();
+            this.updateDisplay(data);
+        } catch (error) {
+            console.warn('Stats fetch failed:', error);
+            // Fallback to local storage or hide
+            this.element.style.opacity = '0.5';
+        }
+    }
+
+    async toggleStar() {
+        if (this.isLoading) return;
+        this.isLoading = true;
+        
+        // Optimistic update
+        const wasStarred = this.hasUserStarred;
+        this.hasUserStarred = !wasStarred;
+        this.starCount += wasStarred ? -1 : 1;
+        this.updateDisplays(); // Changed from updateStarDisplay() to updateDisplays()
+
+        try {
+            const response = await fetch('/api/star', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cid: this.clientId,
+                    desired: this.hasUserStarred
+                })
+            });
+
+            if (!response.ok) throw new Error('Failed to toggle star');
+            
+            const data = await response.json();
+            // Sync with server truth
+            this.visitorCount = data.visitors ?? this.visitorCount; // Added to update all stats
+            this.starCount = data.stars ?? this.starCount;
+            this.hasUserStarred = data.userHasStarred ?? this.hasUserStarred;
             this.updateDisplays();
             this.animateStarChange();
+        } catch (error) {
+            console.error('Star toggle failed:', error);
+            // Revert optimistic update
+            this.hasUserStarred = wasStarred;
+            this.starCount += wasStarred ? 1 : -1;
+            this.updateDisplays(); // Changed from updateStarDisplay() to updateDisplays()
+        } finally {
+            this.isLoading = false;
         }
-
-        statsService
-            .toggleStar(desired)
-            .then((after) => {
-                // Always trust server response
-                this.starCount = after.stars ?? this.starCount;
-                this.hasUserStarred = after.userHasStarred ?? this.hasUserStarred;
-                this.updateDisplays();
-                this.animateStarChange();
-            })
-            .catch(() => {
-                // If we didn't optimistically update, leave UI unchanged
-                if (this.unstableBackend) {
-                    // Rollback optimistic change
-                    this.hasUserStarred = !desired;
-                    this.starCount += desired ? -1 : 1;
-                    if (this.starCount < 0) this.starCount = 0;
-                    this.updateDisplays();
-                }
-            });
     }
 
     /**

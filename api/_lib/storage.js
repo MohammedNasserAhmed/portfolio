@@ -1,4 +1,133 @@
-// Storage abstraction with Redis (Upstash) optional, in-memory fallback
+// Storage abstraction using Supabase
+import { supabase } from './supabase.js';
+
+// In-memory fallback for when Supabase is not configured
+let memory = {
+    visitors: 0,
+    stars: 0,
+    starredBy: new Set(),
+    visitsBy: new Map(), // clientId -> lastVisitTimestamp
+    messages: []
+};
+
+export async function getStats(clientId) {
+    if (!supabase) {
+        return {
+            visitors: memory.visitors,
+            stars: memory.stars,
+            userHasStarred: clientId ? memory.starredBy.has(clientId) : false,
+            unstable: true
+        };
+    }
+
+    try {
+        // Get visitors count (approximate by counting rows in visits)
+        // Note: For high scale, you'd want a separate counter table.
+        const { count: visitors } = await supabase
+            .from('visits')
+            .select('*', { count: 'exact', head: true });
+
+        const { count: stars } = await supabase
+            .from('stars')
+            .select('*', { count: 'exact', head: true });
+
+        let userHasStarred = false;
+        if (clientId) {
+            const { data } = await supabase
+                .from('stars')
+                .select('id')
+                .eq('client_id', clientId)
+                .single();
+            userHasStarred = !!data;
+        }
+
+        return {
+            visitors: visitors || 0,
+            stars: stars || 0,
+            userHasStarred
+        };
+    } catch (error) {
+        console.error('Supabase getStats error:', error);
+        return { visitors: 0, stars: 0, userHasStarred: false, error: true };
+    }
+}
+
+export async function incrementVisit(clientId) {
+    if (!supabase) {
+        const now = Date.now();
+        const last = memory.visitsBy.get(clientId);
+        // Simple debounce
+        if (!last || now - last > 3600000) { 
+            memory.visitors += 1;
+            memory.visitsBy.set(clientId, now);
+        }
+        return getStats(clientId);
+    }
+
+    try {
+        // Check if visited recently (optional optimization, skip for now to keep it simple)
+        // Just insert a visit record. 
+        // In a real app, you might want to check for duplicates within a time window.
+        
+        // For this implementation, we'll just insert.
+        await supabase.from('visits').insert({ client_id: clientId });
+        
+        return getStats(clientId);
+    } catch (error) {
+        console.error('Supabase incrementVisit error:', error);
+        return getStats(clientId);
+    }
+}
+
+export async function toggleStar(clientId, desired) {
+    if (!supabase) {
+        const has = memory.starredBy.has(clientId);
+        const next = typeof desired === 'boolean' ? desired : !has;
+        if (next && !has) {
+            memory.starredBy.add(clientId);
+            memory.stars += 1;
+        } else if (!next && has) {
+            memory.starredBy.delete(clientId);
+            memory.stars = Math.max(0, memory.stars - 1);
+        }
+        return getStats(clientId);
+    }
+
+    try {
+        if (desired) {
+            // Upsert or Insert (ignore conflict)
+            await supabase.from('stars').upsert({ client_id: clientId }, { onConflict: 'client_id' });
+        } else {
+            await supabase.from('stars').delete().eq('client_id', clientId);
+        }
+        return getStats(clientId);
+    } catch (error) {
+        console.error('Supabase toggleStar error:', error);
+        return getStats(clientId);
+    }
+}
+
+export async function saveMessage(messageData) {
+    if (!supabase) {
+        console.log('Mock saving message (Supabase not configured):', messageData);
+        memory.messages.push(messageData);
+        return { success: true, mock: true };
+    }
+
+    try {
+        const { error } = await supabase.from('messages').insert({
+            name: messageData.name,
+            email: messageData.email,
+            message: messageData.message
+        });
+
+        if (error) throw error;
+        return { success: true };
+    } catch (error) {
+        console.error('Supabase saveMessage error:', error);
+        throw error;
+    }
+}
 let memory = {
     visitors: 0,
     stars: 0,
@@ -96,4 +225,25 @@ export async function toggleStar(clientId, desired) {
         await redisFetch(`/SREM/${keySet}/${clientId}`, { method: 'POST' });
     }
     return getStats(clientId);
+}
+
+export async function saveMessage(messageData) {
+    const { name, email, message, timestamp } = messageData;
+    
+    if (!hasUpstash) {
+        console.log('Mock saving message:', messageData);
+        return { success: true, mock: true };
+    }
+
+    try {
+        // Store in a list
+        await redisFetch('/RPUSH/portfolio:messages', {
+            method: 'POST',
+            body: JSON.stringify(JSON.stringify(messageData))
+        });
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to save message:', error);
+        throw error;
+    }
 }

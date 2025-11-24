@@ -169,7 +169,53 @@
                         class="text-gray-300 hover:text-brand-red transition-colors"
                         >Publications</a
                     >
+                    <a href="/blog.html" class="text-gray-300 hover:text-brand-red transition-colors"
+                        >Blog</a
+                    >
                     <!-- Visitor Stats Component -->
+                    <div id="visitor-stats-container" class="flex items-center"></div>
+                    <a
+                        href="#contact"
+                        class="bg-brand-red text-white px-5 py-2 rounded-lg hover:opacity-90 transition-opacity font-semibold"
+                        >Contact</a
+                    >
+                    <!-- Theme toggle removed (dark-only) -->
+                </div>
+                <button
+                    id="mobile-menu-button"
+                    class="md:hidden text-white"
+                    aria-label="Open mobile menu"
+                    title="Open mobile menu"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <line x1="4" x2="20" y1="12" y2="12" />
+                        <line x1="4" x2="20" y1="6" y2="6" />
+                        <line x1="4" x2="20" y1="18" y2="18" />
+                    </svg>
+                </button>
+            </nav>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+                <a href="#summary" class="block py-2 text-gray-300 hover:text-brand-red">Summary</a>
+                <a href="#projects" class="block py-2 text-gray-300 hover:text-brand-red"
+                    >Projects</a
+                >
+                <a href="#skills" class="block py-2 text-gray-300 hover:text-brand-red">Skills</a>
+                <a href="#publications" class="block py-2 text-gray-300 hover:text-brand-red"
+                    >Publications</a
+                >
+                <a href="/blog.html" class="block py-2 text-gray-300 hover:text-brand-red">Blog</a>
+                <!-- Mobile Visitor Stats -->
                     <div id="visitor-stats-container" class="flex items-center"></div>
                     <a
                         href="#contact"
@@ -361,11 +407,9 @@
                         >
                             <div class="project-lid">
                                 <a
-                                    href="https://github.com/MohammedNasserAhmed/arabic-pdf-chat"
+                                    href="/project.html?id=arabic-pdf-chat"
                                     class="proj-gh"
-                                    target="_blank"
-                                    rel="noopener"
-                                    aria-label="GitHub: Arabic PDF Chat"
+                                    aria-label="View Details: Arabic PDF Chat"
                                     ><svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -401,11 +445,9 @@
                         >
                             <div class="project-lid">
                                 <a
-                                    href="https://github.com/MohammedNasserAhmed/ainarabic-hub"
+                                    href="/project.html?id=ainarabic-hub"
                                     class="proj-gh"
-                                    target="_blank"
-                                    rel="noopener"
-                                    aria-label="GitHub: aiNarabic Hub"
+                                    aria-label="View Details: aiNarabic Hub"
                                     ><svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -441,11 +483,9 @@
                         >
                             <div class="project-lid">
                                 <a
-                                    href="https://github.com/MohammedNasserAhmed/ats-CoverLetter-generator"
+                                    href="/project.html?id=ats-cover-letter"
                                     class="proj-gh"
-                                    target="_blank"
-                                    rel="noopener"
-                                    aria-label="GitHub: ATS Cover Letter Generator"
+                                    aria-label="View Details: ATS Cover Letter Generator"
                                     ><svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1164,4 +1204,74 @@
             })();
         </script>
     </body>
+            <!-- Contact Section -->
+            <section id="contact" class="my-24 fade-in-section">
+                <h2 class="section-head text-center mb-12" data-sh>
+                    <span class="sh-core">Get In
+                        <span class="sh-accent" data-words="Touch|Contact|Connect">Touch</span>
+                    </span>
+                </h2>
+                
+                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold text-white">Let's Build Something Amazing</h3>
+                        <p class="text-brand-gray text-lg leading-relaxed">
+                            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+                        </p>
+                        
+                        <div class="space-y-4 mt-8">
+                            <div class="flex items-center gap-4 text-brand-gray hover:text-white transition-colors">
+                                <div class="w-12 h-12 rounded-full bg-brand-card flex items-center justify-center border border-glass-border">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                </div>
+                                <span>contact@mnjaber.com</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-brand-gray hover:text-white transition-colors">
+                                <div class="w-12 h-12 rounded-full bg-brand-card flex items-center justify-center border border-glass-border">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                                </div>
+                                <span>linkedin.com/in/m-n-g</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 bg-brand-red/10 rounded-full blur-2xl"></div>
+                        <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
+                        
+                        <form id="contact-form" class="relative z-10 space-y-2">
+                            <div class="input-group">
+                                <input type="text" id="name" name="name" class="input-field w-full px-4 py-3 rounded-lg bg-transparent" required>
+                                <label for="name">Name</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <input type="email" id="email" name="email" class="input-field w-full px-4 py-3 rounded-lg bg-transparent" required>
+                                <label for="email">Email</label>
+                            </div>
+                            
+                            <div class="input-group">
+                                <textarea id="message" name="message" rows="4" class="input-field w-full px-4 py-3 rounded-lg bg-transparent resize-none" required></textarea>
+                                <label for="message">Message</label>
+                            </div>
+
+                            <button type="submit" class="w-full bg-brand-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                                <span>Send Message</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            </button>
+                        </form>
+                        <div id="contact-status" class="hidden text-center text-sm font-medium"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="border-t border-gray-800 bg-brand-dark py-12 mt-12">
+                <div class="container mx-auto px-6 text-center">
+                    <p class="text-brand-gray">&copy; 2025 M. N. Jaber. All rights reserved.</p>
+                </div>
+            </footer>
+        </main>
+    </body>
 </html>
+

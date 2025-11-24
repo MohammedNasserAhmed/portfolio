@@ -60,5 +60,8 @@
         "*.{html,css,js,json,md}": [
             "prettier --write"
         ]
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.84.0"
     }
 }

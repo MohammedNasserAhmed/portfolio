@@ -8,6 +8,7 @@ import { SkillsComponent } from './components/skills-component.js';
 import { PublicationsComponent } from './components/publications-component.js';
 import { MobileNavigation } from './components/mobile-navigation.js';
 import { VisitorStatsComponent } from './components/visitor-stats-component.js';
+import { ContactComponent } from './components/contact-component.js';
 import { APP_CONFIG } from './config/app-config.js';
 import { logInfo, handleError } from './utils/helpers.js';
 import { runImageGuard } from './utils/image-guard.js';
@@ -107,6 +108,7 @@ class PortfolioApp {
         this.components.publications = new PublicationsComponent();
         this.components.mobileNav = new MobileNavigation();
         this.components.visitorStats = new VisitorStatsComponent();
+        this.components.contact = new ContactComponent();
 
         // Initialize component DOM bindings
         Object.values(this.components).forEach((component) => {

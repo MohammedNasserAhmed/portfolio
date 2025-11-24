@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Project Details - M. N. Jaber</title>
+        <link rel="stylesheet" href="dist/style.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="bg-brand-dark text-brand-light-gray font-sans">
+        <header class="bg-brand-dark/70 backdrop-blur-lg sticky top-0 z-50 border-b border-glass-border">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="/" class="text-2xl font-bold text-white">
+                    M. N. <span class="text-brand-red">Jaber</span>
+                </a>
+                <a href="/" class="text-gray-300 hover:text-white transition-colors">Back to Portfolio</a>
+            </nav>
+        </header>
+
+        <main class="container mx-auto px-6 py-12">
+            <div id="project-content" class="max-w-4xl mx-auto glass-panel p-8 md:p-12 rounded-2xl min-h-[50vh]">
+                <!-- Content injected via JS -->
+                <div class="animate-pulse space-y-8">
+                    <div class="h-10 bg-gray-700 rounded w-1/2"></div>
+                    <div class="h-64 bg-gray-800 rounded-xl w-full"></div>
+                    <div class="space-y-4">
+                        <div class="h-4 bg-gray-700 rounded w-full"></div>
+                        <div class="h-4 bg-gray-700 rounded w-full"></div>
+                        <div class="h-4 bg-gray-700 rounded w-3/4"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script type="module">
+            import { ProjectDetailsComponent } from './src/components/project-details-component.js';
+            const project = new ProjectDetailsComponent();
+            project.init();
+        </script>
+    </body>
+</html>
