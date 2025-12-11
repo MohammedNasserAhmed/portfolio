@@ -1,5 +1,6 @@
 # Template files with Handlebars syntax
 src/templates/**/*.html
+public/src/templates/**/*.html
 
 # Build output
 dist/

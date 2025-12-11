@@ -105,13 +105,13 @@ class DevServer {
             try {
                 // Determine file path for API route (e.g. /api/content -> api/content.js)
                 const apiPath = path.join(ROOT_DIR, url.pathname + '.js');
-                
+
                 // Check if API file exists
                 try {
                     await fsp.access(apiPath);
                 } catch {
-                     this.sendError(res, 404, 'API Route Not Found');
-                     return;
+                    this.sendError(res, 404, 'API Route Not Found');
+                    return;
                 }
 
                 // Dynamic Import and Execute
