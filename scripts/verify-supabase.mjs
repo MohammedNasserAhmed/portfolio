@@ -16,14 +16,16 @@ try {
     if (fs.existsSync(envPath)) {
         const content = fs.readFileSync(envPath, 'utf8');
         console.log(`📄 File content length: ${content.length} chars`);
-        
+
         // Debug first few chars to check for BOM
         const firstChar = content.charCodeAt(0);
-        console.log(`ℹ️ First char code: ${firstChar} (${firstChar === 65279 ? 'BOM Detected!' : 'No BOM'})`);
+        console.log(
+            `ℹ️ First char code: ${firstChar} (${firstChar === 65279 ? 'BOM Detected!' : 'No BOM'})`
+        );
 
         content.split(/\r?\n/).forEach((line, index) => {
             const trimmedLine = line.trim();
-            if(!trimmedLine || trimmedLine.startsWith('#')) return;
+            if (!trimmedLine || trimmedLine.startsWith('#')) return;
 
             const match = trimmedLine.match(/^([^=]+)=(.*)$/);
             if (match) {
@@ -71,13 +73,14 @@ async function testConnection() {
 
         console.log(`✅ Success! Status: ${200}`);
         console.log(`📊 Rows returned: ${data?.length}`);
-        
+
         if (data && data.length > 0) {
             console.log('✅ Data sample:', data[0].title);
         } else {
-            console.warn('⚠️ Query succeeded but returned 0 rows. The table might be empty or RLS is blocking access.');
+            console.warn(
+                '⚠️ Query succeeded but returned 0 rows. The table might be empty or RLS is blocking access.'
+            );
         }
-
     } catch (err) {
         console.error('❌ Network/Client Error:', err.message);
     }

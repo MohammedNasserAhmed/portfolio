@@ -19,7 +19,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 async function test() {
     console.log('Attempting to fetch blogs...');
     const { data, error } = await supabase.from('blogs').select('*');
-    
+
     if (error) {
         console.error('❌ Error:', error.message);
     } else {
