@@ -10,9 +10,9 @@ async function getAggregates() {
             .select('total_visitors, total_stars')
             .eq('id', 1)
             .single();
-        
+
         if (error && error.code !== 'PGRST116') {
-             console.warn('Aggregates read error:', error);
+            console.warn('Aggregates read error:', error);
         }
         return data || { total_visitors: 0, total_stars: 0 };
     } catch {
@@ -25,7 +25,7 @@ export async function getSiteContent() {
         console.error('Supabase not configured');
         return null; // Triggers fallback to static content.json
     }
-    
+
     try {
         // Parallel fetch for valid relational data
         const [summary, skills, projects, publications, aggregates] = await Promise.all([
@@ -50,7 +50,7 @@ export async function getSiteContent() {
             },
             summary: summary.data, // exact match
             skills: skills.data, // exact match
-            projects: projects.data.map(p => ({
+            projects: projects.data.map((p) => ({
                 ...p,
                 githubUrl: p.github_url // CamelCase for frontend
             })),
@@ -76,7 +76,7 @@ export async function getStats(clientId) {
                 .from('stars')
                 .select('id')
                 .eq('client_id', clientId)
-                .maybeSingle(); 
+                .maybeSingle();
             userHasStarred = !!data;
         }
 
@@ -109,7 +109,9 @@ export async function toggleStar(clientId, desired) {
 
     try {
         if (desired === true) {
-            await supabase.from('stars').upsert({ client_id: clientId }, { onConflict: 'client_id' });
+            await supabase
+                .from('stars')
+                .upsert({ client_id: clientId }, { onConflict: 'client_id' });
         } else if (desired === false) {
             await supabase.from('stars').delete().eq('client_id', clientId);
         }
