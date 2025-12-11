@@ -9,16 +9,28 @@ export default async function handler(req, res) {
 
         // Transform and limit posts
         const posts = feed.items.slice(0, 6).map((item) => {
-            // Extract first image from content if available
-            const imgMatch =
-                item['content:encoded']?.match(/<img[^>]+src="([^">]+)"/) ||
-                item.content?.match(/<img[^>]+src="([^">]+)"/);
+            const content = item['content:encoded'] || item.content || '';
+
+            // Extract first image
+            const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+
+            // Generate excerpt (clean HTML)
+            let excerpt = item.contentSnippet;
+            if (!excerpt && content) {
+                // Strip HTML tags
+                excerpt =
+                    content
+                        .replace(/<[^>]*>?/gm, '')
+                        .substring(0, 160)
+                        .trim() + '...';
+            }
+            if (!excerpt) excerpt = 'Click to read this article on Medium.';
 
             return {
                 title: item.title,
                 link: item.link,
                 published_at: item.isoDate || item.pubDate,
-                excerpt: item.contentSnippet || item.content?.substring(0, 150) + '...',
+                excerpt: excerpt,
                 image: imgMatch ? imgMatch[1] : null,
                 categories: item.categories || []
             };
