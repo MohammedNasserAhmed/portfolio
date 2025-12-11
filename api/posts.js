@@ -1,45 +1,34 @@
-import Parser from 'rss-parser';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase Client (Server-side)
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
-    const parser = new Parser();
-    const FEED_URL = 'https://medium.com/feed/@mohd_nass';
-
     try {
-        const feed = await parser.parseURL(FEED_URL);
+        // Fetch blogs from Supabase
+        const { data, error } = await supabase
+            .from('blogs')
+            .select('*')
+            .order('display_order', { ascending: true });
 
-        // Transform and limit posts
-        const posts = feed.items.slice(0, 6).map((item) => {
-            const content = item['content:encoded'] || item.content || '';
+        if (error) throw error;
 
-            // Extract first image
-            const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+        // Transform to match frontend expectation (though table columns are already close)
+        const posts = data.map((post) => ({
+            title: post.title,
+            link: post.url,
+            published_at: post.published_date,
+            excerpt: post.summary, // 20-25 words summary
+            image: post.image,
+            categories: [] // Optional: Add a category column to DB if needed later
+        }));
 
-            // Generate excerpt (clean HTML)
-            let excerpt = item.contentSnippet;
-            if (!excerpt && content) {
-                // Strip HTML tags
-                excerpt =
-                    content
-                        .replace(/<[^>]*>?/gm, '')
-                        .substring(0, 160)
-                        .trim() + '...';
-            }
-            if (!excerpt) excerpt = 'Click to read this article on Medium.';
-
-            return {
-                title: item.title,
-                link: item.link,
-                published_at: item.isoDate || item.pubDate,
-                excerpt: excerpt,
-                image: imgMatch ? imgMatch[1] : null,
-                categories: item.categories || []
-            };
-        });
-
-        res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
-        res.status(200).json(posts);
+        res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
+        res.status(200).json(posts || []);
     } catch (error) {
-        console.error('Medium RSS Error:', error);
-        res.status(500).json({ error: 'Failed to fetch posts' });
+        console.error('Supabase Blog Error:', error);
+        res.status(500).json({ error: 'Failed to fetch blogs' });
     }
 }
