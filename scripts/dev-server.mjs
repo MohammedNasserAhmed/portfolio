@@ -100,6 +100,35 @@ class DevServer {
         const url = new URL(req.url, `http://${req.headers.host}`);
         let filePath = path.join(ROOT_DIR, url.pathname);
 
+        // API Handling
+        if (url.pathname.startsWith('/api/')) {
+            try {
+                // Determine file path for API route (e.g. /api/content -> api/content.js)
+                const apiPath = path.join(ROOT_DIR, url.pathname + '.js');
+                
+                // Check if API file exists
+                try {
+                    await fsp.access(apiPath);
+                } catch {
+                     this.sendError(res, 404, 'API Route Not Found');
+                     return;
+                }
+
+                // Dynamic Import and Execute
+                const module = await import('file://' + apiPath + '?t=' + Date.now()); // Bust cache
+                if (module.default && typeof module.default === 'function') {
+                    await module.default(req, res);
+                } else {
+                    this.sendError(res, 500, 'Invalid API Endpoint');
+                }
+                return;
+            } catch (err) {
+                console.error('API Error:', err);
+                this.sendError(res, 500, 'API Execution Failed: ' + err.message);
+                return;
+            }
+        }
+
         // Default to index.html for directory requests
         if (url.pathname === '/' || url.pathname.endsWith('/')) {
             filePath = path.join(filePath, 'index.html');
