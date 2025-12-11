@@ -162,7 +162,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     s.colorTo || s.accentTo || (accentFrom === '#d92323' ? '#ff5858' : accentFrom);
                 const tilt = typeof s.tilt === 'number' ? s.tilt : 5;
                 const radial = hexToRgba(accentTo, 0.22);
-                return `\n            <div class="summary-card card-hover-effect group focus-within:outline-none" tabindex="0" data-index="${idx}" style="--card-accent-from:${escapeAttr(accentFrom)};--card-accent-to:${escapeAttr(accentTo)};--card-tilt-max:${tilt}deg;--card-accent-radial:${radial};">\n              <div class="summary-card-inner">\n                ${iconHTML}\n                <span class="summary-pill" aria-hidden="true">${escapeHTML(s.pillar || pillar)}</span>\n                <h3 class="summary-title">${escapeHTML(s.title)}</h3>\n                <p class="summary-body">${escapeHTML(s.body)}</p>\n                ${metric ? `<span class='summary-metric' aria-label='Key metric'>${escapeHTML(metric)}</span>` : ''}\n              </div>\n            </div>`;
+                return `
+                <div class="summary-card p-6 rounded-xl border border-gray-800 bg-opacity-40 backdrop-blur-sm hover:border-brand-red/50 transition-all duration-300 group h-full flex flex-col" style="background: linear-gradient(135deg, ${accentFrom}08, transparent);">
+                    <div class="mb-4 flex items-center justify-between">
+                        <div class="p-2 rounded-lg bg-gray-900/50 text-brand-red group-hover:scale-110 transition-transform duration-300">
+                            ${iconHTML}
+                        </div>
+                        <span class="text-xs font-mono text-gray-500 uppercase tracking-widest border border-gray-800 px-2 py-1 rounded-full">${pillar}</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-brand-red transition-colors duration-200">${s.title}</h3>
+                    
+                    <div class="text-gray-400 text-sm leading-relaxed flex-grow">
+                        ${s.body}
+                    </div>
+
+                    ${
+                        metric
+                            ? `
+                    <div class="mt-5 pt-4 border-t border-gray-800/50 flex items-center text-xs font-medium text-gray-300">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-red mr-2 animate-pulse"></span>
+                        ${metric}
+                    </div>`
+                            : ''
+                    }
+                </div>`;
             })
             .join('');
     }
