@@ -1,44 +1,33 @@
-import { json, corsHeaders, isPreflight } from './_lib/http.js';
-import { supabase } from './_lib/supabase.js';
+import Parser from 'rss-parser';
 
-export default async function (req, res) {
-    const origin = req?.headers?.origin || '*';
-    const cors = corsHeaders(origin);
-
-    if (isPreflight(req)) {
-        return json(res, 204, {}, cors);
-    }
-
-    if (!supabase) {
-        // Mock data if Supabase is not configured
-        const mockPosts = [
-            {
-                slug: 'hello-world',
-                title: 'Welcome to my new portfolio',
-                excerpt: 'A look into how I built this site using modern web technologies.',
-                published_at: new Date().toISOString()
-            },
-            {
-                slug: 'ai-engineering-2025',
-                title: 'The State of AI Engineering in 2025',
-                excerpt: 'Reflections on the rapid evolution of LLMs and agentic workflows.',
-                published_at: new Date(Date.now() - 86400000).toISOString()
-            }
-        ];
-        return json(res, 200, mockPosts, cors);
-    }
+export default async function handler(req, res) {
+    const parser = new Parser();
+    const FEED_URL = 'https://medium.com/feed/@mohd_nass';
 
     try {
-        const { data, error } = await supabase
-            .from('posts')
-            .select('slug, title, excerpt, published_at')
-            .order('published_at', { ascending: false });
+        const feed = await parser.parseURL(FEED_URL);
 
-        if (error) throw error;
+        // Transform and limit posts
+        const posts = feed.items.slice(0, 6).map((item) => {
+            // Extract first image from content if available
+            const imgMatch =
+                item['content:encoded']?.match(/<img[^>]+src="([^">]+)"/) ||
+                item.content?.match(/<img[^>]+src="([^">]+)"/);
 
-        return json(res, 200, data, cors);
-    } catch (e) {
-        console.error('Posts API Error:', e);
-        return json(res, 500, { error: 'internal_error' }, cors);
+            return {
+                title: item.title,
+                link: item.link,
+                published_at: item.isoDate || item.pubDate,
+                excerpt: item.contentSnippet || item.content?.substring(0, 150) + '...',
+                image: imgMatch ? imgMatch[1] : null,
+                categories: item.categories || []
+            };
+        });
+
+        res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error('Medium RSS Error:', error);
+        res.status(500).json({ error: 'Failed to fetch posts' });
     }
 }
