@@ -117,6 +117,17 @@ class DevServer {
                 // Dynamic Import and Execute
                 const module = await import('file://' + apiPath + '?t=' + Date.now()); // Bust cache
                 if (module.default && typeof module.default === 'function') {
+                    // Polyfill Vercel/Express helpers
+                    res.status = (code) => {
+                        res.statusCode = code;
+                        return res;
+                    };
+                    res.json = (data) => {
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify(data));
+                        return res;
+                    };
+
                     await module.default(req, res);
                 } else {
                     this.sendError(res, 500, 'Invalid API Endpoint');
