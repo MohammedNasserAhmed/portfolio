@@ -10,16 +10,29 @@ const envPath = path.join(ROOT_DIR, '.env.local');
 
 const envVars = {};
 
+console.log(`📂 Reading env file from: ${envPath}`);
+
 try {
     if (fs.existsSync(envPath)) {
-        console.log('📄 Found .env.local');
         const content = fs.readFileSync(envPath, 'utf8');
-        content.split('\n').forEach(line => {
-            const match = line.match(/^([^=]+)=(.*)$/);
+        console.log(`📄 File content length: ${content.length} chars`);
+        
+        // Debug first few chars to check for BOM
+        const firstChar = content.charCodeAt(0);
+        console.log(`ℹ️ First char code: ${firstChar} (${firstChar === 65279 ? 'BOM Detected!' : 'No BOM'})`);
+
+        content.split(/\r?\n/).forEach((line, index) => {
+            const trimmedLine = line.trim();
+            if(!trimmedLine || trimmedLine.startsWith('#')) return;
+
+            const match = trimmedLine.match(/^([^=]+)=(.*)$/);
             if (match) {
                 const key = match[1].trim();
-                const value = match[2].trim().replace(/^["']|["']$/g, ''); // Remove quotes
+                const value = match[2].trim().replace(/^["']|["']$/g, '');
                 envVars[key] = value;
+                console.log(`   🔑 Parsed Key: [${key}]`); // Don't log value
+            } else {
+                console.log(`   ⚠️ Skipped line ${index + 1}: format mismatch`);
             }
         });
     } else {
@@ -32,48 +45,41 @@ try {
 const url = envVars.SUPABASE_URL || process.env.SUPABASE_URL;
 const key = envVars.SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
-console.log('🔍 Testing Supabase Connection...');
-console.log(`URL: ${url ? 'Set (starts with ' + url.substring(0, 8) + '...)' : 'Missing ❌'}`);
-console.log(`Key: ${key ? 'Set (starts with ' + key.substring(0, 8) + '...)' : 'Missing ❌'}`);
+console.log('--- Credentials Check ---');
+console.log(`URL Found: ${!!url}`);
+console.log(`Key Found: ${!!key}`);
 
 if (!url || !key) {
-    console.error('❌ Missing credentials. Cannot proceed.');
-    console.error('Please ensure .env.local exists with SUPABASE_URL and SUPABASE_ANON_KEY');
+    console.error('❌ Missing credentials. Check the logs above to see if keys were parsed.');
     process.exit(1);
 }
 
 const supabase = createClient(url, key);
 
 async function testConnection() {
+    console.log('\n🔍 Testing Query to "summary" table...');
     try {
-        console.log('Attempting to fetch from "summary" table...');
-        const { data, error } = await supabase.from('summary').select('count', { count: 'exact', head: true });
+        const { data, error, count } = await supabase
+            .from('summary')
+            .select('*', { count: 'exact' });
 
         if (error) {
-            console.error('❌ Query failed:', error.message);
-            console.error('Details:', error);
-            if (error.code === '42P01') {
-                console.error('💡 Hint: The table "summary" does not exist. Did you run the schema SQL?');
-            }
+            console.error('❌ Query ERROR:', error.message);
+            console.error('   Hint: Check if table "summary" exists and RLS policies allow read.');
+            return;
+        }
+
+        console.log(`✅ Success! Status: ${200}`);
+        console.log(`📊 Rows returned: ${data?.length}`);
+        
+        if (data && data.length > 0) {
+            console.log('✅ Data sample:', data[0].title);
         } else {
-            console.log(`✅ Connection successful!`);
-            
-            // Try actual select
-            const { data: rows, error: rowsError } = await supabase.from('summary').select('*').limit(3);
-            if (rowsError) {
-                 console.error('❌ Select failed:', rowsError);
-            } else {
-                 console.log(`✅ Retrieved ${rows.length} rows.`);
-                 if(rows.length > 0) {
-                     console.log('Sample title:', rows[0].title);
-                 } else {
-                     console.warn('⚠️ Table exists but is empty. Did you run the seed SQL?');
-                 }
-            }
+            console.warn('⚠️ Query succeeded but returned 0 rows. The table might be empty or RLS is blocking access.');
         }
 
     } catch (err) {
-        console.error('❌ Unexpected error:', err);
+        console.error('❌ Network/Client Error:', err.message);
     }
 }
 

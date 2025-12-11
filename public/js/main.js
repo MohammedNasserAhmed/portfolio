@@ -65,9 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dynamic content injection
     const isArabic = document.documentElement.lang === 'ar';
     // Add version query to defeat stale SW/cached JSON so new skills update immediately
-    const baseContentPath = isArabic ? '../data/content.ar.json' : 'data/content.json';
-    const v = (window.BUILD_VERSION || '').toString();
-    const contentPath = v ? `${baseContentPath}?v=${v}` : baseContentPath;
+    // Use /api/content for dynamic Supabase data, fallback handled by API if used
+    const baseContentPath = isArabic ? '/api/content?lang=ar' : '/api/content';
+    // const v = (window.BUILD_VERSION || '').toString();
+    const contentPath = baseContentPath; // + (v ? `&v=${v}` : '');
     if (console && console.info) console.info('[portfolio] fetching content:', contentPath);
     fetch(contentPath, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
