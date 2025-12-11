@@ -12,24 +12,20 @@ let memory = {
 
 export async function getStats(clientId) {
     if (!supabase) {
-        return {
-            visitors: memory.visitors,
-            stars: memory.stars,
-            userHasStarred: clientId ? memory.starredBy.has(clientId) : false,
-            unstable: true
-        };
+        return { visitors: 0, stars: 0, userHasStarred: false, error: 'no_db' };
     }
 
     try {
-        // Get visitors count (approximate by counting rows in visits)
-        // Note: For high scale, you'd want a separate counter table.
-        const { count: visitors } = await supabase
-            .from('visits')
-            .select('*', { count: 'exact', head: true });
+        // Read fast aggregates
+        const { data: statsData, error: statsError } = await supabase
+            .from('site_aggregates')
+            .select('total_visitors, total_stars')
+            .eq('id', 1)
+            .single();
 
-        const { count: stars } = await supabase
-            .from('stars')
-            .select('*', { count: 'exact', head: true });
+        if (statsError && statsError.code !== 'PGRST116') { // Ignore "no rows" matching, handle via default
+             console.warn('Aggregates read error:', statsError);
+        }
 
         let userHasStarred = false;
         if (clientId) {
@@ -37,13 +33,13 @@ export async function getStats(clientId) {
                 .from('stars')
                 .select('id')
                 .eq('client_id', clientId)
-                .single();
+                .maybeSingle(); // Use maybeSingle to avoid 406 on no rows
             userHasStarred = !!data;
         }
 
         return {
-            visitors: visitors || 0,
-            stars: stars || 0,
+            visitors: statsData?.total_visitors || 0,
+            stars: statsData?.total_stars || 0,
             userHasStarred
         };
     } catch (error) {
