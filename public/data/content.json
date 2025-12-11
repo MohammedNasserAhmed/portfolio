@@ -1,0 +1,187 @@
+{
+    "stats": {
+        "visitors": 109,
+        "stars": 89,
+        "lastUpdated": "2025-01-12T00:00:00Z"
+    },
+    "summary": [
+        {
+            "title": "End-to-End Machine Learning",
+            "body": "Expertise in the complete ML lifecycle, from data preprocessing and feature engineering to deploying high-performance ensemble models."
+        },
+        {
+            "title": "Generative AI & LLM Systems",
+            "body": "Skilled in building and optimizing LLMs using prompt engineering, RLHF, and LoRA/QLoRA fine-tuning for culturally-aware Arabic NLP."
+        },
+        {
+            "title": "Advanced Retrieval & Vector Search",
+            "body": "Proficient in designing retrieval systems using dense/hybrid search and scalable vector databases like ChromaDB and Weaviate."
+        }
+    ],
+    "skills": [
+        { "name": "Python", "percent": 92, "category": "ML/AI", "level": "Expert", "xp": "6y" },
+        { "name": "PyTorch", "percent": 88, "category": "ML/AI", "level": "Advanced", "xp": "4y" },
+        {
+            "name": "TensorFlow",
+            "percent": 75,
+            "category": "ML/AI",
+            "level": "Advanced",
+            "xp": "3y"
+        },
+        {
+            "name": "Scikit-learn",
+            "percent": 85,
+            "category": "ML/AI",
+            "level": "Advanced",
+            "xp": "5y"
+        },
+        { "name": "Pandas", "percent": 90, "category": "Data", "level": "Expert", "xp": "6y" },
+        { "name": "Docker", "percent": 80, "category": "DevOps", "level": "Advanced", "xp": "4y" },
+        { "name": "SQL", "percent": 83, "category": "Data", "level": "Advanced", "xp": "7y" },
+        {
+            "name": "Apache Spark",
+            "percent": 70,
+            "category": "Data",
+            "level": "Intermediate",
+            "xp": "2y"
+        },
+        { "name": "MLflow", "percent": 76, "category": "MLOps", "level": "Advanced", "xp": "3y" },
+        {
+            "name": "Hugging Face Transformers",
+            "percent": 90,
+            "category": "LLM",
+            "level": "Expert",
+            "xp": "3y"
+        },
+        {
+            "name": "Diffusers",
+            "percent": 75,
+            "category": "Generative",
+            "level": "Advanced",
+            "xp": "2y"
+        },
+        {
+            "name": "Neural Networks",
+            "percent": 87,
+            "category": "ML/AI",
+            "level": "Advanced",
+            "xp": "6y"
+        },
+        { "name": "Ollama", "percent": 98, "category": "LLM", "level": "Expert", "xp": "1y" },
+        { "name": "PEFT/LoRA", "percent": 85, "category": "LLM", "level": "Advanced", "xp": "2y" },
+        {
+            "name": "LlamaIndex",
+            "percent": 99,
+            "category": "Retrieval",
+            "level": "Expert",
+            "xp": "2y"
+        },
+        {
+            "name": "ChromaDB",
+            "percent": 89,
+            "category": "VectorDB",
+            "level": "Advanced",
+            "xp": "2y"
+        },
+        {
+            "name": "Milvus",
+            "percent": 80,
+            "category": "VectorDB",
+            "level": "Advanced",
+            "xp": "1y"
+        },
+        {
+            "name": "LangGraph",
+            "percent": 80,
+            "category": "Orchestration",
+            "level": "Advanced",
+            "xp": "1y"
+        },
+        {
+            "name": "CrewAI",
+            "percent": 70,
+            "category": "Agents",
+            "level": "Intermediate",
+            "xp": "1y"
+        },
+        {
+            "name": "Docling",
+            "percent": 90,
+            "category": "OCR/Parsing",
+            "level": "Expert",
+            "xp": "1y"
+        },
+        { "name": "Tesseract", "percent": 95, "category": "OCR", "level": "Expert", "xp": "3y" }
+    ],
+    "projects": [
+        {
+            "title": "Arabic PDF Chat 📚💬",
+            "image": "https://placehold.co/600x400/D92323/121212?text=Arabic+PDF+Chat",
+            "description": "Arabic Chat with PDF is an innovative tool designed to enable users to interactively query Arabic PDF documents. Powered by state-of-the-art language models and document processing libraries, this application extracts, processes, and retrieves meaningful insights from Arabic text documents.",
+            "tech": [
+                "Gradio",
+                "PyPDF2",
+                "LangChain",
+                "gTTS",
+                "Gemma2",
+                "pytesseract",
+                "sentence-transformers"
+            ],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/arabic-pdf-chat"
+        },
+        {
+            "title": "aiNarabic Hub",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=aiNarabic+Hub",
+            "description": "Our aiNarabic Hub is the official web presence for the aiNarabic initiative. It's designed to be a central hub for the Arabic-speaking community to explore the world of Artificial Intelligence. The platform is built from the ground up using a modern, performant, and scalable tech stack. open-source.",
+            "tech": ["React", "Tailwind", "Vite", "Vercel", "TypeScript", "Next.js"],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/ainarabic-hub"
+        },
+        {
+            "title": "ATS Cover Letter Generator",
+            "image": "https://placehold.co/600x400/D92323/121212?text=ATS+Cover+Letter+Generator",
+            "description": "The ATS Cover Letter Generator bridges the gap between job seekers and employers by leveraging AI to create perfectly tailored, Applicant Tracking System (ATS) optimized cover letters. Using Groq's high-performance LLaMA-3.1-8B-Instant API, the application analyzes your resume and job descriptions to craft compelling cover letters that increase your chances of interview selection.",
+            "tech": ["Streamlit", "Docker", "RAG", "Llama", "Groq", "Python"],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/ats-cover-letter-generator.git"
+        },
+        {
+            "title": "Arabic Digits Recognition",
+            "image": "https://placehold.co/600x400/333333/FFFFFF?text=Arabic+Digits+Recognition",
+            "description": "Arabic Digits Recognition project aims to develop a robust Convolutional Neural Network (CNN) model capable of accurately recognizing spoken Arabic digits. This project leverages a diverse dataset collected from 65 individuals of varying ages and genders, ensuring a comprehensive representation of the Arabic-speaking population.",
+            "tech": [
+                "Python",
+                "Librosa",
+                "Pandas",
+                "Tensorflow",
+                "Keras",
+                "Numpy",
+                "Matplotlib",
+                "CNN",
+                "ETL"
+            ],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/arabic-digits-recognition"
+        },
+        {
+            "title": "CodeXpert",
+            "image": "https://placehold.co/600x400/D92323/121212?text=CodeXpert",
+            "description": "CodeXpert, an advanced, state-of-the-art framework designed to analyze, explain, and optimize Python codebases. This repository leverages CodeLlama, LangChain, and FAISS to deliver a seamless, interactive experience for code comprehension and improvement.",
+            "tech": ["Python", "CodeLlama", "LangChain", "FAISS", "HuggingFace"],
+            "githubUrl": "https://github.com/MohammedNasserAhmed/CodeXpert"
+        }
+    ],
+    "publications": [
+        {
+            "title": "2024 AI Recap: A Comprehensive Year-in-Review",
+            "image": "docs/report.png",
+            "published": "January, 2025",
+            "description": "An in-depth annual report analyzing key breakthroughs, emerging trends, and significant milestones in AI throughout 2024.",
+            "link": "https://drive.google.com/file/d/18fNhv7TPk8bQEYenf1tGq90D3Xr8iit-/view?usp=drive_link"
+        },
+        {
+            "title": "Choosing the Right IT Major: A Student's Guide",
+            "image": "docs/guide.png",
+            "published": "July, 2025",
+            "description": "A practical guide for students on making informed decisions about their IT education, outlining career paths and required skills.",
+            "link": "https://drive.google.com/file/d/1YMuC7OXdCTXvC5wjEQwKadV5tsNQ6f0K/view?usp=drive_link"
+        }
+    ]
+}
