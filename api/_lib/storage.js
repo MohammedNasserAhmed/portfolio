@@ -28,18 +28,27 @@ export async function getSiteContent() {
 
     try {
         // Parallel fetch for valid relational data
-        const [summary, skills, projects, publications, aggregates] = await Promise.all([
-            supabase.from('summary').select('*').order('display_order', { ascending: true }),
-            supabase.from('skills').select('*').order('display_order', { ascending: true }),
-            supabase.from('projects').select('*').order('display_order', { ascending: true }),
-            supabase.from('publications').select('*').order('display_order', { ascending: true }),
-            getAggregates()
-        ]);
+        const [summary, skills, projects, publications, trainingConferences, aggregates] =
+            await Promise.all([
+                supabase.from('summary').select('*').order('display_order', { ascending: true }),
+                supabase.from('skills').select('*').order('display_order', { ascending: true }),
+                supabase.from('projects').select('*').order('display_order', { ascending: true }),
+                supabase
+                    .from('publications')
+                    .select('*')
+                    .order('display_order', { ascending: true }),
+                supabase
+                    .from('training_conferences')
+                    .select('*')
+                    .order('display_order', { ascending: true }),
+                getAggregates()
+            ]);
 
         if (summary.error) throw summary.error;
         if (skills.error) throw skills.error;
         if (projects.error) throw projects.error;
         if (publications.error) throw publications.error;
+        if (trainingConferences.error) throw trainingConferences.error;
 
         // Transform to expected JSON structure for frontend
         return {
