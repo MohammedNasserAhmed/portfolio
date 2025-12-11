@@ -212,3 +212,8 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lint_output.txt
+.eslintcache
+public/index.html
+public/ar/index.html
+public/dist/
