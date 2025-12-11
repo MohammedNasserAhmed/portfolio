@@ -16,14 +16,14 @@ export class ContactComponent {
         this.statusDiv = document.getElementById('contact-status');
 
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-        
+
         // Add floating label effects
         this.setupFloatingLabels();
     }
 
     setupFloatingLabels() {
         const inputs = this.form.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
+        inputs.forEach((input) => {
             // Check initial state
             if (input.value) {
                 input.parentElement.classList.add('has-value');
@@ -41,9 +41,9 @@ export class ContactComponent {
                     input.parentElement.classList.remove('has-value');
                 }
             });
-            
+
             input.addEventListener('input', () => {
-                 if (input.value) {
+                if (input.value) {
                     input.parentElement.classList.add('has-value');
                 } else {
                     input.parentElement.classList.remove('has-value');
@@ -86,18 +86,17 @@ export class ContactComponent {
             this.form.reset();
             this.resetFloatingLabels();
             this.updateButtonState('success');
-            
+
             // Reset button after delay
             setTimeout(() => {
                 this.updateButtonState('idle');
             }, 3000);
-
         } catch (error) {
             console.error('Contact form error:', error);
             this.showStatus('error', 'Failed to send message. Please try again later.');
             this.updateButtonState('error');
-            
-             setTimeout(() => {
+
+            setTimeout(() => {
                 this.updateButtonState('idle');
             }, 3000);
         } finally {
@@ -108,7 +107,8 @@ export class ContactComponent {
     updateButtonState(state) {
         if (!this.submitBtn) return;
 
-        const originalText = this.submitBtn.getAttribute('data-original-text') || this.submitBtn.textContent;
+        const originalText =
+            this.submitBtn.getAttribute('data-original-text') || this.submitBtn.textContent;
         if (!this.submitBtn.getAttribute('data-original-text')) {
             this.submitBtn.setAttribute('data-original-text', originalText);
         }
@@ -144,7 +144,12 @@ export class ContactComponent {
             case 'idle':
             default:
                 this.submitBtn.disabled = false;
-                this.submitBtn.classList.remove('bg-green-600', 'hover:bg-green-700', 'bg-red-600', 'hover:bg-red-700');
+                this.submitBtn.classList.remove(
+                    'bg-green-600',
+                    'hover:bg-green-700',
+                    'bg-red-600',
+                    'hover:bg-red-700'
+                );
                 this.submitBtn.classList.add('bg-brand-red', 'hover:bg-red-700');
                 this.submitBtn.textContent = originalText;
                 break;
@@ -155,7 +160,9 @@ export class ContactComponent {
         if (!this.statusDiv) return;
 
         this.statusDiv.className = `mt-4 p-4 rounded-lg ${
-            type === 'success' ? 'bg-green-900/50 text-green-200 border border-green-800' : 'bg-red-900/50 text-red-200 border border-red-800'
+            type === 'success'
+                ? 'bg-green-900/50 text-green-200 border border-green-800'
+                : 'bg-red-900/50 text-red-200 border border-red-800'
         }`;
         this.statusDiv.textContent = message;
         this.statusDiv.classList.remove('hidden');
@@ -169,7 +176,7 @@ export class ContactComponent {
 
     resetFloatingLabels() {
         const inputs = this.form.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
+        inputs.forEach((input) => {
             input.parentElement.classList.remove('has-value', 'is-focused');
         });
     }

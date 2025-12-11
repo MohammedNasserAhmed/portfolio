@@ -7,78 +7,78 @@ const distDir = path.join(root, 'dist');
 const publicDir = path.join(root, 'public');
 
 function rimrafDir(dir) {
-  if (fs.existsSync(dir)) {
-    for (const entry of fs.readdirSync(dir)) {
-      const p = path.join(dir, entry);
-      const stat = fs.statSync(p);
-      if (stat.isDirectory()) rimrafDir(p);
-      else fs.unlinkSync(p);
+    if (fs.existsSync(dir)) {
+        for (const entry of fs.readdirSync(dir)) {
+            const p = path.join(dir, entry);
+            const stat = fs.statSync(p);
+            if (stat.isDirectory()) rimrafDir(p);
+            else fs.unlinkSync(p);
+        }
+        fs.rmdirSync(dir);
     }
-    fs.rmdirSync(dir);
-  }
 }
 
 function ensureDir(dir) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
 function copyFile(src, dst) {
-  ensureDir(path.dirname(dst));
-  fs.copyFileSync(src, dst);
+    ensureDir(path.dirname(dst));
+    fs.copyFileSync(src, dst);
 }
 
 function copyDir(src, dst) {
-  ensureDir(dst);
-  for (const entry of fs.readdirSync(src)) {
-    const s = path.join(src, entry);
-    const d = path.join(dst, entry);
-    const stat = fs.statSync(s);
-    if (stat.isDirectory()) copyDir(s, d);
-    else copyFile(s, d);
-  }
+    ensureDir(dst);
+    for (const entry of fs.readdirSync(src)) {
+        const s = path.join(src, entry);
+        const d = path.join(dst, entry);
+        const stat = fs.statSync(s);
+        if (stat.isDirectory()) copyDir(s, d);
+        else copyFile(s, d);
+    }
 }
 
 function main() {
-  console.log('📦 Exporting site to /public for Vercel...');
-  rimrafDir(publicDir);
-  ensureDir(publicDir);
+    console.log('📦 Exporting site to /public for Vercel...');
+    rimrafDir(publicDir);
+    ensureDir(publicDir);
 
-  // Copy root HTML and assets
-  const rootFiles = [
-    'index.html',
-    'offline.html',
-    'manifest.webmanifest',
-    'robots.txt',
-    'sitemap.xml',
-    'sw.js',
-    'blog.html',
-    'project.html'
-  ];
-  for (const f of rootFiles) {
-    const src = path.join(root, f);
-    if (fs.existsSync(src)) copyFile(src, path.join(publicDir, f));
-  }
+    // Copy root HTML and assets
+    const rootFiles = [
+        'index.html',
+        'offline.html',
+        'manifest.webmanifest',
+        'robots.txt',
+        'sitemap.xml',
+        'sw.js',
+        'blog.html',
+        'project.html'
+    ];
+    for (const f of rootFiles) {
+        const src = path.join(root, f);
+        if (fs.existsSync(src)) copyFile(src, path.join(publicDir, f));
+    }
 
-  // Copy directories
-  const dirs = ['ar', 'images', 'js', 'css', 'docs', 'data', 'src'];
-  for (const dir of dirs) {
-    const src = path.join(root, dir);
-    if (fs.existsSync(src)) copyDir(src, path.join(publicDir, dir));
-  }
+    // Copy directories
+    const dirs = ['ar', 'images', 'js', 'css', 'docs', 'data', 'src'];
+    for (const dir of dirs) {
+        const src = path.join(root, dir);
+        if (fs.existsSync(src)) copyDir(src, path.join(publicDir, dir));
+    }
 
-  // Copy built dist assets
-  if (fs.existsSync(distDir)) {
-    copyDir(distDir, path.join(publicDir, 'dist'));
-    // Ensure vendor modules are available relative to dist for dynamic imports
-    const vendorSrc = path.join(root, 'js', 'vendor');
-    const vendorDst = path.join(publicDir, 'dist', 'vendor');
-    if (fs.existsSync(vendorSrc)) copyDir(vendorSrc, vendorDst);
-  }
+    // Copy built dist assets
+    if (fs.existsSync(distDir)) {
+        copyDir(distDir, path.join(publicDir, 'dist'));
+        // Ensure vendor modules are available relative to dist for dynamic imports
+        const vendorSrc = path.join(root, 'js', 'vendor');
+        const vendorDst = path.join(publicDir, 'dist', 'vendor');
+        if (fs.existsSync(vendorSrc)) copyDir(vendorSrc, vendorDst);
+    }
 
-  // Ensure base path works: for GitHub Pages the base is /portfolio, but for Vercel likely root
-  // Our built HTML already references ./dist/... so it should work. If needed, additional rewrites can be added via vercel.json.
+    // Ensure base path works: for GitHub Pages the base is /portfolio, but for Vercel likely root
+    // Our built HTML already references ./dist/... so it should work. If needed, additional rewrites can be added via vercel.json.
 
-  console.log('✅ Export complete: public/');
+    console.log('✅ Export complete: public/');
 }
 
 main();

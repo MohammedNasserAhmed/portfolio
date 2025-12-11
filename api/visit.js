@@ -1,7 +1,7 @@
 import { json, corsHeaders, isPreflight } from './_lib/http.js';
 import { incrementVisit } from './_lib/storage.js';
 
-export default async function(req, res) {
+export default async function (req, res) {
     const origin = req?.headers?.origin || '*';
     const cors = corsHeaders(origin);
 

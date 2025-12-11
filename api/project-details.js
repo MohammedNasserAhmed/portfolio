@@ -1,7 +1,7 @@
 import { json, corsHeaders, isPreflight } from './_lib/http.js';
 import { supabase } from './_lib/supabase.js';
 
-export default async function(req, res) {
+export default async function (req, res) {
     const origin = req?.headers?.origin || '*';
     const cors = corsHeaders(origin);
 
@@ -33,11 +33,7 @@ export default async function(req, res) {
     }
 
     try {
-        const { data, error } = await supabase
-            .from('projects')
-            .select('*')
-            .eq('id', id)
-            .single();
+        const { data, error } = await supabase.from('projects').select('*').eq('id', id).single();
 
         if (error) throw error;
         if (!data) return json(res, 404, { error: 'not_found' }, cors);

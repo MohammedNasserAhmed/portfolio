@@ -279,7 +279,7 @@ export class VisitorStatsComponent {
             // Use the new visit endpoint which handles incrementing
             const response = await fetch(`/api/visit?cid=${this.clientId}`);
             if (!response.ok) throw new Error('Failed to fetch stats');
-            
+
             const data = await response.json();
             this.updateDisplay(data);
         } catch (error) {
@@ -292,7 +292,7 @@ export class VisitorStatsComponent {
     async toggleStar() {
         if (this.isLoading) return;
         this.isLoading = true;
-        
+
         // Optimistic update
         const wasStarred = this.hasUserStarred;
         this.hasUserStarred = !wasStarred;
@@ -310,7 +310,7 @@ export class VisitorStatsComponent {
             });
 
             if (!response.ok) throw new Error('Failed to toggle star');
-            
+
             const data = await response.json();
             // Sync with server truth
             this.visitorCount = data.visitors ?? this.visitorCount; // Added to update all stats

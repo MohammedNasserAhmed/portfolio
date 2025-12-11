@@ -1,7 +1,7 @@
 import { json, corsHeaders, isPreflight } from './_lib/http.js';
 import { supabase } from './_lib/supabase.js';
 
-export default async function(req, res) {
+export default async function (req, res) {
     const origin = req?.headers?.origin || '*';
     const cors = corsHeaders(origin);
 

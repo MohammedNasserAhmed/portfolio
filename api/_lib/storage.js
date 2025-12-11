@@ -57,7 +57,7 @@ export async function incrementVisit(clientId) {
         const now = Date.now();
         const last = memory.visitsBy.get(clientId);
         // Simple debounce
-        if (!last || now - last > 3600000) { 
+        if (!last || now - last > 3600000) {
             memory.visitors += 1;
             memory.visitsBy.set(clientId, now);
         }
@@ -66,12 +66,12 @@ export async function incrementVisit(clientId) {
 
     try {
         // Check if visited recently (optional optimization, skip for now to keep it simple)
-        // Just insert a visit record. 
+        // Just insert a visit record.
         // In a real app, you might want to check for duplicates within a time window.
-        
+
         // For this implementation, we'll just insert.
         await supabase.from('visits').insert({ client_id: clientId });
-        
+
         return getStats(clientId);
     } catch (error) {
         console.error('Supabase incrementVisit error:', error);
@@ -96,7 +96,9 @@ export async function toggleStar(clientId, desired) {
     try {
         if (desired) {
             // Upsert or Insert (ignore conflict)
-            await supabase.from('stars').upsert({ client_id: clientId }, { onConflict: 'client_id' });
+            await supabase
+                .from('stars')
+                .upsert({ client_id: clientId }, { onConflict: 'client_id' });
         } else {
             await supabase.from('stars').delete().eq('client_id', clientId);
         }
@@ -229,7 +231,7 @@ export async function toggleStar(clientId, desired) {
 
 export async function saveMessage(messageData) {
     const { name, email, message, timestamp } = messageData;
-    
+
     if (!hasUpstash) {
         console.log('Mock saving message:', messageData);
         return { success: true, mock: true };

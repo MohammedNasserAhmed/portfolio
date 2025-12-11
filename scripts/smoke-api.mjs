@@ -3,62 +3,65 @@ import { startLocalApiServer } from './local-api-harness.mjs';
 // Ensure a fetch implementation exists across Node versions
 let _fetch = globalThis.fetch;
 if (!_fetch) {
-  try {
-    const mod = await import('node-fetch');
-    _fetch = mod.default || mod;
-  } catch (e) {
-    throw new Error('Fetch is not available. Use Node 18+ or install node-fetch.');
-  }
+    try {
+        const mod = await import('node-fetch');
+        _fetch = mod.default || mod;
+    } catch (e) {
+        throw new Error('Fetch is not available. Use Node 18+ or install node-fetch.');
+    }
 }
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+}
 
 async function main() {
-  const server = await startLocalApiServer();
-  const base = 'http://127.0.0.1:3000/api';
+    const server = await startLocalApiServer();
+    const base = 'http://127.0.0.1:3000/api';
 
-  try {
-    const cid = `smoke_${Math.random().toString(36).slice(2)}`;
+    try {
+        const cid = `smoke_${Math.random().toString(36).slice(2)}`;
 
-    // GET /stats (should return baseline numbers)
-  let res = await _fetch(`${base}/stats?cid=${encodeURIComponent(cid)}`, { cache: 'no-store' });
-    let data = await res.json();
-    console.log('GET /stats ->', data);
+        // GET /stats (should return baseline numbers)
+        let res = await _fetch(`${base}/stats?cid=${encodeURIComponent(cid)}`, {
+            cache: 'no-store'
+        });
+        let data = await res.json();
+        console.log('GET /stats ->', data);
 
-    // POST /stats/visit (increments if >24h since last visit for this cid)
-  res = await _fetch(`${base}/stats/visit`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ clientId: cid })
-    });
-    data = await res.json();
-    console.log('POST /stats/visit ->', data);
+        // POST /stats/visit (increments if >24h since last visit for this cid)
+        res = await _fetch(`${base}/stats/visit`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ clientId: cid })
+        });
+        data = await res.json();
+        console.log('POST /stats/visit ->', data);
 
-    // POST /stats/star desired=true (add star)
-  res = await _fetch(`${base}/stats/star`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ clientId: cid, desired: true })
-    });
-    data = await res.json();
-    console.log('POST /stats/star desired=true ->', data);
+        // POST /stats/star desired=true (add star)
+        res = await _fetch(`${base}/stats/star`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ clientId: cid, desired: true })
+        });
+        data = await res.json();
+        console.log('POST /stats/star desired=true ->', data);
 
-    // POST /stats/star desired=false (remove star)
-  res = await _fetch(`${base}/stats/star`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ clientId: cid, desired: false })
-    });
-    data = await res.json();
-    console.log('POST /stats/star desired=false ->', data);
-
-  } finally {
-    await sleep(100);
-    server.close();
-  }
+        // POST /stats/star desired=false (remove star)
+        res = await _fetch(`${base}/stats/star`, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ clientId: cid, desired: false })
+        });
+        data = await res.json();
+        console.log('POST /stats/star desired=false ->', data);
+    } finally {
+        await sleep(100);
+        server.close();
+    }
 }
 
 main().catch((err) => {
-  console.error('Smoke test failed:', err);
-  process.exit(1);
+    console.error('Smoke test failed:', err);
+    process.exit(1);
 });

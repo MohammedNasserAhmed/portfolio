@@ -67,7 +67,8 @@ class DevServer {
         }
         // Fallback to 0 (let OS pick any free port)
         return new Promise((resolve) => {
-            const tester = net.createServer()
+            const tester = net
+                .createServer()
                 .once('listening', () => {
                     const address = tester.address();
                     tester.close(() => resolve(address.port));
@@ -126,7 +127,7 @@ class DevServer {
     }
 
     async serveFile(res, filePath) {
-    const content = await fsp.readFile(filePath);
+        const content = await fsp.readFile(filePath);
         const ext = path.extname(filePath).toLowerCase();
         const contentType = this.getContentType(ext);
 
