@@ -6,9 +6,17 @@ import net from 'net';
 // - fs: for watch (returns FSWatcher with .on)
 import fs from 'fs';
 import { promises as fsp } from 'fs';
+import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { spawn } from 'child_process';
+
+// Load .env.local first (if valid) so it takes precedence
+if (fs.existsSync('.env.local')) {
+    dotenv.config({ path: '.env.local' });
+}
+// Then load default .env (won't overwrite existing keys)
+dotenv.config();
 
 const __file = fileURLToPath(import.meta.url);
 const ROOT_DIR = path.resolve(path.dirname(__file), '..');
