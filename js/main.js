@@ -2290,47 +2290,56 @@ document.addEventListener(
 );
 
 function renderTrainingConferences(items) {
-    // Target existing Outreach section wrapper
-    let container = document.getElementById('outreach-wrapper');
-    // If not found, try to find the section by ID or creating it if needed
-    if (!container) {
-        const section = document.getElementById('education'); // It was part of education/outreach grid
-        if (section) {
-            const outreachDiv = section.querySelector('.outreach-wrapper');
-            if (outreachDiv) container = outreachDiv;
+    // Target the specific track responsible for the scrolling images
+    const track = document.querySelector('#outreach .outreach-track');
+    if (!track) return;
+
+    if (!Array.isArray(items) || items.length === 0) {
+        // If no data, we might want to leave static fallback or show message.
+        // For now, let's leave static fallback if fetch returns empty to avoid broken UI,
+        // unless we strictly want to clear it. 
+        // If items are explicit empty array (fetched but empty), we clear.
+        if (Array.isArray(items)) {
+             track.innerHTML = '<p class="text-center text-gray-500 w-full py-4">No conferences found.</p>';
         }
-    }
-
-    if (!container) return;
-
-    // Clear static content
-    container.innerHTML = '';
-
-    // Create scroll container
-    const scrollDiv = document.createElement('div');
-    scrollDiv.className = 'outreach-scroll';
-
-    if (items.length === 0) {
-        scrollDiv.innerHTML =
-            '<p class="text-center text-gray-500 w-full py-4">No conferences found.</p>';
-        container.appendChild(scrollDiv);
         return;
     }
 
-    // Duplicate items for seamless loop if needed, or just render grid
-    // The original CSS .outreach-scroll likely expects a horizontal scroll
-    items.forEach((item) => {
+    // Clear static content
+    track.innerHTML = '';
+
+    // Create a document fragment for better performance
+    const frag = document.createDocumentFragment();
+
+    // The CSS for .outreach-track often relies on duplicate items for seamless scrolling if using CSS animation.
+    // We will duplicate the items once to ensure the scroll effect works if it depends on content length.
+    // If the list is short, we might need more duplication. 
+    // Let's standardly duplicate once like the static HTML did (original had ~20 images duplicated).
+    
+    const displayItems = items.length < 10 ? [...items, ...items, ...items, ...items] : [...items, ...items];
+
+    displayItems.forEach((item) => {
         const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.title || 'Conference Image';
+        // Use 'image' column from Supabase
+        img.src = item.image || 'images/placeholder-conf.png'; 
+        img.alt = item.title || 'Conference';
         img.className = 'outreach-image';
         img.loading = 'lazy';
         img.width = 300;
         img.height = 220;
-        // Optional: Add title tooltip
+        
+        // Add robust error handling for images
+        img.onerror = function() {
+            // detailed fallback logic could go here, but for now prevent broken icon
+            this.style.display = 'none'; 
+            // Optional: replace with a solid color placeholder if display:none breaks layout
+            // this.src = 'https://placehold.co/300x220/1e1e1e/333?text=Image+N%2FA';
+            // this.style.display = '';
+        };
+
         if (item.title) img.title = item.title;
-        scrollDiv.appendChild(img);
+        frag.appendChild(img);
     });
 
-    container.appendChild(scrollDiv);
+    track.appendChild(frag);
 }
