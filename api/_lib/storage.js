@@ -63,7 +63,8 @@ export async function getSiteContent() {
                 ...p,
                 githubUrl: p.github_url // CamelCase for frontend
             })),
-            publications: publications.data // exact match
+            publications: publications.data, // exact match
+            training_conferences: trainingConferences.data || [] // exact match
         };
     } catch (error) {
         console.error('Supabase getSiteContent error:', error);
